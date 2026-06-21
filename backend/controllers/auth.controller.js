@@ -1,13 +1,23 @@
 const bcrypt = require("bcryptjs");
-const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+
+const User = require("../models/User");
 
 const ApiError = require("../utils/ApiError");
 const ApiResponse = require("../utils/ApiResponse");
 const asyncHandler = require("../utils/asyncHandler");
 
+// ================= REGISTER =================
+
 exports.register = asyncHandler(async (req, res) => {
   const { name, email, password, phone } = req.body;
+
+  if (!name || !email || !password) {
+    throw new ApiError(
+      400,
+      "Name, email and password are required"
+    );
+  }
 
   const existingUser = await User.findOne({ email });
 
@@ -24,20 +34,34 @@ exports.register = asyncHandler(async (req, res) => {
     phone,
   });
 
+  const createdUser = await User.findById(user._id).select(
+    "-password"
+  );
+
   return res.status(201).json(
     new ApiResponse(
       201,
-      user,
+      createdUser,
       "User registered successfully"
     )
   );
 });
 
+// ================= LOGIN =================
 
 exports.login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email }).populate("department");
+  if (!email || !password) {
+    throw new ApiError(
+      400,
+      "Email and password are required"
+    );
+  }
+
+  const user = await User.findOne({ email }).populate(
+    "department"
+  );
 
   if (!user) {
     throw new ApiError(404, "User not found");
@@ -63,17 +87,41 @@ exports.login = asyncHandler(async (req, res) => {
     }
   );
 
-  user.lastLogin = new Date();
-  await user.save();
+  await User.findByIdAndUpdate(user._id, {
+    lastLogin: new Date(),
+  });
+
+  const userData = user.toObject();
+  delete userData.password;
 
   return res.status(200).json(
     new ApiResponse(
       200,
       {
         token,
-        user,
+        user: userData,
       },
       "Login successful"
+    )
+  );
+});
+
+// ================= GET PROFILE =================
+
+exports.getProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+    .populate("department")
+    .select("-password");
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      user,
+      "Profile fetched successfully"
     )
   );
 });

@@ -4,6 +4,11 @@ class ApiError extends Error {
 
     this.statusCode = statusCode;
     this.success = false;
+
+    Error.captureStackTrace(
+      this,
+      this.constructor
+    );
   }
 }
 

@@ -9,10 +9,11 @@ const {
 } = require("../controllers/complaint.controller");
 
 const auth = require("../middlewares/auth.middleware");
+const upload = require("../middlewares/upload.middleware");
 
 const router = express.Router();
 
-router.post("/", auth, createComplaint);
+router.post("/", auth, upload.array("attachments", 5), createComplaint);
 
 router.get("/my", auth, getMyComplaints);
 

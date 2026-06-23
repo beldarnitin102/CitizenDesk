@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+
     email: {
       type: String,
       required: true,
@@ -14,37 +15,53 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
+
     password: {
       type: String,
       required: true,
     },
+
     phone: {
       type: String,
       trim: true,
     },
+
     role: {
       type: String,
-      enum: ["CITIZEN", "EMPLOYEE", "DEPARTMENT_HEAD", "ADMIN"],
+      enum: [
+        "CITIZEN",
+        "EMPLOYEE",
+        "DEPARTMENT_HEAD",
+        "ADMIN",
+      ],
       default: "CITIZEN",
-      required: true,
     },
+
     department: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Department",
     },
+
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+
     isActive: {
       type: Boolean,
       default: true,
     },
+
     lastLogin: {
       type: Date,
     },
   },
   {
     timestamps: true,
-  },
+  }
 );
 
-const User = mongoose.model("User", userSchema);
-
-module.exports = User;
+module.exports = mongoose.model(
+  "User",
+  userSchema
+);

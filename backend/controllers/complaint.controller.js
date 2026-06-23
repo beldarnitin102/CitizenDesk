@@ -1,4 +1,7 @@
 const Complaint = require("../models/Complaint");
+const Department = require("../models/Department");
+const aiService = require("../utils/ai.service");
+const imagekit = require("../utils/imagekit");
 
 const ApiError = require("../utils/ApiError");
 const ApiResponse = require("../utils/ApiResponse");
@@ -7,44 +10,104 @@ const asyncHandler = require("../utils/asyncHandler");
 // ================= CREATE COMPLAINT =================
 
 exports.createComplaint = asyncHandler(async (req, res) => {
-  const {
-    title,
-    description,
-    category,
-    priority,
-    department,
-    location,
-  } = req.body;
+  const { description, location } = req.body;
 
-  if (!title || !description || !category) {
-    throw new ApiError(
-      400,
-      "Title, description and category are required"
-    );
+  if (!description) {
+    throw new ApiError(400, "Description is required for the complaint");
+  }
+
+  let attachments = [];
+  let firstImageBase64 = null;
+  let firstImageMimeType = null;
+
+  // Process files if any are uploaded
+  if (req.files && req.files.length > 0) {
+    for (const file of req.files) {
+      try {
+        const uploadResult = await imagekit.upload({
+          file: file.buffer, // upload from memory buffer
+          fileName: file.originalname || `complaint_${Date.now()}`,
+          folder: "/complaints",
+        });
+        attachments.push(uploadResult.url);
+
+        // Capture the first image for Gemini Vision analysis
+        if (!firstImageBase64 && file.mimetype.startsWith("image/")) {
+          firstImageBase64 = file.buffer.toString("base64");
+          firstImageMimeType = file.mimetype;
+        }
+      } catch (uploadError) {
+        console.error("ImageKit Upload Error:", uploadError);
+        throw new ApiError(500, "Failed to upload attachments");
+      }
+    }
+  }
+
+  // 1. Analyze Complaint with AI (Text + Optional Image)
+  let aiData;
+  try {
+    aiData = await aiService.analyzeComplaint(description, firstImageBase64, firstImageMimeType);
+    console.log("✅ AI Analysis Result:", aiData);
+  } catch (error) {
+    console.error("❌ AI Analysis Failed:", error.message);
+    throw new ApiError(500, `AI Analysis Failed: ${error.message}`);
+  }
+
+  // 2. Find matching Department based on AI prediction
+  let assignedDepartment = null;
+  if (aiData.department) {
+    const dept = await Department.findOne({
+      name: { $regex: new RegExp(aiData.department, "i") }
+    });
+    if (dept) {
+      assignedDepartment = dept._id;
+    } else {
+      // Fallback: pick the first department or leave it unassigned
+      const firstDept = await Department.findOne();
+      assignedDepartment = firstDept ? firstDept._id : null;
+    }
+  }
+
+  // 3. Detect Duplicates
+  let duplicateOf = null;
+  // Let's check for duplicates in the same village in the last 7 days
+  if (location && location.village) {
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const recentComplaints = await Complaint.find({
+      "location.village": location.village,
+      status: { $in: ["PENDING", "ASSIGNED", "IN_PROGRESS"] },
+      createdAt: { $gte: sevenDaysAgo }
+    }).limit(10);
+    
+    if (recentComplaints.length > 0) {
+      duplicateOf = await aiService.detectDuplicate(aiData.description, recentComplaints);
+    }
   }
 
   const year = new Date().getFullYear();
-
   const complaintNumber = `JAL-${year}-${Date.now()}`;
 
   const complaint = await Complaint.create({
     complaintNumber,
-    title,
-    description,
-    category,
-    priority,
-    department,
+    title: aiData.title || "Untitled Issue",
+    description: aiData.description || description,
+    category: aiData.category || "General",
+    priority: aiData.priority || "MEDIUM",
+    department: assignedDepartment,
     location,
     citizen: req.user._id,
     status: "PENDING",
+    attachments,
+    duplicateOf: duplicateOf || null,
+    originalLanguage: aiData.originalLanguage || "Unknown",
+    aiClassification: {
+      confidence: 0.9,
+      detectedCategory: aiData.category || "General"
+    }
   });
 
   return res.status(201).json(
-    new ApiResponse(
-      201,
-      complaint,
-      "Complaint created successfully"
-    )
+    new ApiResponse(201, { complaint, aiData }, "Complaint created successfully")
   );
 });
 

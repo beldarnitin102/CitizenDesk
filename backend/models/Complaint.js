@@ -67,6 +67,15 @@ const complaintSchema = new mongoose.Schema(
       confidence: { type: Number, min: 0, max: 1 },
       detectedCategory: { type: String, trim: true },
     },
+    duplicateOf: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Complaint",
+      default: null,
+    },
+    originalLanguage: {
+      type: String,
+      default: "English",
+    },
   },
   {
     timestamps: true,

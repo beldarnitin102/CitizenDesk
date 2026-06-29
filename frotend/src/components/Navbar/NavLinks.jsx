@@ -1,22 +1,40 @@
 import { NavLink } from "react-router-dom";
-import navLinks from "./navData";
+
+const links = [
+  {
+    title: "Home",
+    path: "/",
+  },
+  {
+    title: "About",
+    path: "/about",
+  },
+  {
+    title: "Services",
+    path: "/services",
+  },
+  {
+    title: "Contact",
+    path: "/contact",
+  },
+];
 
 const NavLinks = () => {
   return (
     <ul className="hidden items-center gap-8 lg:flex">
-      {navLinks.map((item) => (
-        <li key={item.id}>
+      {links.map((link) => (
+        <li key={link.path}>
           <NavLink
-            to={item.path}
+            to={link.path}
             className={({ isActive }) =>
-              `font-medium transition-all duration-300 ${
+              `text-[15px] font-medium transition ${
                 isActive
                   ? "text-[var(--primary)]"
                   : "text-[var(--body)] hover:text-[var(--primary)]"
               }`
             }
           >
-            {item.title}
+            {link.title}
           </NavLink>
         </li>
       ))}

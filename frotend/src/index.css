@@ -1,0 +1,89 @@
+@import "tailwindcss";
+@import "@fontsource/poppins";
+
+/* ===========================
+   Theme Colors
+=========================== */
+
+:root {
+
+  --primary: #0F4C81;
+  --secondary: #123B6A;
+  --accent: #2BAE66;
+
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+
+  --heading: #1E293B;
+  --body: #64748B;
+
+  --border: #E5E7EB;
+
+  --pending: #F4A940;
+  --progress: #8B5CF6;
+  --resolved: #10B981;
+  --danger: #EF4444;
+
+}
+
+/* ===========================
+   Base Styles
+=========================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+/* ===========================
+   Body
+=========================== */
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: var(--background);
+  color: var(--heading);
+  overflow-x: hidden;
+}
+
+/* ===========================
+   Images
+=========================== */
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ===========================
+   Links
+=========================== */
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ===========================
+   Buttons
+=========================== */
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+/* ===========================
+   Scrollbar
+=========================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 999px;
+}

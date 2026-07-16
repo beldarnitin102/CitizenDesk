@@ -1,17 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import authReducer from "./slices/authSlice";
-import languageReducer from "./slices/languageSlice";
 import complaintReducer from "./slices/complaintSlice";
-import themeReducer from "./slices/themeSlice";
+import loadingReducer from "./slices/loadingSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    language: languageReducer,
     complaint: complaintReducer,
-    theme: themeReducer,
+    loading: loadingReducer,
   },
 });
-
-export default store;

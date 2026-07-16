@@ -1,27 +1,56 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  complaints: [],
+
+  selectedComplaint: null,
+
+  filters: {
+    status: "",
+
+    category: "",
+
+    priority: "",
+  },
+};
+
 const complaintSlice = createSlice({
   name: "complaint",
 
-  initialState: {
-    complaints: [],
-    loading: false,
-  },
+  initialState,
 
   reducers: {
     setComplaints: (state, action) => {
       state.complaints = action.payload;
     },
 
-    setLoading: (state, action) => {
-      state.loading = action.payload;
+    setSelectedComplaint: (state, action) => {
+      state.selectedComplaint = action.payload;
+    },
+
+    addComplaint: (state, action) => {
+      state.complaints.unshift(action.payload);
+    },
+
+    clearComplaints: (state) => {
+      state.complaints = [];
+    },
+
+    setFilters: (state, action) => {
+      state.filters = {
+        ...state.filters,
+        ...action.payload,
+      };
     },
   },
 });
 
 export const {
   setComplaints,
-  setLoading,
+  setSelectedComplaint,
+  addComplaint,
+  clearComplaints,
+  setFilters,
 } = complaintSlice.actions;
 
 export default complaintSlice.reducer;

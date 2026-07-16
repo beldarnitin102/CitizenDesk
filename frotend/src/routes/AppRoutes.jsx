@@ -1,32 +1,62 @@
-import { Routes, Route } from "react-router-dom"; // 👈 Remove BrowserRouter from imports
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Home from "../pages/Home";
-import Login from "../pages/Login";
-import Signup from "../pages/Signup";
-import OTP from "../pages/OTP";
-import NotFound from "../pages/NotFound";
-import About from "../pages/About";
-import Services from "../pages/Services";
-import Contact from "../pages/Contact";
+import MainLayout from "../layouts/MainLayout";
+import DashboardLayout from "../layouts/DashboardLayout";
+
+import Home from "../pages/Home/Home";
+// import Login from "../pages/Login/Login";
+// import Signup from "../pages/Signup/Signup";
+// import VerifyOTP from "../pages/VerifyOTP/VerifyOTP";
+// import Dashboard from "../pages/Dashboard/Dashboard";
+// import NotFound from "../pages/NotFound/NotFound";
 
 const AppRoutes = () => {
   return (
-    // 👈 Removed <BrowserRouter> from here
-    <Routes>
-      {/* Public Routes */}
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/verify-otp" element={<OTP />} />
+    <BrowserRouter>
 
-      {/* 404 */}
-      <Route path="*" element={<NotFound />} />
+      <Routes>
 
-      <Route path="/about" element={<About />} />
-      <Route path="/services" element={<Services />} />
-      <Route path="/contact" element={<Contact />} />
-    </Routes>
-    // 👈 Removed </BrowserRouter> from here
+        {/* Public */}
+
+        <Route element={<MainLayout />}>
+
+          <Route path="/" element={<Home />} />
+
+          <Route path="/login" element={<Login />} />
+
+          <Route path="/signup" element={<Signup />} />
+
+          <Route
+            path="/verify-email"
+            element={<VerifyOTP />}
+          />
+
+        </Route>
+
+        {/* Dashboard */}
+
+        <Route
+          path="/dashboard"
+          element={<DashboardLayout />}
+        >
+
+          <Route
+            index
+            element={<Dashboard />}
+          />
+
+        </Route>
+
+        {/* 404 */}
+
+        <Route
+          path="*"
+          element={<NotFound />}
+        />
+
+      </Routes>
+
+    </BrowserRouter>
   );
 };
 

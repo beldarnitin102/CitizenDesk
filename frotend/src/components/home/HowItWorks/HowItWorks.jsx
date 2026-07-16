@@ -1,58 +1,60 @@
-import processData from "./processData";
-import ProcessCard from "./ProcessCard";
 import { FiArrowRight } from "react-icons/fi";
+
+import Container from "../../ui/Container";
+import SectionHeading from "../../ui/SectionHeading";
+
+import ProcessCard from "./ProcessCard";
+import processData from "./processData";
 
 const HowItWorks = () => {
   return (
-    <section className="bg-[var(--background)] py-28">
+    <section className="bg-[var(--background)] py-24">
+      <Container>
 
-      <div className="mx-auto max-w-7xl px-6">
+        <SectionHeading
+          badge="WORKFLOW"
+          title="How Our AI Complaint System Works"
+          subtitle="From complaint submission to final resolution, every step is streamlined through Artificial Intelligence, ensuring faster processing, better transparency and efficient public service."
+        />
 
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mt-20">
 
-          <span className="rounded-full bg-green-100 px-5 py-2 text-sm font-semibold text-[var(--accent)]">
-            SIMPLE PROCESS
-          </span>
+          <div className="grid gap-8 lg:grid-cols-5">
 
-          <h2 className="mt-6 text-5xl font-bold text-[var(--heading)]">
-            How It Works
-          </h2>
+            {processData.map((step, index) => (
+              <div
+                key={step.id}
+                className="relative"
+              >
+                <ProcessCard {...step} />
 
-          <p className="mt-6 text-lg leading-8 text-[var(--body)]">
-            Registering and resolving complaints has never been easier.
-            Our AI ensures every complaint reaches the correct department
-            with complete transparency.
-          </p>
+                {index !== processData.length - 1 && (
+                  <div
+                    className="
+                    absolute
+                    left-full
+                    top-1/2
+                    hidden
+                    -translate-y-1/2
+                    lg:flex
+                    lg:w-8
+                    lg:justify-center
+                    "
+                  >
+                    <FiArrowRight
+                      size={28}
+                      className="text-[var(--primary)]"
+                    />
+                  </div>
+                )}
+              </div>
+            ))}
+
+          </div>
 
         </div>
 
-        <div className="mt-24 grid gap-10 lg:grid-cols-5">
-
-          {processData.map((item, index) => (
-            <div
-              key={item.id}
-              className="relative"
-            >
-              <ProcessCard
-                step={item.id}
-                {...item}
-              />
-
-              {index !== processData.length - 1 && (
-                <div className="absolute left-[78%] top-10 hidden lg:block">
-                  <FiArrowRight
-                    size={30}
-                    className="text-[var(--primary)]"
-                  />
-                </div>
-              )}
-            </div>
-          ))}
-
-        </div>
-
-      </div>
-
+      </Container>
     </section>
   );
 };

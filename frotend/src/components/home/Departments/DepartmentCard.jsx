@@ -1,8 +1,10 @@
-const ProcessCard = ({
-  id,
+import { FiArrowRight } from "react-icons/fi";
+
+const DepartmentCard = ({
+  icon: Icon,
   title,
   description,
-  icon: Icon,
+  complaints,
   color,
   bg,
 }) => {
@@ -11,33 +13,33 @@ const ProcessCard = ({
       className="
       group
       relative
-      flex
-      flex-col
+      overflow-hidden
       rounded-3xl
       border
       border-[var(--border)]
       bg-white
       p-8
-      shadow-sm
       transition-all
       duration-500
       hover:-translate-y-3
       hover:shadow-2xl
       "
     >
-      <span
+      <div
         className="
         absolute
-        right-6
-        top-6
-        text-5xl
-        font-black
+        -right-10
+        -top-10
+        h-36
+        w-36
+        rounded-full
         opacity-10
+        blur-3xl
         "
-        style={{ color }}
-      >
-        {id}
-      </span>
+        style={{
+          background: color,
+        }}
+      />
 
       <div
         className="
@@ -49,8 +51,8 @@ const ProcessCard = ({
         rounded-2xl
         transition-all
         duration-500
-        group-hover:rotate-6
         group-hover:scale-110
+        group-hover:rotate-6
         "
         style={{
           background: bg,
@@ -69,13 +71,40 @@ const ProcessCard = ({
       </p>
 
       <div
-        className="mt-8 h-1 w-16 rounded-full transition-all duration-500 group-hover:w-full"
+        className="
+        mt-6
+        rounded-xl
+        border
+        border-[var(--border)]
+        bg-[var(--background)]
+        p-4
+        text-sm
+        text-[var(--body)]
+        "
+      >
+        {complaints}
+      </div>
+
+      <button
+        className="
+        mt-8
+        flex
+        items-center
+        gap-2
+        font-semibold
+        transition-all
+        group-hover:gap-4
+        "
         style={{
-          background: color,
+          color,
         }}
-      />
+      >
+        Learn More
+
+        <FiArrowRight />
+      </button>
     </div>
   );
 };
 
-export default ProcessCard;
+export default DepartmentCard;

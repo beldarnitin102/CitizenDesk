@@ -1,8 +1,7 @@
-const ProcessCard = ({
-  id,
+const FeatureCard = ({
+  icon: Icon,
   title,
   description,
-  icon: Icon,
   color,
   bg,
 }) => {
@@ -10,35 +9,17 @@ const ProcessCard = ({
     <div
       className="
       group
-      relative
-      flex
-      flex-col
       rounded-3xl
       border
       border-[var(--border)]
       bg-white
       p-8
-      shadow-sm
       transition-all
       duration-500
       hover:-translate-y-3
       hover:shadow-2xl
       "
     >
-      <span
-        className="
-        absolute
-        right-6
-        top-6
-        text-5xl
-        font-black
-        opacity-10
-        "
-        style={{ color }}
-      >
-        {id}
-      </span>
-
       <div
         className="
         flex
@@ -47,14 +28,14 @@ const ProcessCard = ({
         items-center
         justify-center
         rounded-2xl
-        transition-all
+        transition-transform
         duration-500
         group-hover:rotate-6
         group-hover:scale-110
         "
         style={{
           background: bg,
-          color,
+          color: color,
         }}
       >
         <Icon size={30} />
@@ -78,4 +59,4 @@ const ProcessCard = ({
   );
 };
 
-export default ProcessCard;
+export default FeatureCard;

@@ -5,23 +5,23 @@ import { FiSearch, FiUserPlus } from "react-icons/fi";
 const HeroButtons = () => {
   return (
     <div className="flex flex-col gap-4 sm:flex-row">
-      {/* Register */}
+
       <Link
         to="/signup"
-        className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0F3683] px-7 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-[#0C2E70]"
+        className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#dba125] px-7 py-4 font-semibold text-white shadow-md transition duration-300 hover:bg-[#0E3173]"
       >
-        <FiUserPlus size={18} />
+        <FiUserPlus />
         Register Grievance
       </Link>
 
-      {/* Track */}
       <Link
         to="/track"
-        className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-7 py-4 font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#0F3683] hover:text-[#0F3683]"
+        className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-7 py-4 font-semibold text-slate-700 shadow-sm transition duration-300 hover:border-[#123D8D] hover:text-[#123D8D]"
       >
-        <FiSearch size={18} />
+        <FiSearch />
         Track Complaint
       </Link>
+
     </div>
   );
 };

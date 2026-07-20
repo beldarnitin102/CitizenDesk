@@ -6,10 +6,9 @@ const HeroImage = () => {
     <div className="relative hidden h-full overflow-hidden lg:block">
       {/* Building Image */}
       <img
-    src={heroImage}
-    alt="District Office"
-    className="h-full w-full object-cover object-center"
-/>
+        src={heroImage}
+        className="h-full w-full object-cover object-right"
+      />
 
       {/* Left Fade Overlay */}
       <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-[#EEF4FB] via-[#EEF4FB]/80 to-transparent" />

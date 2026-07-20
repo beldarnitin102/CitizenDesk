@@ -1,17 +1,7 @@
-import { BrowserRouter } from "react-router-dom"; // 👈 Add this import
-import Navbar from "./components/navbar/Navbar";
-import AppRoutes from "./routes/DepartmentHeadRoute";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-  return (
-    <BrowserRouter> {/* 👈 Wrap everything here */}
-      <Navbar />
-
-      <main>
-        <AppRoutes />
-      </main>
-    </BrowserRouter>
-  );
+  return <AppRoutes />;
 }
 
 export default App;

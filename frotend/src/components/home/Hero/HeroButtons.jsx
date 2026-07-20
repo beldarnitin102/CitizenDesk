@@ -1,42 +1,27 @@
-import { FiArrowRight, FiPlayCircle } from "react-icons/fi";
+import React from "react";
 import { Link } from "react-router-dom";
-import Button from "../../ui/Button";
+import { FiSearch, FiUserPlus } from "react-icons/fi";
 
 const HeroButtons = () => {
   return (
-    <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-
-      <Link to="/signup">
-
-        <Button
-          size="lg"
-          className="group"
-        >
-          Register Complaint
-
-          <FiArrowRight
-            size={20}
-            className="transition-transform duration-300 group-hover:translate-x-1"
-          />
-
-        </Button>
-
+    <div className="flex flex-col gap-4 sm:flex-row">
+      {/* Register */}
+      <Link
+        to="/signup"
+        className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0F3683] px-7 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-[#0C2E70]"
+      >
+        <FiUserPlus size={18} />
+        Register Grievance
       </Link>
 
-      <Link to="/about">
-
-        <Button
-          variant="outline"
-          size="lg"
-        >
-          <FiPlayCircle size={20} />
-
-          Learn More
-
-        </Button>
-
+      {/* Track */}
+      <Link
+        to="/track"
+        className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-7 py-4 font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#0F3683] hover:text-[#0F3683]"
+      >
+        <FiSearch size={18} />
+        Track Complaint
       </Link>
-
     </div>
   );
 };

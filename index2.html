@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+ <head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260717-05-8209e4e"}');</script><script src="/_sdk/f432b76fb310b513.telemetry_sdk.js" integrity="sha512-9FJQ55EKmmqhyyik8BhrMVfm0+iYYfb8uOlRsjtkxJMEI97qOVEI4PnHohDjQAtvAep0IOEpdQ64eki0sz62ug=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jalgaon District Grievance Management System</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    :root { --navy:#063c73; --ink:#12304f; --muted:#617188; --line:#e7edf4; --mint:#2eab76; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { width:100%; margin:0; color:var(--ink); font-family:"Work Sans",sans-serif; }
+    .app-shell { width:100%; min-height:100%; overflow:hidden; }
+    .site-width { width:100%; max-width:1180px; margin:0 auto; padding-left:20px; padding-right:20px; }
+    .hero-glow { background:radial-gradient(circle at 82% 25%,rgba(255,255,255,.88),transparent 20%),linear-gradient(105deg,rgba(246,251,255,.98) 0%,rgba(226,239,251,.9) 50%,rgba(201,221,241,.34) 100%); }
+    .hero-image-mask { mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.35) 22%,#000 44%); -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.35) 22%,#000 44%); }
+    .soft-card { border:1px solid var(--line); box-shadow:0 3px 12px rgba(20,53,88,.05); }
+    .nav-link { color:#30435b; font-size:11px; font-weight:500; transition:color .2s ease; }
+    .nav-link:hover { color:var(--navy); }
+    .icon-disc { width:38px; height:38px; border-radius:13px; display:grid; place-items:center; flex:0 0 auto; }
+    .process-line::after { content:""; position:absolute; top:24px; left:calc(50% + 29px); width:calc(100% - 58px); border-top:1px dashed #cbd8e5; }
+    .process-line:last-child::after { display:none; }
+    .toast { opacity:0; transform:translateY(8px) translateX(-50%); pointer-events:none; transition:opacity .22s ease,transform .22s ease; }
+    .toast.is-visible { opacity:1; transform:translateY(0) translateX(-50%); }
+    .faq-answer { display:grid; grid-template-rows:0fr; transition:grid-template-rows .22s ease; }
+    .faq-answer > div { overflow:hidden; }
+    .faq-item.is-open .faq-answer { grid-template-rows:1fr; }
+    .faq-chevron { transition:transform .2s ease; }
+    .faq-item.is-open .faq-chevron { transform:rotate(180deg); }
+    .department-card { transition:transform .2s ease,box-shadow .2s ease; }
+    .department-card:hover { transform:translateY(-3px); box-shadow:0 10px 22px rgba(20,53,88,.09); }
+    button:focus-visible, a:focus-visible, select:focus-visible { outline:3px solid rgba(31,134,212,.36); outline-offset:3px; }
+    @media (max-width:720px) {
+      .desktop-nav { display:none; }
+      .hero-image-mask { opacity:.42; }
+      .process-line::after { display:none; }
+      .mobile-nav.is-open { display:flex; }
+    }
+  </style>
+  <script src="/_sdk/e3937a0574eb2d69.data_sdk.js" type="text/javascript" integrity="sha512-xbp/ACqEQy1aDxYMtXTrR3y5MUbzxuggRR/9sD48Gl4VhLMMCiAHsxMaFV6DTdeBpR6ymF+t2zhPKYkWM3+Jfw=="></script>
+  <script src="/_sdk/9432170dbd2ae0df.resizing_sdk.js" type="text/javascript" integrity="sha512-FeT+58sb1f9ejWPWFjCbJvTT+SDwGV+ngrHUnlO7TWEOoqwOLj6p256kO3vOL7DIWl1cIgrobiof8v2bOigwPg=="></script>
+ </head>
+ <body data-template-id="__page-root">
+  <div class="app-shell">
+   <header class="w-full border-b border-slate-100 bg-white">
+    <div class="site-width flex min-h-[68px] items-center justify-between gap-4"><a href="#home" class="flex items-center gap-2.5 no-underline" aria-label="Go to home">
+      <div class="grid h-9 w-8 place-items-center text-[#2b3d4e]" aria-hidden="true">
+       <i data-lucide="landmark" style="width:28px;height:28px;stroke-width:1.7"></i>
+      </div>
+      <div class="leading-tight">
+       <p data-template-id="district-name" class="canva-text m-0 text-[11px] font-bold text-slate-800"></p>
+       <p data-template-id="system-name" class="canva-text m-0 text-[9px] font-semibold text-[#064077]"></p>
+       <p data-template-id="system-tagline" class="canva-text m-0 mt-0.5 text-[7px] text-slate-500"></p>
+      </div></a>
+     <nav class="desktop-nav flex items-center gap-6" aria-label="Primary navigation"><a data-template-id="nav-home" class="canva-link nav-link no-underline" href="#home"></a> <a data-template-id="nav-about" class="canva-link nav-link no-underline" href="#how-it-works"></a> <a data-template-id="nav-departments" class="canva-link nav-link no-underline" href="#departments"></a> <a data-template-id="nav-track" class="canva-link nav-link no-underline" href="#recent-grievances"></a> <a data-template-id="nav-citizen" class="canva-link nav-link no-underline" href="#services"></a> <a data-template-id="nav-contact" class="canva-link nav-link no-underline" href="#support"></a>
+     </nav>
+     <div class="flex items-center gap-2"><label class="sr-only" for="language-select">Select language</label> <select id="language-select" class="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[10px] text-slate-600"> <option>English</option><option>मराठी</option><option>हिंदी</option> </select> <button id="login-button" data-template-id="login-button" class="canva-button hidden items-center gap-1.5 rounded-lg px-3 py-1.5 text-[10px] font-semibold shadow-sm sm:inline-flex" type="button"><i data-lucide="user-round" style="width:12px;height:12px"></i></button> <button id="menu-button" class="inline-grid h-8 w-8 place-items-center rounded-lg border border-slate-200 text-[#063c73] sm:hidden" type="button" aria-label="Open navigation menu" aria-expanded="false"><i data-lucide="menu" style="width:17px;height:17px"></i></button>
+     </div>
+    </div>
+    <nav id="mobile-nav" class="mobile-nav site-width hidden flex-col gap-3 border-t border-slate-100 py-4 sm:hidden" aria-label="Mobile navigation"><a data-template-id="mobile-home" class="canva-link text-[11px] font-semibold no-underline" href="#home"></a> <a data-template-id="mobile-departments" class="canva-link text-[11px] font-semibold no-underline" href="#departments"></a> <a data-template-id="mobile-track" class="canva-link text-[11px] font-semibold no-underline" href="#recent-grievances"></a> <a data-template-id="mobile-support" class="canva-link text-[11px] font-semibold no-underline" href="#support"></a>
+    </nav>
+   </header>
+   <main>
+    <section id="home" class="site-width pt-3">
+     <div data-template-id="hero-section" class="canva-banner hero-glow relative min-h-[310px] overflow-hidden rounded-md border border-sky-100"><img data-template-id="hero-building-image" class="canva-image hero-image-mask absolute inset-y-0 right-0 h-full w-[68%] object-cover object-center" loading="lazy">
+      <div class="relative z-10 flex min-h-[310px] max-w-[570px] flex-col justify-center px-6 py-8 sm:px-10">
+       <h1 data-template-id="hero-title" class="canva-text m-0 max-w-md font-bold leading-[1.08] tracking-[-.035em]"></h1>
+       <p data-template-id="hero-description" class="canva-text mb-0 mt-3 max-w-[300px] text-[11px] leading-relaxed"></p>
+       <div class="mt-4 flex flex-wrap gap-2"><button id="register-button" data-template-id="register-button" class="canva-button inline-flex items-center gap-1.5 rounded-md px-3.5 py-2 text-[10px] font-semibold shadow-sm" type="button"><i data-lucide="clipboard-pen-line" style="width:13px;height:13px"></i></button> <button id="track-button" data-template-id="track-button" class="canva-button inline-flex items-center gap-1.5 rounded-md border px-3.5 py-2 text-[10px] font-semibold shadow-sm" type="button"><i data-lucide="search" style="width:13px;height:13px"></i></button>
+       </div>
+       <div data-template-id="hero-assistance" class="canva-tag mt-4 inline-flex w-fit items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[8px] font-medium">
+        <i data-lucide="badge-check" style="width:12px;height:12px"></i>
+       </div>
+      </div>
+     </div>
+    </section>
+    <section id="overview" class="site-width pt-3">
+     <h2 class="sr-only">Grievance complaint overview</h2>
+     <div class="grid grid-cols-2 gap-2.5 lg:grid-cols-5">
+      <article data-template-id="stat-total-card" class="canva-card soft-card flex min-h-[76px] items-center gap-3 rounded-md p-3">
+       <div class="icon-disc bg-[#eaf4ff] text-[#1581d5]">
+        <i data-lucide="clipboard-list" style="width:18px;height:18px"></i>
+       </div>
+       <div>
+        <p data-template-id="stat-total-label" class="canva-text m-0 text-[8px] font-medium text-slate-500"></p>
+        <p data-template-id="stat-total-value" class="canva-text m-0 mt-0.5 font-bold leading-none"></p>
+        <p data-template-id="stat-total-note" class="canva-text m-0 mt-1 text-[7px] text-[#1878c4]"></p>
+       </div>
+      </article>
+      <article data-template-id="stat-pending-card" class="canva-card soft-card flex min-h-[76px] items-center gap-3 rounded-md p-3">
+       <div class="icon-disc bg-[#fff5dc] text-[#eea413]">
+        <i data-lucide="hourglass" style="width:18px;height:18px"></i>
+       </div>
+       <div>
+        <p data-template-id="stat-pending-label" class="canva-text m-0 text-[8px] font-medium text-slate-500"></p>
+        <p data-template-id="stat-pending-value" class="canva-text m-0 mt-0.5 font-bold leading-none"></p>
+        <p data-template-id="stat-pending-note" class="canva-text m-0 mt-1 text-[7px] text-[#d7900d]"></p>
+       </div>
+      </article>
+      <article data-template-id="stat-progress-card" class="canva-card soft-card flex min-h-[76px] items-center gap-3 rounded-md p-3">
+       <div class="icon-disc bg-[#f1eaff] text-[#8654d9]">
+        <i data-lucide="refresh-cw" style="width:18px;height:18px"></i>
+       </div>
+       <div>
+        <p data-template-id="stat-progress-label" class="canva-text m-0 text-[8px] font-medium text-slate-500"></p>
+        <p data-template-id="stat-progress-value" class="canva-text m-0 mt-0.5 font-bold leading-none"></p>
+        <p data-template-id="stat-progress-note" class="canva-text m-0 mt-1 text-[7px] text-[#7651bc]"></p>
+       </div>
+      </article>
+      <article data-template-id="stat-resolved-card" class="canva-card soft-card flex min-h-[76px] items-center gap-3 rounded-md p-3">
+       <div class="icon-disc bg-[#e6f8f1] text-[#20a979]">
+        <i data-lucide="check-circle-2" style="width:18px;height:18px"></i>
+       </div>
+       <div>
+        <p data-template-id="stat-resolved-label" class="canva-text m-0 text-[8px] font-medium text-slate-500"></p>
+        <p data-template-id="stat-resolved-value" class="canva-text m-0 mt-0.5 font-bold leading-none"></p>
+        <p data-template-id="stat-resolved-note" class="canva-text m-0 mt-1 text-[7px] text-[#138461]"></p>
+       </div>
+      </article>
+      <article data-template-id="stat-department-card" class="canva-card soft-card flex min-h-[76px] items-center gap-3 rounded-md p-3">
+       <div class="icon-disc bg-[#e8f6f8] text-[#1796a5]">
+        <i data-lucide="users-round" style="width:18px;height:18px"></i>
+       </div>
+       <div>
+        <p data-template-id="stat-department-label" class="canva-text m-0 text-[8px] font-medium text-slate-500"></p>
+        <p data-template-id="stat-department-value" class="canva-text m-0 mt-0.5 font-bold leading-none"></p>
+        <p data-template-id="stat-department-note" class="canva-text m-0 mt-1 text-[7px] text-[#188899]"></p>
+       </div>
+      </article>
+     </div>
+    </section>
+    <section id="how-it-works" class="site-width py-5">
+     <div class="grid gap-5 lg:grid-cols-[1.9fr_1fr]">
+      <div>
+       <h2 data-template-id="process-title" class="canva-text m-0 font-bold tracking-[-.02em]"></h2>
+       <p data-template-id="process-description" class="canva-text mb-0 mt-1 text-[9px] text-slate-500"></p>
+       <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-5">
+        <article class="process-line relative text-center">
+         <div class="icon-disc mx-auto bg-[#e5f7ef] text-[#159268]">
+          <i data-lucide="user-plus" style="width:17px;height:17px"></i>
+         </div>
+         <h3 data-template-id="step-one-title" class="canva-text mb-0 mt-2 font-semibold"></h3>
+         <p data-template-id="step-one-copy" class="canva-text mx-auto mb-0 mt-1 max-w-[100px] text-[7px] leading-relaxed text-slate-500"></p>
+        </article>
+        <article class="process-line relative text-center">
+         <div class="icon-disc mx-auto bg-[#edf4ff] text-[#4388da]">
+          <i data-lucide="file-up" style="width:17px;height:17px"></i>
+         </div>
+         <h3 data-template-id="step-two-title" class="canva-text mb-0 mt-2 font-semibold"></h3>
+         <p data-template-id="step-two-copy" class="canva-text mx-auto mb-0 mt-1 max-w-[100px] text-[7px] leading-relaxed text-slate-500"></p>
+        </article>
+        <article class="process-line relative text-center">
+         <div class="icon-disc mx-auto bg-[#fff1d5] text-[#db8b0b]">
+          <i data-lucide="scan-search" style="width:17px;height:17px"></i>
+         </div>
+         <h3 data-template-id="step-three-title" class="canva-text mb-0 mt-2 font-semibold"></h3>
+         <p data-template-id="step-three-copy" class="canva-text mx-auto mb-0 mt-1 max-w-[100px] text-[7px] leading-relaxed text-slate-500"></p>
+        </article>
+        <article class="process-line relative text-center">
+         <div class="icon-disc mx-auto bg-[#f0e8ff] text-[#8851d1]">
+          <i data-lucide="bell-ring" style="width:17px;height:17px"></i>
+         </div>
+         <h3 data-template-id="step-four-title" class="canva-text mb-0 mt-2 font-semibold"></h3>
+         <p data-template-id="step-four-copy" class="canva-text mx-auto mb-0 mt-1 max-w-[100px] text-[7px] leading-relaxed text-slate-500"></p>
+        </article>
+        <article class="process-line relative text-center">
+         <div class="icon-disc mx-auto bg-[#e2f7f0] text-[#119a71]">
+          <i data-lucide="badge-check" style="width:17px;height:17px"></i>
+         </div>
+         <h3 data-template-id="step-five-title" class="canva-text mb-0 mt-2 font-semibold"></h3>
+         <p data-template-id="step-five-copy" class="canva-text mx-auto mb-0 mt-1 max-w-[100px] text-[7px] leading-relaxed text-slate-500"></p>
+        </article>
+       </div>
+      </div>
+      <aside data-template-id="smart-system-panel" class="canva-panel relative overflow-hidden rounded-md p-5 text-white">
+       <div class="relative z-10 max-w-[190px]">
+        <h2 data-template-id="smart-system-title" class="canva-text m-0 font-bold"></h2>
+        <ul class="mt-3 space-y-2 p-0 text-[8px] leading-none">
+         <li data-template-id="smart-benefit-one" class="canva-text flex items-center gap-1.5"><i data-lucide="check" style="width:11px;height:11px"></i></li>
+         <li data-template-id="smart-benefit-two" class="canva-text flex items-center gap-1.5"><i data-lucide="check" style="width:11px;height:11px"></i></li>
+         <li data-template-id="smart-benefit-three" class="canva-text flex items-center gap-1.5"><i data-lucide="check" style="width:11px;height:11px"></i></li>
+         <li data-template-id="smart-benefit-four" class="canva-text flex items-center gap-1.5"><i data-lucide="check" style="width:11px;height:11px"></i></li>
+        </ul>
+       </div><img data-template-id="smart-system-image" class="canva-image absolute bottom-[-4px] right-[-7px] w-[48%] rounded-tl-md object-cover opacity-95" loading="lazy">
+      </aside>
+     </div>
+     <section id="services" data-template-id="service-strip" class="canva-section mt-5 grid grid-cols-2 gap-y-4 rounded-md px-4 py-4 sm:grid-cols-4">
+      <article class="flex items-start gap-2">
+       <i data-lucide="clock-3" class="mt-0.5 text-[#16a572]" style="width:16px;height:16px"></i>
+       <div>
+        <h3 data-template-id="service-one-title" class="canva-text m-0 font-semibold"></h3>
+        <p data-template-id="service-one-copy" class="canva-text mb-0 mt-1 text-[7px] text-slate-500"></p>
+       </div>
+      </article>
+      <article class="flex items-start gap-2">
+       <i data-lucide="shield-check" class="mt-0.5 text-[#16a572]" style="width:16px;height:16px"></i>
+       <div>
+        <h3 data-template-id="service-two-title" class="canva-text m-0 font-semibold"></h3>
+        <p data-template-id="service-two-copy" class="canva-text mb-0 mt-1 text-[7px] text-slate-500"></p>
+       </div>
+      </article>
+      <article class="flex items-start gap-2">
+       <i data-lucide="headphones" class="mt-0.5 text-[#16a572]" style="width:16px;height:16px"></i>
+       <div>
+        <h3 data-template-id="service-three-title" class="canva-text m-0 font-semibold"></h3>
+        <p data-template-id="service-three-copy" class="canva-text mb-0 mt-1 text-[7px] text-slate-500"></p>
+       </div>
+      </article>
+      <article class="flex items-start gap-2">
+       <i data-lucide="heart-handshake" class="mt-0.5 text-[#16a572]" style="width:16px;height:16px"></i>
+       <div>
+        <h3 data-template-id="service-four-title" class="canva-text m-0 font-semibold"></h3>
+        <p data-template-id="service-four-copy" class="canva-text mb-0 mt-1 text-[7px] text-slate-500"></p>
+       </div>
+      </article>
+     </section>
+    </section>
+    <section id="departments" class="site-width pb-5">
+     <div class="flex flex-wrap items-end justify-between gap-3">
+      <div>
+       <h2 data-template-id="department-title" class="canva-text m-0 font-bold tracking-[-.02em]"></h2>
+       <p data-template-id="department-description" class="canva-text mb-0 mt-1 text-[9px] text-slate-500"></p>
+      </div><button id="all-departments-button" data-template-id="all-departments-button" class="canva-button rounded-md border px-3 py-2 text-[9px] font-semibold" type="button"></button>
+     </div>
+     <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <article data-template-id="dept-water-card" class="canva-card department-card soft-card rounded-md p-4">
+       <div class="flex items-start justify-between">
+        <div class="icon-disc bg-[#eaf4ff] text-[#1979c5]">
+         <i data-lucide="droplets" style="width:18px;height:18px"></i>
+        </div><span data-template-id="dept-water-count" class="canva-tag rounded-full px-2 py-1 text-[7px] font-semibold"></span>
+       </div>
+       <h3 data-template-id="dept-water-title" class="canva-text mb-0 mt-3 font-semibold"></h3>
+       <p data-template-id="dept-water-copy" class="canva-text mb-0 mt-1 text-[8px] leading-relaxed text-slate-500"></p><button class="department-action mt-3 inline-flex items-center gap-1 text-[8px] font-semibold text-[#0a5b99]" type="button"><span data-template-id="dept-water-action" class="canva-text"></span><i data-lucide="arrow-right" style="width:12px;height:12px"></i></button>
+      </article>
+      <article data-template-id="dept-roads-card" class="canva-card department-card soft-card rounded-md p-4">
+       <div class="flex items-start justify-between">
+        <div class="icon-disc bg-[#fff2db] text-[#d78a0d]">
+         <i data-lucide="construction" style="width:18px;height:18px"></i>
+        </div><span data-template-id="dept-roads-count" class="canva-tag rounded-full px-2 py-1 text-[7px] font-semibold"></span>
+       </div>
+       <h3 data-template-id="dept-roads-title" class="canva-text mb-0 mt-3 font-semibold"></h3>
+       <p data-template-id="dept-roads-copy" class="canva-text mb-0 mt-1 text-[8px] leading-relaxed text-slate-500"></p><button class="department-action mt-3 inline-flex items-center gap-1 text-[8px] font-semibold text-[#0a5b99]" type="button"><span data-template-id="dept-roads-action" class="canva-text"></span><i data-lucide="arrow-right" style="width:12px;height:12px"></i></button>
+      </article>
+      <article data-template-id="dept-health-card" class="canva-card department-card soft-card rounded-md p-4">
+       <div class="flex items-start justify-between">
+        <div class="icon-disc bg-[#e6f8f1] text-[#15936d]">
+         <i data-lucide="heart-pulse" style="width:18px;height:18px"></i>
+        </div><span data-template-id="dept-health-count" class="canva-tag rounded-full px-2 py-1 text-[7px] font-semibold"></span>
+       </div>
+       <h3 data-template-id="dept-health-title" class="canva-text mb-0 mt-3 font-semibold"></h3>
+       <p data-template-id="dept-health-copy" class="canva-text mb-0 mt-1 text-[8px] leading-relaxed text-slate-500"></p><button class="department-action mt-3 inline-flex items-center gap-1 text-[8px] font-semibold text-[#0a5b99]" type="button"><span data-template-id="dept-health-action" class="canva-text"></span><i data-lucide="arrow-right" style="width:12px;height:12px"></i></button>
+      </article>
+      <article data-template-id="dept-sanitation-card" class="canva-card department-card soft-card rounded-md p-4">
+       <div class="flex items-start justify-between">
+        <div class="icon-disc bg-[#f0eaff] text-[#8250c9]">
+         <i data-lucide="recycle" style="width:18px;height:18px"></i>
+        </div><span data-template-id="dept-sanitation-count" class="canva-tag rounded-full px-2 py-1 text-[7px] font-semibold"></span>
+       </div>
+       <h3 data-template-id="dept-sanitation-title" class="canva-text mb-0 mt-3 font-semibold"></h3>
+       <p data-template-id="dept-sanitation-copy" class="canva-text mb-0 mt-1 text-[8px] leading-relaxed text-slate-500"></p><button class="department-action mt-3 inline-flex items-center gap-1 text-[8px] font-semibold text-[#0a5b99]" type="button"><span data-template-id="dept-sanitation-action" class="canva-text"></span><i data-lucide="arrow-right" style="width:12px;height:12px"></i></button>
+      </article>
+     </div>
+    </section>
+    <section id="recent-grievances" class="site-width pb-5">
+     <div data-template-id="tracker-panel" class="canva-panel overflow-hidden rounded-md border">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 px-5 py-4">
+       <div>
+        <h2 data-template-id="tracker-title" class="canva-text m-0 font-bold"></h2>
+        <p data-template-id="tracker-description" class="canva-text mb-0 mt-1 text-[8px] text-slate-500"></p>
+       </div><button id="tracker-button" data-template-id="tracker-button" class="canva-button inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-[9px] font-semibold" type="button"><i data-lucide="search" style="width:12px;height:12px"></i></button>
+      </div>
+      <div class="overflow-x-auto">
+       <table class="w-full min-w-[620px] border-collapse text-left">
+        <caption class="sr-only">
+         Recent grievances and their current status
+        </caption>
+        <thead>
+         <tr class="bg-[#f7fafc]">
+          <th data-template-id="table-id-label" class="canva-text px-5 py-3 text-[8px] font-semibold"></th>
+          <th data-template-id="table-subject-label" class="canva-text px-3 py-3 text-[8px] font-semibold"></th>
+          <th data-template-id="table-department-label" class="canva-text px-3 py-3 text-[8px] font-semibold"></th>
+          <th data-template-id="table-status-label" class="canva-text px-3 py-3 text-[8px] font-semibold"></th>
+          <th data-template-id="table-action-label" class="canva-text px-3 py-3 text-[8px] font-semibold"></th>
+         </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+         <tr>
+          <td data-template-id="case-one-id" class="canva-text px-5 py-3 text-[8px] font-semibold"></td>
+          <td data-template-id="case-one-subject" class="canva-text px-3 py-3 text-[8px]"></td>
+          <td data-template-id="case-one-department" class="canva-text px-3 py-3 text-[8px] text-slate-500"></td>
+          <td class="px-3 py-3"><span data-template-id="case-one-status" class="canva-tag rounded-full px-2 py-1 text-[7px] font-semibold"></span></td>
+          <td class="px-3 py-3"><button class="track-case inline-flex items-center gap-1 text-[8px] font-semibold text-[#0c5e9b]" type="button"><span data-template-id="case-track-action" class="canva-text"></span><i data-lucide="arrow-up-right" style="width:11px;height:11px"></i></button></td>
+         </tr>
+         <tr>
+          <td data-template-id="case-two-id" class="canva-text px-5 py-3 text-[8px] font-semibold"></td>
+          <td data-template-id="case-two-subject" class="canva-text px-3 py-3 text-[8px]"></td>
+          <td data-template-id="case-two-department" class="canva-text px-3 py-3 text-[8px] text-slate-500"></td>
+          <td class="px-3 py-3"><span data-template-id="case-two-status" class="canva-tag rounded-full px-2 py-1 text-[7px] font-semibold"></span></td>
+          <td class="px-3 py-3"><button class="track-case inline-flex items-center gap-1 text-[8px] font-semibold text-[#0c5e9b]" type="button"><span data-template-id="case-track-action" class="canva-text"></span><i data-lucide="arrow-up-right" style="width:11px;height:11px"></i></button></td>
+         </tr>
+         <tr>
+          <td data-template-id="case-three-id" class="canva-text px-5 py-3 text-[8px] font-semibold"></td>
+          <td data-template-id="case-three-subject" class="canva-text px-3 py-3 text-[8px]"></td>
+          <td data-template-id="case-three-department" class="canva-text px-3 py-3 text-[8px] text-slate-500"></td>
+          <td class="px-3 py-3"><span data-template-id="case-three-status" class="canva-tag rounded-full px-2 py-1 text-[7px] font-semibold"></span></td>
+          <td class="px-3 py-3"><button class="track-case inline-flex items-center gap-1 text-[8px] font-semibold text-[#0c5e9b]" type="button"><span data-template-id="case-track-action" class="canva-text"></span><i data-lucide="arrow-up-right" style="width:11px;height:11px"></i></button></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+     </div>
+    </section>
+    <section id="faq" class="site-width pb-6">
+     <div class="grid gap-5 lg:grid-cols-[.9fr_1.5fr]">
+      <div>
+       <span data-template-id="faq-kicker" class="canva-tag inline-block rounded-full px-2.5 py-1 text-[8px] font-semibold"></span>
+       <h2 data-template-id="faq-title" class="canva-text mb-0 mt-3 font-bold tracking-[-.02em]"></h2>
+       <p data-template-id="faq-description" class="canva-text mb-0 mt-2 max-w-[275px] text-[9px] leading-relaxed text-slate-500"></p><button id="support-button" data-template-id="support-button" class="canva-button mt-4 inline-flex items-center gap-1.5 rounded-md px-3.5 py-2 text-[9px] font-semibold" type="button"><i data-lucide="headphones" style="width:13px;height:13px"></i></button>
+      </div>
+      <div class="space-y-2">
+       <article class="faq-item soft-card rounded-md bg-white">
+        <button class="faq-toggle flex w-full items-center justify-between gap-4 px-4 py-3 text-left" type="button" aria-expanded="false"><span data-template-id="faq-one-question" class="canva-text text-[10px] font-semibold"></span><i data-lucide="chevron-down" class="faq-chevron shrink-0 text-[#0a5895]" style="width:16px;height:16px"></i></button>
+        <div class="faq-answer">
+         <div>
+          <p data-template-id="faq-one-answer" class="canva-text m-0 border-t border-slate-100 px-4 py-3 text-[9px] leading-relaxed text-slate-500"></p>
+         </div>
+        </div>
+       </article>
+       <article class="faq-item soft-card rounded-md bg-white">
+        <button class="faq-toggle flex w-full items-center justify-between gap-4 px-4 py-3 text-left" type="button" aria-expanded="false"><span data-template-id="faq-two-question" class="canva-text text-[10px] font-semibold"></span><i data-lucide="chevron-down" class="faq-chevron shrink-0 text-[#0a5895]" style="width:16px;height:16px"></i></button>
+        <div class="faq-answer">
+         <div>
+          <p data-template-id="faq-two-answer" class="canva-text m-0 border-t border-slate-100 px-4 py-3 text-[9px] leading-relaxed text-slate-500"></p>
+         </div>
+        </div>
+       </article>
+       <article class="faq-item soft-card rounded-md bg-white">
+        <button class="faq-toggle flex w-full items-center justify-between gap-4 px-4 py-3 text-left" type="button" aria-expanded="false"><span data-template-id="faq-three-question" class="canva-text text-[10px] font-semibold"></span><i data-lucide="chevron-down" class="faq-chevron shrink-0 text-[#0a5895]" style="width:16px;height:16px"></i></button>
+        <div class="faq-answer">
+         <div>
+          <p data-template-id="faq-three-answer" class="canva-text m-0 border-t border-slate-100 px-4 py-3 text-[9px] leading-relaxed text-slate-500"></p>
+         </div>
+        </div>
+       </article>
+      </div>
+     </div>
+    </section>
+   </main>
+   <footer id="support" data-template-id="footer-section" class="canva-footer mt-2">
+    <div class="site-width grid gap-6 py-7 sm:grid-cols-[1.2fr_1fr_1fr]">
+     <div>
+      <div class="flex items-center gap-2 text-white">
+       <i data-lucide="landmark" style="width:24px;height:24px"></i>
+       <h2 data-template-id="footer-title" class="canva-text m-0 font-bold"></h2>
+      </div>
+      <p data-template-id="footer-copy" class="canva-text mb-0 mt-3 max-w-[270px] text-[9px] leading-relaxed"></p>
+     </div>
+     <div>
+      <h3 data-template-id="footer-help-title" class="canva-text m-0 font-semibold"></h3>
+      <p data-template-id="footer-helpline" class="canva-text mb-0 mt-3 flex items-center gap-2 text-[9px]"><i data-lucide="phone" style="width:13px;height:13px"></i></p>
+      <p data-template-id="footer-email" class="canva-text mb-0 mt-2 flex items-center gap-2 text-[9px]"><i data-lucide="mail" style="width:13px;height:13px"></i></p>
+     </div>
+     <div>
+      <h3 data-template-id="footer-address-title" class="canva-text m-0 font-semibold"></h3>
+      <p data-template-id="footer-address" class="canva-text mb-0 mt-3 flex items-start gap-2 text-[9px] leading-relaxed"><i data-lucide="map-pin" class="mt-0.5 shrink-0" style="width:13px;height:13px"></i></p>
+     </div>
+    </div>
+    <div class="border-t border-white/15">
+     <div class="site-width py-3">
+      <p data-template-id="footer-legal" class="canva-text m-0 text-center text-[8px]"></p>
+     </div>
+    </div>
+   </footer>
+   <div id="notice" class="toast fixed bottom-5 left-1/2 z-50 w-[min(92%,450px)] rounded-lg bg-[#073f76] px-4 py-3 text-center text-sm font-medium text-white shadow-xl" role="status" aria-live="polite">
+    <span data-template-id="interaction-notice" class="canva-text"></span>
+   </div>
+  </div>
+  <script src="/_sdk/b7bbbe551ba4f8f5.editing_sdk.js" integrity="sha512-h06pMz6KcVo4Wjvoggb4sS5DZpb55bTriAzBmA0YwbkBA3z2ZXl8CBEbCWT+/fAsm0SwDejJ7jJHOZsLZKqPoQ=="></script>
+  <script>
+    const notice = document.getElementById("notice");
+    let noticeTimer;
+
+    function showNotice() {
+      notice.classList.add("is-visible");
+      clearTimeout(noticeTimer);
+      noticeTimer = setTimeout(() => notice.classList.remove("is-visible"), 3200);
+    }
+
+    ["register-button", "track-button", "login-button", "all-departments-button", "tracker-button", "support-button"].forEach(id => {
+      document.getElementById(id).addEventListener("click", showNotice);
+    });
+    document.querySelectorAll(".department-action, .track-case").forEach(button => button.addEventListener("click", showNotice));
+    document.getElementById("language-select").addEventListener("change", showNotice);
+
+    document.querySelectorAll(".faq-toggle").forEach(button => {
+      button.addEventListener("click", () => {
+        const item = button.closest(".faq-item");
+        const opened = item.classList.toggle("is-open");
+        button.setAttribute("aria-expanded", String(opened));
+      });
+    });
+
+    const menuButton = document.getElementById("menu-button");
+    const mobileNav = document.getElementById("mobile-nav");
+    menuButton.addEventListener("click", () => {
+      const opened = mobileNav.classList.toggle("is-open");
+      menuButton.setAttribute("aria-expanded", String(opened));
+    });
+    document.querySelectorAll("#mobile-nav a").forEach(link => link.addEventListener("click", () => {
+      mobileNav.classList.remove("is-open");
+      menuButton.setAttribute("aria-expanded", "false");
+    }));
+
+    lucide.createIcons();
+  </script>
+ </body>
+</html>

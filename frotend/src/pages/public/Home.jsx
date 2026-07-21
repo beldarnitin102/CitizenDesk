@@ -1,9 +1,9 @@
-function Login() {
+function Home() {
   return (
     <div className="h-screen flex items-center justify-center text-4xl font-bold">
-      Login
+      Home Page
     </div>
   );
 }
 
-export default Login;
+export default Home;

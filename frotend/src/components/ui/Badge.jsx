@@ -1,36 +1,45 @@
-const Badge = ({
+import { cn } from "../../utils/cn";
+
+const variants = {
+  primary:
+    "bg-[#EAF4FF] text-[#0F4C81]",
+
+  success:
+    "bg-green-100 text-green-700",
+
+  warning:
+    "bg-yellow-100 text-yellow-700",
+
+  danger:
+    "bg-red-100 text-red-700",
+
+  gray:
+    "bg-slate-100 text-slate-700",
+
+  purple:
+    "bg-purple-100 text-purple-700",
+};
+
+function Badge({
   children,
-  color = "primary",
-}) => {
-  const colors = {
-    primary:
-      "bg-blue-100 text-[var(--primary)]",
-
-    success:
-      "bg-green-100 text-[var(--resolved)]",
-
-    warning:
-      "bg-yellow-100 text-[var(--pending)]",
-
-    danger:
-      "bg-red-100 text-[var(--danger)]",
-  };
-
+  variant = "primary",
+  rounded = true,
+  className = "",
+}) {
   return (
     <span
-      className={`
-      inline-flex
-      rounded-full
-      px-4
-      py-2
-      text-sm
-      font-semibold
-      ${colors[color]}
-      `}
+      className={cn(
+        "inline-flex items-center justify-center",
+        "px-3 py-1",
+        "text-xs font-semibold",
+        rounded ? "rounded-full" : "rounded-lg",
+        variants[variant],
+        className
+      )}
     >
       {children}
     </span>
   );
-};
+}
 
 export default Badge;

@@ -1,62 +1,57 @@
-const Button = ({
+import { cn } from "../../utils/cn";
+
+const variants = {
+  primary:
+    "bg-[#0F4C81] text-white hover:bg-[#0A3A63]",
+
+  secondary:
+    "bg-[#17803D] text-white hover:opacity-90",
+
+  outline:
+    "border border-gray-300 bg-white text-slate-800 hover:bg-slate-50",
+
+  danger:
+    "bg-red-600 text-white hover:bg-red-700",
+
+  ghost:
+    "text-slate-700 hover:bg-slate-100",
+};
+
+const sizes = {
+  sm: "px-4 py-2 text-sm",
+  md: "px-5 py-2.5 text-sm",
+  lg: "px-6 py-3 text-base",
+};
+
+function Button({
   children,
-  type = "button",
   variant = "primary",
   size = "md",
-  fullWidth = false,
-  icon,
-  onClick,
+  className,
   disabled = false,
-}) => {
-  const variants = {
-    primary:
-      "bg-[var(--primary)] text-white hover:bg-[var(--secondary)]",
-
-    secondary:
-      "bg-[var(--accent)] text-white hover:opacity-90",
-
-    outline:
-      "border border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white",
-
-    ghost:
-      "text-[var(--heading)] hover:bg-gray-100",
-  };
-
-  const sizes = {
-    sm: "px-4 py-2 text-sm",
-
-    md: "px-6 py-3",
-
-    lg: "px-8 py-4 text-lg",
-  };
-
+  loading = false,
+  ...props
+}) {
   return (
     <button
-      type={type}
-      disabled={disabled}
-      onClick={onClick}
-      className={`
-      inline-flex
-      items-center
-      justify-center
-      gap-2
-      rounded-xl
-      font-semibold
-      transition-all
-      duration-300
-      active:scale-95
-      disabled:opacity-60
-      disabled:cursor-not-allowed
-      ${variants[variant]}
-      ${sizes[size]}
-      ${fullWidth ? "w-full" : ""}
-      `}
+      disabled={disabled || loading}
+      className={cn(
+        "rounded-xl font-medium transition-all duration-300",
+        "flex items-center justify-center gap-2",
+        "disabled:opacity-50 disabled:cursor-not-allowed",
+        variants[variant],
+        sizes[size],
+        className
+      )}
+      {...props}
     >
-      {icon}
+      {loading && (
+        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+      )}
 
       {children}
     </button>
   );
-};
+}
 
 export default Button;

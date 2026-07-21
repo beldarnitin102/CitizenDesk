@@ -1,145 +1,40 @@
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// Layouts
-import MainLayout from "../layouts/MainLayout";
-import DashboardLayout from "../layouts/DashboardLayout";
+import PublicLayout from "../layouts/PublicLayout";
 
-// Public Pages
-import Home from "../pages/Home/Home";
+import Home from "../pages/public/Home";
+import About from "../pages/public/About";
+import Contact from "../pages/public/Contact";
 
-// Authentication Pages
-import Login from "../pages/Auth/Login";
-import Signup from "../pages/Auth/Signup";
-import VerifyOTP from "../pages/Auth/VerifyOTP";
-import ForgotPassword from "../pages/Auth/ForgotPassword";
-import ResetPassword from "../pages/Auth/ResetPassword";
+import Login from "../pages/auth/Login";
+import Register from "../pages/auth/Register";
 
-// Protected Routes
-import PrivateRoute from "./PrivateRoute";
-import AdminRoute from "./AdminRoute";
-import EmployeeRoute from "./EmployeeRoute";
-import DepartmentHeadRoute from "./DepartmentHeadRoute";
-import PublicRoute from "./PublicRoute";
+import Features from "../pages/public/Features";
+import Departments from "../pages/public/Departments";
+import HowItWorks from "../pages/public/HowItWorks";
 
-const AppRoutes = () => {
+function AppRoutes() {
   return (
-    <Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<Home />} />
 
-      {/* ================= PUBLIC WEBSITE ================= */}
+          <Route path="/about" element={<About />} />
 
-      <Route element={<MainLayout />}>
+          <Route path="/contact" element={<Contact />} />
 
-        <Route
-          path="/"
-          element={<Home />}
-        />
+          <Route path="/login" element={<Login />} />
 
-      </Route>
+          <Route path="/register" element={<Register />} />
 
-      {/* ================= AUTH ================= */}
-
-      <Route
-        path="/login"
-        element={
-          <PublicRoute>
-            <Login />
-          </PublicRoute>
-        }
-      />
-
-      <Route
-        path="/signup"
-        element={
-          <PublicRoute>
-            <Signup />
-          </PublicRoute>
-        }
-      />
-
-      <Route
-        path="/verify-otp"
-        element={
-          <PublicRoute>
-            <VerifyOTP />
-          </PublicRoute>
-        }
-      />
-
-      <Route
-        path="/forgot-password"
-        element={
-          <PublicRoute>
-            <ForgotPassword />
-          </PublicRoute>
-        }
-      />
-
-      <Route
-        path="/reset-password"
-        element={
-          <PublicRoute>
-            <ResetPassword />
-          </PublicRoute>
-        }
-      />
-
-      {/* ================= CITIZEN ================= */}
-
-      <Route
-        path="/dashboard/*"
-        element={
-          <PrivateRoute>
-            <DashboardLayout />
-          </PrivateRoute>
-        }
-      />
-
-      {/* ================= EMPLOYEE ================= */}
-
-      <Route
-        path="/employee/*"
-        element={
-          <EmployeeRoute>
-            <DashboardLayout />
-          </EmployeeRoute>
-        }
-      />
-
-      {/* ================= DEPARTMENT HEAD ================= */}
-
-      <Route
-        path="/department/*"
-        element={
-          <DepartmentHeadRoute>
-            <DashboardLayout />
-          </DepartmentHeadRoute>
-        }
-      />
-
-      {/* ================= ADMIN ================= */}
-
-      <Route
-        path="/admin/*"
-        element={
-          <AdminRoute>
-            <DashboardLayout />
-          </AdminRoute>
-        }
-      />
-
-      {/* ================= 404 ================= */}
-
-      <Route
-        path="*"
-        element={
-          <div className="flex h-screen items-center justify-center text-3xl font-bold">
-            404 | Page Not Found
-          </div>
-        }
-      />
-
-    </Routes>
+          <Route path="/features" element={<Features />} />
+          <Route path="/departments" element={<Departments />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
-};
+}
 
 export default AppRoutes;

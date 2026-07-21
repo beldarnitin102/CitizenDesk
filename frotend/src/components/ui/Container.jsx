@@ -1,21 +1,19 @@
-const Container = ({
+import { cn } from "../../utils/cn";
+
+function Container({
   children,
   className = "",
-}) => {
+}) {
   return (
     <div
-      className={`
-      mx-auto
-      max-w-7xl
-      px-5
-      sm:px-8
-      lg:px-10
-      ${className}
-      `}
+      className={cn(
+        "mx-auto w-full max-w-7xl px-6 lg:px-8",
+        className
+      )}
     >
       {children}
     </div>
   );
-};
+}
 
 export default Container;

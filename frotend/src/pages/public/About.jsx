@@ -1,9 +1,9 @@
-function Login() {
+function About() {
   return (
     <div className="h-screen flex items-center justify-center text-4xl font-bold">
-      Login
+      About Page
     </div>
   );
 }
 
-export default Login;
+export default About;

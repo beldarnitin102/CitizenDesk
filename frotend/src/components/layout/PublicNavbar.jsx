@@ -70,7 +70,7 @@ function PublicNavbar() {
 
           <div>
             <h1 className="text-lg font-bold text-slate-900">
-              AI Smart District
+              Jalgaon District
             </h1>
 
             <p className="text-xs text-slate-500">

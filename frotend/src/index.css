@@ -1,1 +1,87 @@
 @import "tailwindcss";
+
+/* ================= Hero Animations ================= */
+
+@keyframes floatSlow {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-14px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes floatFast {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    opacity: .35;
+    transform: scale(.96);
+  }
+
+  100% {
+    opacity: .6;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes fadeUp {
+
+  from {
+
+    opacity: 0;
+
+    transform: translateY(35px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+  }
+
+}
+
+.animate-float-slow {
+
+  animation: floatSlow 6s ease-in-out infinite;
+
+}
+
+.animate-float-fast {
+
+  animation: floatFast 4s ease-in-out infinite;
+
+}
+
+.animate-glow {
+
+  animation: pulseGlow 5s ease-in-out infinite alternate;
+
+}
+
+.animate-fade-up {
+
+  animation: fadeUp .9s ease forwards;
+
+}

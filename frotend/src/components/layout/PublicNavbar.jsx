@@ -62,8 +62,8 @@ function PublicNavbar() {
         isScrolled ? "bg-white/95 backdrop-blur-md shadow-md" : "bg-white"
       }`}
     >
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
-        <NavLink to="/" className="flex items-center gap-4">
+      <div className="mx-auto flex h-20 max-w-[90%] items-center justify-between px-6 lg:px-8">
+        <NavLink to="/" className="flex items-center gap-6">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0F4C81] text-2xl text-white shadow-md">
             🛡️
           </div>
@@ -79,13 +79,13 @@ function PublicNavbar() {
           </div>
         </NavLink>
 
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav className="hidden items-center gap-12 lg:flex">
           {navLinks.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `relative text-sm font-medium transition-colors duration-200 ${
+                `relative text-sm font-semibold transition-colors duration-200 ${
                   isActive
                     ? "text-[#0F4C81]"
                     : "text-slate-600 hover:text-[#0F4C81]"
@@ -107,7 +107,7 @@ function PublicNavbar() {
           ))}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-8">
           <NavLink to="/login">
             <Button variant="outline">Login</Button>
           </NavLink>

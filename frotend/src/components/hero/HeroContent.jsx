@@ -6,20 +6,15 @@ function HeroContent() {
     <div className="animate-fade-up flex flex-col">
       {/* Badge */}
 
-      <div className="mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-5 py-2">
-        <Sparkles size={18} className="text-[#0F4C81]" />
-
-        <span className="text-sm font-semibold text-[#0F4C81]">
-          AI Powered Complaint Resolution Platform
-        </span>
-      </div>
+    
 
       {/* Heading */}
 
-      <h1 className="max-w-xl text-5xl font-extrabold leading-tight text-slate-900 lg:text-7xl">
-        Smart District
-        <span className="block text-[#0F4C81]">Complaint Management</span>
-        <span className="block">Powered by Artificial Intelligence</span>
+      <h1 className="max-w-xl text-4xl font-extrabold leading-tight text-slate-900 lg:text-5xl">
+       Your Voice.
+
+        <span className="block text-[#0F4C81]">Our Intelligence.</span>
+        <span className="block">Better Governance.</span>
       </h1>
 
       {/* Description */}

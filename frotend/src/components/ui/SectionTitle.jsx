@@ -22,7 +22,7 @@ function SectionTitle({
       </h2>
 
       {subtitle && (
-        <p className="mx-auto max-w-3xl text-lg leading-8 text-slate-600">
+        <p className="mx-auto max-w-2xl text-lg leading-8 text-slate-600">
           {subtitle}
         </p>
       )}

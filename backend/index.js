@@ -14,13 +14,16 @@ const connectDB = require("./config/database");
 const app = express();
 
 // ── Body parsing & CORS ──
-app.use(cors({ origin: "*", credentials: true }));
+app.use(cors({ origin: "http://localhost:5173",methods: ["GET", "POST", "PATCH", "DELETE"],
+ credentials: true }));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(cookieParser());
 
 // ── Health check ──
-app.get("/", (req, res) => res.json({ status: "District Analyzer API is running 🚀" }));
+app.get("/", (req, res) =>
+  res.json({ status: "District Analyzer API is running 🚀" }),
+);
 
 // ── Routes ──
 app.use("/api/v1/auth", authRoutes);

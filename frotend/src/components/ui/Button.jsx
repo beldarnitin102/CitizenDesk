@@ -27,8 +27,9 @@ function Button({
   children,
   variant = "primary",
   size = "md",
-  className,
+  className= "",
   disabled = false,
+   fullWidth = false,
   loading = false,
   ...props
 }) {

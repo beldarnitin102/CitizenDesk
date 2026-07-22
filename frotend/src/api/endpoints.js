@@ -1,23 +1,13 @@
-// ==============================
-// BASE URL
-// ==============================
+
 
 // Development
 export const BASE_URL = "http://localhost:3000/api/v1";
 
-// Production
-// export const BASE_URL = "https://your-domain.com/api/v1";
+// CHANGED: Export them as individual constants instead of one object
+export const SEND_OTP = `${BASE_URL}/auth/send-otp`;
+export const REGISTER = `${BASE_URL}/auth/register`;
+export const LOGIN = `${BASE_URL}/auth/login`;
 
-
-// ==============================
-// AUTH ENDPOINTS
-// ==============================
-
-export const AUTH_ENDPOINTS = {
-  SEND_OTP: `${BASE_URL}/auth/send-otp`,
-  REGISTER: `${BASE_URL}/auth/register`,
-  LOGIN: `${BASE_URL}/auth/login`,
-};
 
 
 // ==============================

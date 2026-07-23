@@ -7,10 +7,12 @@ const {
   GET_COMPLAINT_DETAILS,
   UPDATE_COMPLAINT,
   DELETE_COMPLAINT,
-  GET_CITIZEN_DASHBOARD, // <-- Added this matching endpoint key destructure
+  GET_CITIZEN_DASHBOARD,
 } = COMPLAINT_ENDPOINTS;
 
-// ==============================
+// ====================================
+// GET CITIZEN DASHBOARD
+// ====================================
 export const getCitizenDashboard = async (token) => {
   try {
     const response = await apiConnector({
@@ -21,16 +23,15 @@ export const getCitizenDashboard = async (token) => {
       },
     });
     
-    return response.data; // <-- FIXED: Changed from 'response' to 'response.data'
+    return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-
-// ==============================
+// ====================================
 // CREATE COMPLAINT
-// ==============================
+// ====================================
 export const createComplaint = async (data, token) => {
   try {
     const formData = new FormData();
@@ -58,9 +59,9 @@ export const createComplaint = async (data, token) => {
   }
 };
 
-// ==============================
+// ====================================
 // GET MY COMPLAINTS
-// ==============================
+// ====================================
 export const getMyComplaints = async (token) => {
   try {
     const response = await apiConnector({
@@ -76,9 +77,9 @@ export const getMyComplaints = async (token) => {
   }
 };
 
-// ==============================
-// GET COMPLAINT DETAILS
-// ==============================
+// ====================================
+// GET COMPLAINT DETAILS (FIXED: Kept only this correct version)
+// ====================================
 export const getComplaintDetails = async (id, token) => {
   try {
     const response = await apiConnector({
@@ -94,9 +95,9 @@ export const getComplaintDetails = async (id, token) => {
   }
 };
 
-// ==============================
+// ====================================
 // UPDATE COMPLAINT
-// ==============================
+// ====================================
 export const updateComplaint = async (id, body, token) => {
   try {
     const response = await apiConnector({
@@ -113,9 +114,9 @@ export const updateComplaint = async (id, body, token) => {
   }
 };
 
-// ==============================
+// ====================================
 // DELETE COMPLAINT
-// ==============================
+// ====================================
 export const deleteComplaint = async (id, token) => {
   try {
     const response = await apiConnector({

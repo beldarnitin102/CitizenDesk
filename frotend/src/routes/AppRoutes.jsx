@@ -19,6 +19,8 @@ import ComplaintDetails from "../pages/citizen/ComplaintDetails";
 import EditComplaint from "../pages/citizen/EditComplaint"; // Imported correctly
 
 import AIFeaturesSection from "../components/home/AIFeaturesSection";
+import CitizenProfile from "../pages/citizen/CitizenProfile";
+import AIAssistant from "../pages/citizen/AIAssistant";
 
 function AppRoutes() {
   return (
@@ -37,27 +39,27 @@ function AppRoutes() {
          ========================================================= */}
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<CitizenDashboard />} />
-        
+
         <Route
           path="/dashboard/create-complaint"
           element={<CreateComplaint />}
         />
-        
-        <Route 
-          path="/dashboard/my-complaints" 
-          element={<MyComplaints />} 
-        />
-        
+
+        <Route path="/dashboard/my-complaints" element={<MyComplaints />} />
+
         <Route
           path="/dashboard/complaints/:id"
           element={<ComplaintDetails />}
         />
-        
+
         {/* FIXED: Added explicit matching absolute path layout syntax wrapper */}
-        <Route 
-          path="/dashboard/edit-complaint/:id" 
-          element={<EditComplaint />} 
+        <Route
+          path="/dashboard/edit-complaint/:id"
+          element={<EditComplaint />}
         />
+
+        <Route path="/dashboard/profile" element={<CitizenProfile />} />
+        <Route path="/dashboard/ai-assistant" element={<AIAssistant />} />
       </Route>
     </Routes>
   );

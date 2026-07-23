@@ -211,27 +211,27 @@ exports.login = asyncHandler(async (req, res) => {
 
 // ================= GET PROFILE =================
 
-// exports.getProfile = asyncHandler(
-//   async (req, res) => {
-//     const user = await User.findById(
-//       req.user._id
-//     )
-//       .populate("department")
-//       .select("-password");
+exports.getProfile = asyncHandler(
+  async (req, res) => {
+    const user = await User.findById(
+      req.user._id
+    )
+      .populate("department")
+      .select("-password");
 
-//     if (!user) {
-//       throw new ApiError(
-//         404,
-//         "User not found"
-//       );
-//     }
+    if (!user) {
+      throw new ApiError(
+        404,
+        "User not found"
+      );
+    }
 
-//     return res.status(200).json(
-//       new ApiResponse(
-//         200,
-//         user,
-//         "Profile fetched successfully"
-//       )
-//     );
-//   }
-// );
+    return res.status(200).json(
+      new ApiResponse(
+        200,
+        user,
+        "Profile fetched successfully"
+      )
+    );
+  }
+);

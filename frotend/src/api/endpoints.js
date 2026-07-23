@@ -23,13 +23,19 @@ export const COMPLAINT_ENDPOINTS = {
 export const UPDATE_COMPLAINT = (id) =>
   `${BASE_URL}/complaints/${id}`;
 
-// ==============================
-// AI CHATBOT
-// ==============================
+
+export const PROFILE_ENDPOINTS = {
+  GET_PROFILE: `${BASE_URL}/profile/me`,
+};
 
 export const CHATBOT_ENDPOINTS = {
   CHAT: `${BASE_URL}/chatbot`,
 };
+// ==============================
+// AI CHATBOT
+// ==============================
+
+
 
 // ==============================
 // EMPLOYEE

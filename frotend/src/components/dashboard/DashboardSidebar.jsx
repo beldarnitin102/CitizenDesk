@@ -24,7 +24,7 @@ const sidebarLinks = [
   },
   {
     title: "AI Assistant",
-    path: "/dashboard/chatbot",
+    path: "/dashboard/ai-assistant",
     icon: "🤖",
   },
   {

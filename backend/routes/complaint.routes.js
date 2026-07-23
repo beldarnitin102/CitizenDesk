@@ -11,11 +11,15 @@ const {
 const auth = require("../middlewares/auth.middleware");
 const upload = require("../middlewares/upload.middleware");
 
+const {getDashboard} = require("../controllers/citizen.controller")
+
 const router = express.Router();
 
 router.post("/", auth, upload.array("attachments", 5), createComplaint);
 
 router.get("/my", auth, getMyComplaints);
+
+router.get("/dashboard", auth, getDashboard);
 
 router.get("/:id", auth, getComplaintById);
 

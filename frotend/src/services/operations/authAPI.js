@@ -2,7 +2,7 @@ import toast from "react-hot-toast";
 import { apiConnector } from "../../api/apiConnector";
 // NOTE: Make sure you chose Option 2 from earlier in endpoints.js
 // so that LOGIN, REGISTER, and SEND_OTP can be imported directly like this.
-import { LOGIN, REGISTER, SEND_OTP } from "../../api/endpoints";
+import { LOGIN, REGISTER, SEND_OTP, COMPLAINT_ENDPOINTS  } from "../../api/endpoints";
 
 // ======================
 // LOGIN
@@ -71,3 +71,19 @@ export const registerUser = async (data) => {
     throw error;
   }
 };
+
+
+export async function getMyComplaints() {
+  try {
+    const response = await apiConnector(
+      "GET",
+      COMPLAINT_ENDPOINTS.GET_MY_COMPLAINTS
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+
+    throw error;
+  }
+}

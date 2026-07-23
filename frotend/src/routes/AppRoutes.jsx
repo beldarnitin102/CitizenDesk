@@ -1,50 +1,57 @@
 import { Routes, Route } from "react-router-dom";
 
+// Layouts & Protected Checks
 import PublicLayout from "../layouts/PublicLayout";
 import ProtectedRoute from "./ProtectedRoute";
 
+// Public Pages
 import Home from "../pages/public/Home";
 
+// Auth Pages
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 
+// Citizen Dashboard Pages
 import CitizenDashboard from "../pages/citizen/CitizenDashboard";
+import CreateComplaint from "../pages/citizen/CreateComplaint"; 
+import MyComplaints from "../pages/citizen/MyComplaints";
+import ComplaintDetails from "../pages/citizen/ComplaintDetails";
+
+import AIFeaturesSection from "../components/home/AIFeaturesSection";
 
 function AppRoutes() {
   return (
     <Routes>
-
-      {/* Public */}
-
+      {/* =========================================================
+          1. PUBLIC ROUTES (Wrapped in PublicLayout if needed)
+         ========================================================= */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
-
-        <Route
-          path="/login"
-          element={<Login />}
-        />
-
-        <Route
-          path="/register"
-          element={<Register />}
-        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Route>
 
-      {/* Citizen */}
-
-      <Route
-        element={
-          <ProtectedRoute
-            allowedRoles={["CITIZEN"]}
-          />
-        }
-      >
+      {/* =========================================================
+          2. PROTECTED CITIZEN ROUTES (Removed duplicate chunk)
+         ========================================================= */}
+      <Route element={<ProtectedRoute />}>
         <Route
           path="/dashboard"
           element={<CitizenDashboard />}
         />
+        <Route
+          path="/dashboard/create-complaint"
+          element={<CreateComplaint />}
+        />
+        <Route
+          path="/dashboard/my-complaints"
+          element={<MyComplaints />}
+        />
+        <Route
+          path="/dashboard/complaints/:id"
+          element={<ComplaintDetails />}
+        />
       </Route>
-
     </Routes>
   );
 }

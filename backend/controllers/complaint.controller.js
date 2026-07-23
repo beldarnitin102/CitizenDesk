@@ -10,7 +10,11 @@ const asyncHandler = require("../utils/asyncHandler");
 // ================= CREATE COMPLAINT =================
 
 exports.createComplaint = asyncHandler(async (req, res) => {
-  const { description, location } = req.body;
+  let { description, location } = req.body;
+
+  if (typeof location === "string") {
+    location = JSON.parse(location);
+  }
 
   if (!description) {
     throw new ApiError(400, "Description is required for the complaint");
@@ -46,7 +50,11 @@ exports.createComplaint = asyncHandler(async (req, res) => {
   // 1. Analyze Complaint with AI (Text + Optional Image)
   let aiData;
   try {
-    aiData = await aiService.analyzeComplaint(description, firstImageBase64, firstImageMimeType);
+    aiData = await aiService.analyzeComplaint(
+      description,
+      firstImageBase64,
+      firstImageMimeType,
+    );
     console.log("✅ AI Analysis Result:", aiData);
   } catch (error) {
     console.error("❌ AI Analysis Failed:", error.message);
@@ -57,7 +65,7 @@ exports.createComplaint = asyncHandler(async (req, res) => {
   let assignedDepartment = null;
   if (aiData.department) {
     const dept = await Department.findOne({
-      name: { $regex: new RegExp(aiData.department, "i") }
+      name: { $regex: new RegExp(aiData.department, "i") },
     });
     if (dept) {
       assignedDepartment = dept._id;
@@ -76,11 +84,14 @@ exports.createComplaint = asyncHandler(async (req, res) => {
     const recentComplaints = await Complaint.find({
       "location.village": location.village,
       status: { $in: ["PENDING", "ASSIGNED", "IN_PROGRESS"] },
-      createdAt: { $gte: sevenDaysAgo }
+      createdAt: { $gte: sevenDaysAgo },
     }).limit(10);
-    
+
     if (recentComplaints.length > 0) {
-      duplicateOf = await aiService.detectDuplicate(aiData.description, recentComplaints);
+      duplicateOf = await aiService.detectDuplicate(
+        aiData.description,
+        recentComplaints,
+      );
     }
   }
 
@@ -102,13 +113,19 @@ exports.createComplaint = asyncHandler(async (req, res) => {
     originalLanguage: aiData.originalLanguage || "Unknown",
     aiClassification: {
       confidence: 0.9,
-      detectedCategory: aiData.category || "General"
-    }
+      detectedCategory: aiData.category || "General",
+    },
   });
 
-  return res.status(201).json(
-    new ApiResponse(201, { complaint, aiData }, "Complaint created successfully")
-  );
+  return res
+    .status(201)
+    .json(
+      new ApiResponse(
+        201,
+        { complaint, aiData },
+        "Complaint created successfully",
+      ),
+    );
 });
 
 // ================= GET MY COMPLAINTS =================
@@ -121,158 +138,93 @@ exports.getMyComplaints = asyncHandler(async (req, res) => {
     .populate("assignedEmployee", "name email")
     .sort({ createdAt: -1 });
 
-  return res.status(200).json(
-    new ApiResponse(
-      200,
-      complaints,
-      "Complaints fetched successfully"
-    )
-  );
+  return res
+    .status(200)
+    .json(new ApiResponse(200, complaints, "Complaints fetched successfully"));
 });
 
 // ================= GET COMPLAINT BY ID =================
 
-exports.getComplaintById = asyncHandler(
-  async (req, res) => {
-    const { id } = req.params;
+exports.getComplaintById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
 
-    const complaint = await Complaint.findById(id)
-      .populate("department")
-      .populate("citizen", "name email phone")
-      .populate("assignedEmployee", "name email");
+  const complaint = await Complaint.findById(id)
+    .populate("department")
+    .populate("citizen", "name email phone")
+    .populate("assignedEmployee", "name email");
 
-    if (!complaint) {
-      throw new ApiError(
-        404,
-        "Complaint not found"
-      );
-    }
-
-    const isOwner =
-      complaint.citizen._id.toString() ===
-      req.user._id.toString();
-
-    const isEmployee =
-      req.user.role === "EMPLOYEE";
-
-    const isAdmin =
-      req.user.role === "ADMIN";
-
-    if (!isOwner && !isEmployee && !isAdmin) {
-      throw new ApiError(
-        403,
-        "Access denied"
-      );
-    }
-
-    return res.status(200).json(
-      new ApiResponse(
-        200,
-        complaint,
-        "Complaint fetched successfully"
-      )
-    );
+  if (!complaint) {
+    throw new ApiError(404, "Complaint not found");
   }
-);
+
+  const isOwner = complaint.citizen._id.toString() === req.user._id.toString();
+
+  const isEmployee = req.user.role === "EMPLOYEE";
+
+  const isAdmin = req.user.role === "ADMIN";
+
+  if (!isOwner && !isEmployee && !isAdmin) {
+    throw new ApiError(403, "Access denied");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, complaint, "Complaint fetched successfully"));
+});
 
 // ================= UPDATE COMPLAINT =================
 
-exports.updateComplaint = asyncHandler(
-  async (req, res) => {
-    const { id } = req.params;
+exports.updateComplaint = asyncHandler(async (req, res) => {
+  const { id } = req.params;
 
-    const complaint =
-      await Complaint.findById(id);
+  const complaint = await Complaint.findById(id);
 
-    if (!complaint) {
-      throw new ApiError(
-        404,
-        "Complaint not found"
-      );
-    }
-
-    if (
-      complaint.citizen.toString() !==
-      req.user._id.toString()
-    ) {
-      throw new ApiError(
-        403,
-        "You can update only your complaint"
-      );
-    }
-
-    if (
-      complaint.status !== "PENDING"
-    ) {
-      throw new ApiError(
-        400,
-        "Complaint cannot be edited after assignment"
-      );
-    }
-
-    const updatedComplaint =
-      await Complaint.findByIdAndUpdate(
-        id,
-        req.body,
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
-
-    return res.status(200).json(
-      new ApiResponse(
-        200,
-        updatedComplaint,
-        "Complaint updated successfully"
-      )
-    );
+  if (!complaint) {
+    throw new ApiError(404, "Complaint not found");
   }
-);
+
+  if (complaint.citizen.toString() !== req.user._id.toString()) {
+    throw new ApiError(403, "You can update only your complaint");
+  }
+
+  if (complaint.status !== "PENDING") {
+    throw new ApiError(400, "Complaint cannot be edited after assignment");
+  }
+
+  const updatedComplaint = await Complaint.findByIdAndUpdate(id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, updatedComplaint, "Complaint updated successfully"),
+    );
+});
 
 // ================= DELETE COMPLAINT =================
 
-exports.deleteComplaint = asyncHandler(
-  async (req, res) => {
-    const { id } = req.params;
+exports.deleteComplaint = asyncHandler(async (req, res) => {
+  const { id } = req.params;
 
-    const complaint =
-      await Complaint.findById(id);
+  const complaint = await Complaint.findById(id);
 
-    if (!complaint) {
-      throw new ApiError(
-        404,
-        "Complaint not found"
-      );
-    }
-
-    if (
-      complaint.citizen.toString() !==
-      req.user._id.toString()
-    ) {
-      throw new ApiError(
-        403,
-        "You can delete only your complaint"
-      );
-    }
-
-    if (
-      complaint.status !== "PENDING"
-    ) {
-      throw new ApiError(
-        400,
-        "Complaint cannot be deleted after assignment"
-      );
-    }
-
-    await Complaint.findByIdAndDelete(id);
-
-    return res.status(200).json(
-      new ApiResponse(
-        200,
-        null,
-        "Complaint deleted successfully"
-      )
-    );
+  if (!complaint) {
+    throw new ApiError(404, "Complaint not found");
   }
-);
+
+  if (complaint.citizen.toString() !== req.user._id.toString()) {
+    throw new ApiError(403, "You can delete only your complaint");
+  }
+
+  if (complaint.status !== "PENDING") {
+    throw new ApiError(400, "Complaint cannot be deleted after assignment");
+  }
+
+  await Complaint.findByIdAndDelete(id);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, null, "Complaint deleted successfully"));
+});

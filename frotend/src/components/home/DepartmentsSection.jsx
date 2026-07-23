@@ -58,7 +58,7 @@ function DepartmentsSection() {
   ];
 
   return (
-    <Section className="bg-white">
+    <Section className="bg-slate-50">
 
       <Container>
 

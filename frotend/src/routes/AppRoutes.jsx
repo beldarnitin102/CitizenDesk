@@ -1,93 +1,51 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import PublicLayout from "../layouts/PublicLayout";
-import AuthLayout from "../layouts/AuthLayout";
+import ProtectedRoute from "./ProtectedRoute";
 
 import Home from "../pages/public/Home";
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 
-import ProtectedRoute from "./ProtectedRoute";
+import CitizenDashboard from "../pages/citizen/CitizenDashboard";
 
 function AppRoutes() {
   return (
-    <BrowserRouter>
+    <Routes>
 
-      <Routes>
+      {/* Public */}
 
-        {/* Public */}
+      <Route element={<PublicLayout />}>
+        <Route path="/" element={<Home />} />
 
-        <Route element={<PublicLayout />}>
+        <Route
+          path="/login"
+          element={<Login />}
+        />
 
-          <Route
-            path="/"
-            element={<Home />}
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+      </Route>
+
+      {/* Citizen */}
+
+      <Route
+        element={
+          <ProtectedRoute
+            allowedRoles={["CITIZEN"]}
           />
-
-        </Route>
-
-        {/* Auth */}
-
-        <Route element={<AuthLayout />}>
-
-          <Route
-            path="/login"
-            element={<Login />}
-          />
-
-          <Route
-            path="/register"
-            element={<Register />}
-          />
-
-        </Route>
-
-        {/* Citizen Dashboard */}
-
+        }
+      >
         <Route
           path="/dashboard"
-          element={
-            <ProtectedRoute
-              allowedRoles={["CITIZEN"]}
-            >
-              <div>Citizen Dashboard</div>
-            </ProtectedRoute>
-          }
+          element={<CitizenDashboard />}
         />
+      </Route>
 
-        {/* Employee */}
-
-        <Route
-          path="/employee"
-          element={
-            <ProtectedRoute
-              allowedRoles={[
-                "EMPLOYEE",
-                "DEPARTMENT_HEAD",
-              ]}
-            >
-              <div>Employee Dashboard</div>
-            </ProtectedRoute>
-          }
-        />
-
-        {/* Admin */}
-
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute
-              allowedRoles={["ADMIN"]}
-            >
-              <div>Admin Dashboard</div>
-            </ProtectedRoute>
-          }
-        />
-
-      </Routes>
-
-    </BrowserRouter>
+    </Routes>
   );
 }
 

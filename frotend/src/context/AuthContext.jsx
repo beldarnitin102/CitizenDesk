@@ -3,9 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(
-    localStorage.getItem("token") || null
-  );
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
 
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
@@ -18,12 +16,14 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
-  const login = ({ token, user }) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(user));
+  const login = (data) => {
+    localStorage.setItem("token", data.token);
 
-    setToken(token);
-    setUser(user);
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    setToken(data.token);
+
+    setUser(data.user);
   };
 
   const logout = () => {
@@ -45,11 +45,7 @@ export function AuthProvider({ children }) {
     isAuthenticated: !!token,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export const useAuth = () => useContext(AuthContext);

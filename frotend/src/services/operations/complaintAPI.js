@@ -98,22 +98,20 @@ export const getComplaintDetails = async (id, token) => {
 // ====================================
 // UPDATE COMPLAINT
 // ====================================
-export const updateComplaint = async (id, body, token) => {
+export async function updateComplaint(id, data) {
   try {
-    const response = await apiConnector({
-      method: "PATCH",
-      url: UPDATE_COMPLAINT(id),
-      bodyData: body,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await apiConnector(
+      "PATCH",
+      UPDATE_COMPLAINT(id),
+      data
+    );
+
     return response.data;
   } catch (error) {
+    console.error(error);
     throw error;
   }
-};
-
+}
 // ====================================
 // DELETE COMPLAINT
 // ====================================

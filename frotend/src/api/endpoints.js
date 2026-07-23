@@ -17,7 +17,11 @@ export const COMPLAINT_ENDPOINTS = {
   UPDATE_COMPLAINT: (id) => `${BASE_URL}/complaints/${id}`,
   DELETE_COMPLAINT: (id) => `${BASE_URL}/complaints/${id}`,
   GET_CITIZEN_DASHBOARD: `${BASE_URL}/complaints/dashboard`,
+  
 };
+
+export const UPDATE_COMPLAINT = (id) =>
+  `${BASE_URL}/complaints/${id}`;
 
 // ==============================
 // AI CHATBOT

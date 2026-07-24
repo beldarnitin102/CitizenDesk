@@ -42,15 +42,21 @@ export const CHATBOT_ENDPOINTS = {
 // ==============================
 
 export const EMPLOYEE_ENDPOINTS = {
+  DASHBOARD: `${BASE_URL}/employee/dashboard`,
+
   GET_COMPLAINTS: `${BASE_URL}/employee/complaints`,
 
-  GET_COMPLAINT_DETAILS: (id) => `${BASE_URL}/employee/complaints/${id}`,
+  GET_COMPLAINT_DETAILS: (id) =>
+    `${BASE_URL}/employee/complaints/${id}`,
 
-  ASSIGN_COMPLAINT: (id) => `${BASE_URL}/employee/complaints/${id}/assign`,
+  ASSIGN_COMPLAINT: (id) =>
+    `${BASE_URL}/employee/complaints/${id}/assign`,
 
-  UPDATE_STATUS: (id) => `${BASE_URL}/employee/complaints/${id}/status`,
+  UPDATE_STATUS: (id) =>
+    `${BASE_URL}/employee/complaints/${id}/status`,
 
-  GET_HISTORY: (id) => `${BASE_URL}/employee/complaints/${id}/history`,
+  GET_HISTORY: (id) =>
+    `${BASE_URL}/employee/complaints/${id}/history`,
 };
 
 // ==============================

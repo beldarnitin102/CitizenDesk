@@ -24,7 +24,9 @@ import AIAssistant from "../pages/citizen/AIAssistant";
 import HowItWorksSection from "../components/home/HowItWorksSection";
 import DepartmentsSection from "../components/home/DepartmentsSection";
 import Contact from "../components/home/Contact";
-
+import DepartmentComplaints from "../pages/employee/DepartmentComplaints";
+import EmployeeComplaintDetails from "../pages/employee/EmployeeComplaintDetails";
+import EmployeeDashboard from "../pages/employee/EmployeeDashboard";
 
 function AppRoutes() {
   return (
@@ -36,10 +38,10 @@ function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-         <Route path="/how-it-works" element={<HowItWorksSection />} />
-         <Route path="/features" element={<AIFeaturesSection />} />
-         <Route path="/departments" element={<DepartmentsSection />} />
-         <Route path="/contact" element={<Contact />} />
+        <Route path="/how-it-works" element={<HowItWorksSection />} />
+        <Route path="/features" element={<AIFeaturesSection />} />
+        <Route path="/departments" element={<DepartmentsSection />} />
+        <Route path="/contact" element={<Contact />} />
       </Route>
 
       {/* =========================================================
@@ -69,6 +71,39 @@ function AppRoutes() {
         <Route path="/dashboard/profile" element={<CitizenProfile />} />
         <Route path="/dashboard/ai-assistant" element={<AIAssistant />} />
       </Route>
+
+      <Route
+        path="/employee/dashboard"
+        element={
+          <ProtectedRoute
+            allowedRoles={["EMPLOYEE", "DEPARTMENT_HEAD", "ADMIN"]}
+          >
+            <EmployeeDashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/employee/complaints"
+        element={
+          <ProtectedRoute
+            allowedRoles={["EMPLOYEE", "DEPARTMENT_HEAD", "ADMIN"]}
+          >
+            <DepartmentComplaints />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/employee/complaints/:id"
+        element={
+          <ProtectedRoute
+            allowedRoles={["EMPLOYEE", "DEPARTMENT_HEAD", "ADMIN"]}
+          >
+            <EmployeeComplaintDetails />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }

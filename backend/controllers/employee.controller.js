@@ -5,7 +5,6 @@ const ApiError = require("../utils/ApiError");
 const ApiResponse = require("../utils/ApiResponse");
 const asyncHandler = require("../utils/asyncHandler");
 
-
 // ================= EMPLOYEE DASHBOARD =================
 
 exports.getEmployeeDashboard = asyncHandler(async (req, res) => {
@@ -13,53 +12,53 @@ exports.getEmployeeDashboard = asyncHandler(async (req, res) => {
 
   // Complaint Statistics
   const stats = await Complaint.aggregate([
-  {
-    $match: {
-      department: departmentId,
-    },
-  },
-  {
-    $group: {
-      _id: "$status",
-      count: {
-        $sum: 1,
+    {
+      $match: {
+        department: departmentId,
       },
     },
-  },
-]);
+    {
+      $group: {
+        _id: "$status",
+        count: {
+          $sum: 1,
+        },
+      },
+    },
+  ]);
 
-const statistics = {
-  totalComplaints: 0,
-  pendingComplaints: 0,
-  assignedComplaints: 0,
-  inProgressComplaints: 0,
-  resolvedComplaints: 0,
-};
+  const statistics = {
+    totalComplaints: 0,
+    pendingComplaints: 0,
+    assignedComplaints: 0,
+    inProgressComplaints: 0,
+    resolvedComplaints: 0,
+  };
 
-stats.forEach((item) => {
-  statistics.totalComplaints += item.count;
+  stats.forEach((item) => {
+    statistics.totalComplaints += item.count;
 
-  switch (item._id) {
-    case "PENDING":
-      statistics.pendingComplaints = item.count;
-      break;
+    switch (item._id) {
+      case "PENDING":
+        statistics.pendingComplaints = item.count;
+        break;
 
-    case "ASSIGNED":
-      statistics.assignedComplaints = item.count;
-      break;
+      case "ASSIGNED":
+        statistics.assignedComplaints = item.count;
+        break;
 
-    case "IN_PROGRESS":
-      statistics.inProgressComplaints = item.count;
-      break;
+      case "IN_PROGRESS":
+        statistics.inProgressComplaints = item.count;
+        break;
 
-    case "RESOLVED":
-      statistics.resolvedComplaints = item.count;
-      break;
+      case "RESOLVED":
+        statistics.resolvedComplaints = item.count;
+        break;
 
-    default:
-      break;
-  }
-});
+      default:
+        break;
+    }
+  });
 
   // Recent Complaints
   const recentComplaints = await Complaint.find({
@@ -79,8 +78,8 @@ stats.forEach((item) => {
 
         recentComplaints,
       },
-      "Employee dashboard fetched successfully"
-    )
+      "Employee dashboard fetched successfully",
+    ),
   );
 });
 
@@ -143,8 +142,12 @@ exports.assignComplaint = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Complaint not found or not in your department");
   }
 
+  if (complaint.status !== "PENDING") {
+    throw new ApiError(400, "Only pending complaints can be assigned.");
+  }
+
   if (complaint.assignedEmployee) {
-    throw new ApiError(400, "Complaint already assigned");
+    throw new ApiError(400, "Complaint already assigned.");
   }
   complaint.assignedEmployee = req.user._id;
   complaint.status = "ASSIGNED";
@@ -203,6 +206,29 @@ exports.updateComplaintStatus = asyncHandler(async (req, res) => {
     );
   }
   const previousStatus = complaint.status;
+
+  // Allowed workflow
+  const statusFlow = {
+    PENDING: ["ASSIGNED"],
+
+    ASSIGNED: ["IN_PROGRESS", "REJECTED"],
+
+    IN_PROGRESS: ["RESOLVED", "REJECTED"],
+
+    RESOLVED: ["CLOSED"],
+
+    REJECTED: [],
+
+    CLOSED: [],
+  };
+
+  // Check if transition is valid
+  if (!statusFlow[previousStatus].includes(status)) {
+    throw new ApiError(
+      400,
+      `Cannot change status from ${previousStatus} to ${status}`,
+    );
+  }
 
   complaint.status = status;
 

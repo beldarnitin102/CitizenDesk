@@ -28,20 +28,30 @@ function Login() {
       toast.success("Login Successful 🎉");
 
       switch (user.role) {
-        case "ADMIN":
-          navigate("/admin");
-          break;
-        case "EMPLOYEE":
-        case "DEPARTMENT_HEAD":
-          navigate("/employee");
-          break;
         case "CITIZEN":
-        default:
           navigate("/dashboard");
+          break;
+
+        case "EMPLOYEE":
+          navigate("/employee/dashboard");
+          break;
+
+        case "DEPARTMENT_HEAD":
+          navigate("/employee/dashboard");
+          break;
+
+        case "ADMIN":
+          navigate("/admin/dashboard");
+          break;
+
+        default:
+          navigate("/");
       }
     } catch (error) {
       console.error("Authentication Error Details:", error);
-      toast.error(error?.response?.data?.message || error?.message || "Unable to login");
+      toast.error(
+        error?.response?.data?.message || error?.message || "Unable to login",
+      );
     } finally {
       setLoading(false);
     }

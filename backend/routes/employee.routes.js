@@ -4,6 +4,7 @@ const auth = require("../middlewares/auth.middleware");
 const authorizeRoles = require("../middlewares/role.middleware");
 
 const {
+  getEmployeeDashboard,
   getDepartmentComplaints,
   getComplaintDetails,
   assignComplaint,
@@ -20,6 +21,11 @@ router.use(
     "DEPARTMENT_HEAD",
     "ADMIN"
   )
+);
+
+router.get(
+  "/dashboard",
+  getEmployeeDashboard
 );
 
 router.get(

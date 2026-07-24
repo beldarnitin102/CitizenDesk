@@ -180,6 +180,7 @@ exports.login = asyncHandler(async (req, res) => {
     {
       id: user._id,
       role: user.role,
+      department: user.department?._id || null,
     },
     process.env.JWT_SECRET,
     {

@@ -21,6 +21,10 @@ import EditComplaint from "../pages/citizen/EditComplaint"; // Imported correctl
 import AIFeaturesSection from "../components/home/AIFeaturesSection";
 import CitizenProfile from "../pages/citizen/CitizenProfile";
 import AIAssistant from "../pages/citizen/AIAssistant";
+import HowItWorksSection from "../components/home/HowItWorksSection";
+import DepartmentsSection from "../components/home/DepartmentsSection";
+import Contact from "../components/home/Contact";
+
 
 function AppRoutes() {
   return (
@@ -32,6 +36,10 @@ function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+         <Route path="/how-it-works" element={<HowItWorksSection />} />
+         <Route path="/features" element={<AIFeaturesSection />} />
+         <Route path="/departments" element={<DepartmentsSection />} />
+         <Route path="/contact" element={<Contact />} />
       </Route>
 
       {/* =========================================================

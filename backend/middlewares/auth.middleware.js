@@ -3,11 +3,7 @@ const User = require("../models/User");
 
 const auth = async (req, res, next) => {
   try {
-    const token =
-      req.headers.authorization?.replace(
-        "Bearer ",
-        ""
-      );
+    const token = req.headers.authorization?.replace("Bearer ", "");
 
     if (!token) {
       return res.status(401).json({
@@ -16,12 +12,25 @@ const auth = async (req, res, next) => {
       });
     }
 
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET
-    );
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = await User.findById(decoded.id);
+    req.user = await User.findById(decoded.id)
+      .populate("department")
+      .select("-password");
+
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    if (!req.user.isActive) {
+      return res.status(403).json({
+        success: false,
+        message: "Account has been deactivated",
+      });
+    }
 
     next();
   } catch (error) {
@@ -32,4 +41,4 @@ const auth = async (req, res, next) => {
   }
 };
 
-module.exports = auth;
+module.exports = auth;

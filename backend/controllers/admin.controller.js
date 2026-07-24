@@ -35,8 +35,7 @@ exports.getDashboard = asyncHandler(async (req, res) => {
     },
   });
 
-  const totalDepartments =
-    await Department.countDocuments();
+  const totalDepartments = await Department.countDocuments();
 
   return res.status(200).json(
     new ApiResponse(
@@ -50,227 +49,216 @@ exports.getDashboard = asyncHandler(async (req, res) => {
         totalEmployees,
         totalDepartments,
       },
-      "Dashboard data fetched successfully"
-    )
+      "Dashboard data fetched successfully",
+    ),
   );
 });
 
 // ================= GET ALL COMPLAINTS =================
 
-exports.getAllComplaints = asyncHandler(
-  async (req, res) => {
-    const complaints = await Complaint.find()
-      .populate("citizen", "name email")
-      .populate("department", "name")
-      .populate("assignedEmployee", "name email")
-      .sort({ createdAt: -1 });
+exports.getAllComplaints = asyncHandler(async (req, res) => {
+  const complaints = await Complaint.find()
+    .populate("citizen", "name email")
+    .populate("department", "name")
+    .populate("assignedEmployee", "name email")
+    .sort({ createdAt: -1 });
 
-    return res.status(200).json(
-      new ApiResponse(
-        200,
-        complaints,
-        "All complaints fetched successfully"
-      )
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, complaints, "All complaints fetched successfully"),
     );
-  }
-);
+});
 
 // ================= GET ALL EMPLOYEES =================
 
-exports.getAllEmployees = asyncHandler(
-  async (req, res) => {
-    const employees = await User.find({
-      role: {
-        $in: ["EMPLOYEE", "DEPARTMENT_HEAD"],
-      },
-    })
-      .populate("department")
-      .select("-password");
+exports.getAllEmployees = asyncHandler(async (req, res) => {
+  const employees = await User.find({
+    role: {
+      $in: ["EMPLOYEE", "DEPARTMENT_HEAD"],
+    },
+  })
+    .populate("department")
+    .select("-password");
 
-    return res.status(200).json(
-      new ApiResponse(
-        200,
-        employees,
-        "Employees fetched successfully"
-      )
-    );
-  }
-);
+  return res
+    .status(200)
+    .json(new ApiResponse(200, employees, "Employees fetched successfully"));
+});
 
 // ================= CREATE DEPARTMENT =================
 
-exports.createDepartment = asyncHandler(
-  async (req, res) => {
-    const { name, description, email } =
-      req.body;
+exports.createDepartment = asyncHandler(async (req, res) => {
+  const { name, description, email } = req.body;
 
-    const existingDepartment =
-      await Department.findOne({ name });
+  const existingDepartment = await Department.findOne({ name });
 
-    if (existingDepartment) {
-      throw new ApiError(
-        400,
-        "Department already exists"
-      );
-    }
-
-    const department =
-      await Department.create({
-        name,
-        description,
-        email,
-      });
-
-    return res.status(201).json(
-      new ApiResponse(
-        201,
-        department,
-        "Department created successfully"
-      )
-    );
+  if (existingDepartment) {
+    throw new ApiError(400, "Department already exists");
   }
-);
+
+  const department = await Department.create({
+    name,
+    description,
+    email,
+  });
+
+  return res
+    .status(201)
+    .json(new ApiResponse(201, department, "Department created successfully"));
+});
+
+
+// ================= GET ALL DEPARTMENTS =================
+
+exports.getAllDepartments = asyncHandler(async (req, res) => {
+  const departments = await Department.find()
+    .sort({ name: 1 });
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      departments,
+      "Departments fetched successfully"
+    )
+  );
+});
 
 // ================= CREATE EMPLOYEE =================
 
-exports.createEmployee = asyncHandler(
-  async (req, res) => {
-    const {
-      name,
-      email,
-      password,
-      phone,
-      role,
-      department,
-    } = req.body;
+exports.createEmployee = asyncHandler(async (req, res) => {
+  const { name, email, password, phone, department } = req.body;
 
-    const existingUser =
-      await User.findOne({ email });
+  const existingUser = await User.findOne({ email });
 
-    if (existingUser) {
-      throw new ApiError(
-        400,
-        "User already exists"
-      );
-    }
+  if (existingUser) {
+    throw new ApiError(400, "User already exists");
+  }
 
-    const hashedPassword =
-      await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-    const employee = await User.create({
-      name,
-      email,
-      password: hashedPassword,
-      phone,
-      role,
-      department,
-    });
+  const employee = await User.create({
+    name,
+    email,
+    password: hashedPassword,
+    phone,
+    role: "EMPLOYEE",
+    department,
+    isVerified: true,
+  });
 
-    const createdEmployee =
-      await User.findById(employee._id)
-        .populate("department")
-        .select("-password");
+  const createdEmployee = await User.findById(employee._id)
+    .populate("department")
+    .select("-password");
 
-    return res.status(201).json(
-      new ApiResponse(
-        201,
-        createdEmployee,
-        "Employee created successfully"
-      )
+  return res
+    .status(201)
+    .json(
+      new ApiResponse(201, createdEmployee, "Employee created successfully"),
+    );
+});
+
+
+exports.createDepartmentHead = asyncHandler(async (req, res) => {
+  const {
+    name,
+    email,
+    password,
+    phone,
+    department,
+  } = req.body;
+
+  const existingUser = await User.findOne({
+    email,
+  });
+
+  if (existingUser) {
+    throw new ApiError(
+      400,
+      "User already exists"
     );
   }
-);
 
+  const hashedPassword = await bcrypt.hash(
+    password,
+    10
+  );
+
+  const departmentHead = await User.create({
+    name,
+    email,
+    password: hashedPassword,
+    phone,
+    role: "DEPARTMENT_HEAD",
+    department,
+    isVerified: true,
+  });
+
+  const createdDepartmentHead =
+    await User.findById(departmentHead._id)
+      .populate("department")
+      .select("-password");
+
+  return res.status(201).json(
+    new ApiResponse(
+      201,
+      createdDepartmentHead,
+      "Department Head created successfully"
+    )
+  );
+});
 // ================= UPDATE EMPLOYEE =================
 
-exports.updateEmployee = asyncHandler(
-  async (req, res) => {
-    const { id } = req.params;
+exports.updateEmployee = asyncHandler(async (req, res) => {
+  const { id } = req.params;
 
-    const employee =
-      await User.findByIdAndUpdate(
-        id,
-        req.body,
-        {
-          new: true,
-          runValidators: true,
-        }
-      )
-        .populate("department")
-        .select("-password");
+  const employee = await User.findByIdAndUpdate(id, req.body, {
+    new: true,
+    runValidators: true,
+  })
+    .populate("department")
+    .select("-password");
 
-    if (!employee) {
-      throw new ApiError(
-        404,
-        "Employee not found"
-      );
-    }
-
-    return res.status(200).json(
-      new ApiResponse(
-        200,
-        employee,
-        "Employee updated successfully"
-      )
-    );
+  if (!employee) {
+    throw new ApiError(404, "Employee not found");
   }
-);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, employee, "Employee updated successfully"));
+});
 
 // ================= UPDATE DEPARTMENT =================
 
-exports.updateDepartment = asyncHandler(
-  async (req, res) => {
-    const { id } = req.params;
+exports.updateDepartment = asyncHandler(async (req, res) => {
+  const { id } = req.params;
 
-    const department =
-      await Department.findByIdAndUpdate(
-        id,
-        req.body,
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
+  const department = await Department.findByIdAndUpdate(id, req.body, {
+    new: true,
+    runValidators: true,
+  });
 
-    if (!department) {
-      throw new ApiError(
-        404,
-        "Department not found"
-      );
-    }
-
-    return res.status(200).json(
-      new ApiResponse(
-        200,
-        department,
-        "Department updated successfully"
-      )
-    );
+  if (!department) {
+    throw new ApiError(404, "Department not found");
   }
-);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, department, "Department updated successfully"));
+});
 
 // ================= DELETE EMPLOYEE =================
 
-exports.deleteEmployee = asyncHandler(
-  async (req, res) => {
-    const { id } = req.params;
+exports.deleteEmployee = asyncHandler(async (req, res) => {
+  const { id } = req.params;
 
-    const employee =
-      await User.findByIdAndDelete(id);
+  const employee = await User.findByIdAndDelete(id);
 
-    if (!employee) {
-      throw new ApiError(
-        404,
-        "Employee not found"
-      );
-    }
-
-    return res.status(200).json(
-      new ApiResponse(
-        200,
-        null,
-        "Employee deleted successfully"
-      )
-    );
+  if (!employee) {
+    throw new ApiError(404, "Employee not found");
   }
-);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, null, "Employee deleted successfully"));
+});

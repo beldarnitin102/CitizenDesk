@@ -17,7 +17,10 @@ function extractJSON(text) {
   let cleaned = text.trim();
 
   // Remove markdown code fences
-  cleaned = cleaned.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
+  cleaned = cleaned
+    .replace(/```json\s*/gi, "")
+    .replace(/```\s*/g, "")
+    .trim();
 
   // Try direct parse first
   try {
@@ -30,14 +33,21 @@ function extractJSON(text) {
     return JSON.parse(match[0]);
   }
 
-  throw new Error("No valid JSON found in AI response: " + cleaned.substring(0, 200));
+  throw new Error(
+    "No valid JSON found in AI response: " + cleaned.substring(0, 200),
+  );
 }
 
 /**
  * Analyzes a complaint description using Groq for vision (if image provided)
  * and Cohere (v8 chat API) for text processing.
  */
-exports.analyzeComplaint = async (text, imageBase64 = null, mimeType = null) => {
+exports.analyzeComplaint = async (
+  text,
+  departments,
+  imageBase64 = null,
+  mimeType = null,
+) => {
   let visualContext = "";
 
   // 1. If an image is provided, get visual context from Groq Vision
@@ -65,9 +75,14 @@ exports.analyzeComplaint = async (text, imageBase64 = null, mimeType = null) => 
       console.log("✅ Groq Vision:", visualContext);
     } catch (visionError) {
       // Non-fatal: continue without image context
-      console.error("⚠️  Groq Vision Error (continuing without image context):", visionError.message);
+      console.error(
+        "⚠️  Groq Vision Error (continuing without image context):",
+        visionError.message,
+      );
     }
   }
+
+  const departmentList = departments.map((dept) => `- ${dept.name}`).join("\n");
 
   // 2. Pass everything to Cohere chat (v8 API) to get structured JSON
   const userMessage = `
@@ -84,7 +99,15 @@ Analyze the above and respond with ONLY a raw JSON object (no markdown, no expla
   "title": "A short, concise title in English (max 5-6 words)",
   "description": "A clear, standard English summary of the complaint",
   "category": "The general category (e.g., Road Issue, Water Leakage, Sanitation, Electricity, Public Property)",
-  "department": "The most appropriate government department (e.g., PWD, Water Department, Sanitation Department, Electricity Board, Municipal Corporation)",
+  "department" :Available Government Departments ${departmentList}
+
+Rules for selecting department:
+
+1. Choose ONLY ONE department from the above list.
+2. Return the department name EXACTLY as written.
+3. Never create new department names.
+4. Never abbreviate department names.
+5. If multiple departments seem possible, choose the closest one.,
   "priority": "LOW, MEDIUM, HIGH, or CRITICAL based on urgency and danger",
   "originalLanguage": "The language the complaint was originally written in (e.g., Marathi, Hindi, English)"
 }
@@ -102,7 +125,10 @@ Analyze the above and respond with ONLY a raw JSON object (no markdown, no expla
     return result;
   } catch (error) {
     console.error("❌ Cohere Analysis Error:", error.message || error);
-    throw new Error("Failed to analyze complaint: " + (error.message || "Unknown Cohere error"));
+    throw new Error(
+      "Failed to analyze complaint: " +
+        (error.message || "Unknown Cohere error"),
+    );
   }
 };
 

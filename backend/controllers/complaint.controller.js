@@ -47,15 +47,20 @@ exports.createComplaint = asyncHandler(async (req, res) => {
     }
   }
 
+  const departments = await Department.find().select("name");
+
   // 1. Analyze Complaint with AI (Text + Optional Image)
   let aiData;
   try {
     aiData = await aiService.analyzeComplaint(
       description,
+      departments,
       firstImageBase64,
       firstImageMimeType,
     );
     console.log("✅ AI Analysis Result:", aiData);
+    console.log("Departments in DB:", departments);
+    console.log("AI Selected Department:", aiData.department);
   } catch (error) {
     console.error("❌ AI Analysis Failed:", error.message);
     throw new ApiError(500, `AI Analysis Failed: ${error.message}`);
@@ -65,8 +70,9 @@ exports.createComplaint = asyncHandler(async (req, res) => {
   let assignedDepartment = null;
   if (aiData.department) {
     const dept = await Department.findOne({
-      name: { $regex: new RegExp(aiData.department, "i") },
+      name: aiData.department,
     });
+    console.log("Matched Department:", dept);
     if (dept) {
       assignedDepartment = dept._id;
     } else {

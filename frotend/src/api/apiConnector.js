@@ -1,9 +1,5 @@
 import axiosInstance from "./axiosInstance";
 
-// ====================================
-// Generic API Connector
-// ====================================
-
 export const apiConnector = async ({
   method,
   url,
@@ -12,13 +8,18 @@ export const apiConnector = async ({
   params = {},
 }) => {
   try {
-    const response = await axiosInstance({
+    const requestConfig = {
       method,
       url,
-      data: bodyData,
       headers,
       params,
-    });
+    };
+
+    if (bodyData !== null && bodyData !== undefined) {
+      requestConfig.data = bodyData;
+    }
+
+    const response = await axiosInstance(requestConfig);
 
     return response;
   } catch (error) {

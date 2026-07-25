@@ -1,4 +1,6 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useAuth } from "../../../context/AuthContext";
 
 import Button from "../../ui/Button";
 import Card from "../../ui/Card";
@@ -11,6 +13,8 @@ function UpdateStatusCard({ complaint, onRefresh }) {
 
   const [loading, setLoading] = useState(false);
 
+  const { token } = useAuth();
+
   const [remarks, setRemarks] = useState("");
 
   const handleUpdate = async () => {
@@ -19,18 +23,23 @@ function UpdateStatusCard({ complaint, onRefresh }) {
     try {
       await updateComplaintStatus(
         complaint._id,
-
         {
           status,
           remarks,
         },
+        token,
       );
 
       setRemarks("");
 
       onRefresh?.();
     } catch (error) {
-      console.log(error);
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        "Unable to update complaint status";
+      toast.error(message);
+      console.error("UpdateStatusCard error:", error);
     } finally {
       setLoading(false);
     }

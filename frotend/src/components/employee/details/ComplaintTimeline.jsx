@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../../../context/AuthContext";
 
 import Card from "../../ui/Card";
 
@@ -13,6 +14,8 @@ function ComplaintTimeline({
   const [history, setHistory] =
     useState([]);
 
+    const { token } = useAuth();
+
   useEffect(() => {
 
     async function loadHistory() {
@@ -20,9 +23,10 @@ function ComplaintTimeline({
       try {
 
         const data =
-          await getComplaintHistory(
-            complaintId
-          );
+  await getComplaintHistory(
+    complaintId,
+    token
+  );
 
         setHistory(data);
 
@@ -36,7 +40,7 @@ function ComplaintTimeline({
 
     loadHistory();
 
-  }, [complaintId]);
+  }, [complaintId,token]);
 
   return (
 

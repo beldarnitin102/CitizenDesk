@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../../../context/AuthContext";
 
 import Card from "../../ui/Card";
 import Badge from "../../ui/Badge";
@@ -12,11 +13,14 @@ function StatusHistory({ complaintId, refreshKey = 0 }) {
 
   const [loading, setLoading] = useState(true);
 
+  const { token } = useAuth();
+
   useEffect(() => {
     async function fetchHistory() {
       try {
         const data = await getComplaintHistory(
-          complaintId
+          complaintId,
+          token
         );
 
         setHistory(data);
@@ -28,7 +32,7 @@ function StatusHistory({ complaintId, refreshKey = 0 }) {
     }
 
     fetchHistory();
-  }, [complaintId, refreshKey]);
+  }, [complaintId, refreshKey,token]);
 
   if (loading) {
     return (

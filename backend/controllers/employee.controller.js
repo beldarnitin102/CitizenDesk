@@ -131,12 +131,21 @@ exports.getComplaintDetails = asyncHandler(async (req, res) => {
 // ================= ASSIGN COMPLAINT =================
 
 exports.assignComplaint = asyncHandler(async (req, res) => {
+
+  console.log("============== ASSIGN API ==============");
+  console.log(req.params);
+  console.log(req.user);
+  
   const { id } = req.params;
 
   const complaint = await Complaint.findOne({
     _id: id,
     department: req.user.department._id,
   });
+
+  console.log("Complaint Status:", complaint?.status);
+console.log("Assigned Employee:", complaint?.assignedEmployee);
+console.log("Logged Employee:", req.user._id);
 
   if (!complaint) {
     throw new ApiError(404, "Complaint not found or not in your department");
@@ -206,6 +215,8 @@ exports.updateComplaintStatus = asyncHandler(async (req, res) => {
     );
   }
   const previousStatus = complaint.status;
+  console.log("Previous Status:", previousStatus);
+console.log("Requested Status:", status);
 
   // Allowed workflow
   const statusFlow = {

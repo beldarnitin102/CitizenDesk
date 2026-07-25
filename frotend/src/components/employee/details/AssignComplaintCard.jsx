@@ -1,20 +1,32 @@
+import { useState } from "react";
+import toast from "react-hot-toast";
+
 import Button from "../../ui/Button";
 import Card from "../../ui/Card";
+
+import { useAuth } from "../../../context/AuthContext";
 
 import { assignComplaint } from "../../../services/operations/employeeAPI";
 
 function AssignComplaintCard({ complaint, onRefresh }) {
+  const { token } = useAuth();
+
   const [loading, setLoading] = useState(false);
 
   const handleAssign = async () => {
     setLoading(true);
 
     try {
-      await assignComplaint(complaint._id);
+      await assignComplaint(complaint._id, token);
 
       onRefresh?.();
     } catch (error) {
-      console.log(error);
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        "Unable to assign complaint";
+      toast.error(message);
+      console.error("AssignComplaintCard error:", error);
     } finally {
       setLoading(false);
     }
@@ -22,7 +34,9 @@ function AssignComplaintCard({ complaint, onRefresh }) {
 
   return (
     <Card className="rounded-3xl p-6">
-      <h2 className="text-2xl font-bold">Assign Complaint</h2>
+      <h2 className="text-2xl font-bold">
+        Assign Complaint
+      </h2>
 
       <p className="mt-4 text-slate-600">
         Assign this complaint to yourself before starting work.
@@ -34,7 +48,11 @@ function AssignComplaintCard({ complaint, onRefresh }) {
             Assigned to {complaint.assignedEmployee.name}
           </div>
         ) : (
-          <Button onClick={handleAssign} disabled={loading} className="w-full">
+          <Button
+            onClick={handleAssign}
+            disabled={loading}
+            className="w-full"
+          >
             {loading ? "Assigning..." : "Assign To Me"}
           </Button>
         )}

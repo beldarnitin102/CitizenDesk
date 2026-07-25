@@ -5,9 +5,6 @@ const auth = async (req, res, next) => {
   try {
     const token = req.headers.authorization?.replace("Bearer ", "");
 
-    console.log("HEADER:", req.headers.authorization);
-    console.log("TOKEN:", token);
-
     if (!token) {
       return res.status(401).json({
         success: false,

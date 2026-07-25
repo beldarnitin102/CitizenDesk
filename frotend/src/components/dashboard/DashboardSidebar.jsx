@@ -6,32 +6,18 @@ import Button from "../ui/Button";
 
 import { useAuth } from "../../context/AuthContext";
 
-const sidebarLinks = [
-  {
-    title: "Dashboard",
-    path: "/dashboard",
-    icon: "🏠",
-  },
-  {
-    title: "Create Complaint",
-    path: "/dashboard/create-complaint",
-    icon: "➕",
-  },
-  {
-    title: "My Complaints",
-    path: "/dashboard/my-complaints",
-    icon: "📋",
-  },
-  {
-    title: "AI Assistant",
-    path: "/dashboard/ai-assistant",
-    icon: "🤖",
-  },
-  {
-    title: "Profile",
-    path: "/dashboard/profile",
-    icon: "👤",
-  },
+const citizenLinks = [
+  { title: "Dashboard", path: "/dashboard", icon: "🏠" },
+  { title: "Create Complaint", path: "/dashboard/create-complaint", icon: "➕" },
+  { title: "My Complaints", path: "/dashboard/my-complaints", icon: "📋" },
+  { title: "AI Assistant", path: "/dashboard/ai-assistant", icon: "🤖" },
+  { title: "Profile", path: "/dashboard/profile", icon: "👤" },
+];
+
+const employeeLinks = [
+  { title: "Employee Dashboard", path: "/employee/dashboard", icon: "🏢" },
+  { title: "Department Complaints", path: "/employee/complaints", icon: "📋" },
+  { title: "Profile", path: "/dashboard/profile", icon: "👤" },
 ];
 
 function DashboardSidebar({
@@ -41,6 +27,12 @@ function DashboardSidebar({
   const navigate = useNavigate();
 
   const { logout, user } = useAuth();
+
+  // Choose links based on user role
+  const sidebarLinks =
+    user && (user.role === "EMPLOYEE" || user.role === "DEPARTMENT_HEAD" || user.role === "ADMIN")
+      ? employeeLinks
+      : citizenLinks;
 
   const handleLogout = () => {
     logout();

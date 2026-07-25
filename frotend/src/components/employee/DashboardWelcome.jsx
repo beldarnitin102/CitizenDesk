@@ -1,8 +1,12 @@
 import Card from "../ui/Card";
 import Button from "../ui/Button";
 import Badge from "../ui/Badge";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 function DashboardWelcome({ dashboard }) {
+  const { user } = useAuth();
+
   if (!dashboard) return null;
 
   return (

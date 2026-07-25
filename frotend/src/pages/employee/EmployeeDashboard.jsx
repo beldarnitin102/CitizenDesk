@@ -22,10 +22,15 @@ useEffect(() => {
 
   async function fetchDashboard() {
     try {
-      const data = await getEmployeeDashboard(token);
-      setDashboard(data);
-    } catch (error) {
-      console.log(error);
+      const response = await getEmployeeDashboard(token);
+
+      const dashboard =
+        response?.data ||
+        response;
+
+      setDashboard(dashboard);
+    } catch (err) {
+      console.log(err);
     } finally {
       setLoading(false);
     }

@@ -8,6 +8,7 @@ const complaintRoutes = require("./routes/complaint.routes");
 const employeeRoutes = require("./routes/employee.routes");
 const adminRoutes = require("./routes/admin.routes");
 const chatbotRoutes = require("./routes/chatbot.routes");
+const departmenthead = require("./routes/deparmenthead.routes");
 const errorHandler = require("./middlewares/error.middleware");
 const connectDB = require("./config/database");
 
@@ -36,6 +37,7 @@ app.use("/api/v1/complaints", complaintRoutes);
 app.use("/api/v1/chatbot", chatbotRoutes);
 app.use("/api/v1/employee", employeeRoutes);
 app.use("/api/v1/admin", adminRoutes);
+app.use("/api/v1/deparment-head", departmenthead);
 
 // ── Global Error Handler (MUST be AFTER routes) ──
 app.use(errorHandler);

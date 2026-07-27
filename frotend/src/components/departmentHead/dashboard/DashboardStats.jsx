@@ -3,11 +3,7 @@ import StatCard from "./StatCard";
 function DashboardStats({ data }) {
   return (
     <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-
-      <StatCard
-        title="Total Complaints"
-        value={data.totalComplaints}
-      />
+      <StatCard title="Total Complaints" value={data.totalComplaints} />
 
       <StatCard
         title="Pending Complaints"
@@ -38,7 +34,6 @@ function DashboardStats({ data }) {
         value={data.totalEmployees}
         color="text-purple-600"
       />
-
     </div>
   );
 }

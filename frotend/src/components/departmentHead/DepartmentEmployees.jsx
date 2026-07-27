@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
-import DashboardLayout from "../DashboardLayout";
+import DashboardLayout from "../../components/dashboard/DashboardLayout";
 
-import EmployeeTable from "../../../components/departmentHead/employees/EmployeeTable";
+import EmployeeComplaintTable from "../../components/departmentHead/employees/EmployeeComplaintTable";
 
-import { getDepartmentEmployees } from "../../../services/operations/departmentHeadAPI";
+import { getDepartmentEmployees } from "../../services/operations/departmentHeadAPI";
 
 function DepartmentEmployees() {
   const { token } = useAuth();
@@ -32,17 +32,12 @@ function DepartmentEmployees() {
   return (
     <DashboardLayout>
       <div className="space-y-8">
-
-        <h1 className="text-3xl font-bold">
-          Department Employees
-        </h1>
+        <h1 className="text-3xl font-bold">Department Employees</h1>
 
         {loading ? (
           <p>Loading...</p>
         ) : (
-          <EmployeeTable
-            employees={employees}
-          />
+          <EmployeeComplaintTable employees={employees} />
         )}
       </div>
     </DashboardLayout>

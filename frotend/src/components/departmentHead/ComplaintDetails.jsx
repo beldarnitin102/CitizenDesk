@@ -10,12 +10,9 @@ import ComplaintCitizenCard from "../../../components/departmentHead/complaints/
 import ComplaintLocationCard from "../../../components/departmentHead/complaints/ComplaintLocationCard";
 import ComplaintHistoryCard from "../../../components/departmentHead/complaints/ComplaintHistoryCard";
 
-import {
-  getDepartmentComplaintDetails,
-} from "../../../services/operations/departmentHeadAPI";
+import { getDepartmentComplaintDetails } from "../../../services/operations/departmentHeadAPI";
 
 function ComplaintDetails() {
-
   const { id } = useParams();
 
   const { token } = useAuth();
@@ -23,17 +20,10 @@ function ComplaintDetails() {
   const [complaint, setComplaint] = useState(null);
 
   const loadComplaint = async () => {
-
     try {
-
-      const data =
-        await getDepartmentComplaintDetails(
-          id,
-          token
-        );
+      const data = await getDepartmentComplaintDetails(id, token);
 
       setComplaint(data);
-
     } catch (error) {
       console.log(error);
     }
@@ -47,35 +37,19 @@ function ComplaintDetails() {
 
   return (
     <DashboardLayout>
-
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
         <div className="lg:col-span-2 space-y-8">
+          <ComplaintOverviewCard complaint={complaint} />
 
-          <ComplaintOverviewCard
-            complaint={complaint}
-          />
-
-          <ComplaintHistoryCard
-            complaint={complaint}
-          />
-
+          <ComplaintHistoryCard complaint={complaint} />
         </div>
 
         <div className="space-y-8">
+          <ComplaintCitizenCard complaint={complaint} />
 
-          <ComplaintCitizenCard
-            complaint={complaint}
-          />
-
-          <ComplaintLocationCard
-            complaint={complaint}
-          />
-
+          <ComplaintLocationCard complaint={complaint} />
         </div>
-
       </div>
-
     </DashboardLayout>
   );
 }

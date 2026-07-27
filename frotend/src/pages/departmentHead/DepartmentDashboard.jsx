@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-import DashboardLayout from "./DashboardLayout";
+import DashboardLayout from "../../components/dashboard/DashboardLayout";
 
 import { useAuth } from "../../context/AuthContext";
 
@@ -55,24 +55,44 @@ function DepartmentDashboard() {
       </DashboardLayout>
     );
   }
+  // If the API failed to return usable data, show a friendly empty state
+  if (!dashboardData) {
+    return (
+      <DashboardLayout>
+        <div className="flex h-[70vh] items-center justify-center">
+          <h2 className="text-2xl font-semibold text-slate-600">
+            No dashboard data available.
+          </h2>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  // Ensure downstream components receive defined values
+  const safeData = {
+    resolutionRate: dashboardData.resolutionRate ?? 0,
+    complaintsByPriority: dashboardData.complaintsByPriority ?? [],
+    employeePerformance: dashboardData.employeePerformance ?? [],
+    recentComplaints: dashboardData.recentComplaints ?? [],
+  };
 
   return (
     <DashboardLayout>
       <div className="space-y-8">
 
-        <DashboardStats data={dashboardData} />
+        <DashboardStats data={safeData} />
 
         <DepartmentPerformance
-          resolutionRate={dashboardData.resolutionRate}
-          complaintsByPriority={dashboardData.complaintsByPriority}
+          resolutionRate={safeData.resolutionRate}
+          complaintsByPriority={safeData.complaintsByPriority}
         />
 
         <EmployeePerformanceTable
-          employees={dashboardData.employeePerformance}
+          employees={safeData.employeePerformance}
         />
 
         <RecentComplaints
-          complaints={dashboardData.recentComplaints}
+          complaints={safeData.recentComplaints}
         />
 
       </div>

@@ -28,6 +28,16 @@ import DepartmentComplaints from "../pages/employee/DepartmentComplaints";
 import EmployeeComplaintDetails from "../pages/employee/EmployeeComplaintDetails";
 import EmployeeDashboard from "../pages/employee/EmployeeDashboard";
 
+// Department Head Pages
+import DepartmentDashboard from "../pages/departmentHead/DepartmentDashboard";
+
+import EmployeeDetails from "../components/departmentHead/employees/EmployeeDetails";
+import DepartmentEmployees from "../components/departmentHead/DepartmentEmployees";
+import EmployeeList from "../pages/departmentHead/EmployeeList";
+import Analytics from "../components/departmentHead/Analytics";
+import AssignComplaint from "../components/departmentHead/AssignComplaint";
+import ComplaintManagement from "../components/departmentHead/ComplaintManagement";
+
 function AppRoutes() {
   return (
     <Routes>
@@ -104,6 +114,87 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
+      {/* ==========================================
+      DEPARTMENT HEAD MODULE
+========================================== */}
+
+    <Route
+  path="/department-head/dashboard"
+  element={
+    <ProtectedRoute
+      allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}
+    >
+      <DepartmentDashboard />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/department-head/employees"
+  element={
+    <ProtectedRoute
+      allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}
+    >
+      <DepartmentEmployees />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/department-head/employees/:id"
+  element={
+    <ProtectedRoute
+      allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}
+    >
+      <EmployeeDetails />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/department-head/complaints"
+  element={
+    <ProtectedRoute
+      allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}
+    >
+      <ComplaintManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/department-head/complaints/:id"
+  element={
+    <ProtectedRoute
+      allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}
+    >
+      <ComplaintDetails />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/department-head/assign"
+  element={
+    <ProtectedRoute
+      allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}
+    >
+      <AssignComplaint />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/department-head/analytics"
+  element={
+    <ProtectedRoute
+      allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}
+    >
+      <Analytics />
+    </ProtectedRoute>
+  }
+/>
     </Routes>
   );
 }

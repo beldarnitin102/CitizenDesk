@@ -1,35 +1,36 @@
 import { useEffect, useState } from "react";
 
-import DashboardLayout from "../DashboardLayout";
+import DashboardLayout from "../../components/dashboard/DashboardLayout";
 
-import { useAuth } from "../../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
-import ComplaintFilters from "../../../components/departmentHead/complaints/ComplaintFilters";
-import ComplaintTable from "../../../components/departmentHead/complaints/ComplaintTable";
+import ComplaintFilters from "../../components/departmentHead/complaints/ComplaintFilters";
+import ComplaintTable from "../../components/departmentHead/complaints/ComplaintTable";
 
-import {
-  getDepartmentComplaints,
-} from "../../../services/operations/departmentHeadAPI";
+import { getDepartmentComplaints } from "../../services/operations/departmentHeadAPI";
 
 function ComplaintManagement() {
-
   const { token } = useAuth();
 
   const [complaints, setComplaints] = useState([]);
 
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({
+    search: "",
+
+    status: "",
+
+    priority: "",
+
+    page: 1,
+
+    limit: 10,
+  });
 
   const loadComplaints = async () => {
-
     try {
-
-      const data = await getDepartmentComplaints(
-        token,
-        filters
-      );
+      const data = await getDepartmentComplaints(token, filters);
 
       setComplaints(data);
-
     } catch (error) {
       console.log(error);
     }
@@ -41,23 +42,13 @@ function ComplaintManagement() {
 
   return (
     <DashboardLayout>
-
       <div className="space-y-8">
+        <h1 className="text-3xl font-bold">Complaint Management</h1>
 
-        <h1 className="text-3xl font-bold">
-          Complaint Management
-        </h1>
+        <ComplaintFilters filters={filters} setFilters={setFilters} />
 
-        <ComplaintFilters
-          onChange={setFilters}
-        />
-
-        <ComplaintTable
-          complaints={complaints}
-        />
-
+        <ComplaintTable complaints={complaints} />
       </div>
-
     </DashboardLayout>
   );
 }

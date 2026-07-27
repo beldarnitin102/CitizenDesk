@@ -1,102 +1,130 @@
-import Input from "../../ui/Input";
+import { Link } from "react-router-dom";
+import Badge from "../../ui/Badge";
 import Button from "../../ui/Button";
 
-function ComplaintFilters({
-  filters,
+function ComplaintTable({ complaints = [], loading }) {
+  // Normalize complaints to an array in case callers pass an object
+  const items = Array.isArray(complaints)
+    ? complaints
+    : (complaints?.complaints ?? complaints?.data ?? []);
 
-  setFilters,
-}) {
-  const handleChange = (key, value) => {
-    setFilters((prev) => ({
-      ...prev,
+  if (loading) {
+    return (
+      <div className="rounded-3xl bg-white p-10 text-center shadow-sm">
+        <p className="text-slate-500">Loading complaints...</p>
+      </div>
+    );
+  }
 
-      [key]: value,
-
-      page: 1,
-    }));
-  };
-
-  const handleReset = () => {
-    setFilters({
-      search: "",
-
-      status: "",
-
-      priority: "",
-
-      page: 1,
-
-      limit: 10,
-    });
-  };
+  if (!items || items.length === 0) {
+    return (
+      <div className="rounded-3xl bg-white p-10 text-center shadow-sm">
+        <p className="text-slate-500">No complaints found.</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="rounded-3xl bg-white p-6 shadow">
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-4">
-        <Input
-          placeholder="Search complaint..."
-          value={filters.search}
-          onChange={(e) =>
-            handleChange(
-              "search",
+    <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+      <div className="overflow-x-auto">
+        <table className="min-w-full">
+          <thead className="bg-slate-100">
+            <tr>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">
+                Complaint No
+              </th>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">
+                Title
+              </th>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">
+                Citizen
+              </th>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">
+                Priority
+              </th>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">
+                Status
+              </th>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">
+                Assigned
+              </th>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">
+                Created
+              </th>
+              <th className="px-6 py-4 text-center text-sm font-semibold text-slate-700">
+                Action
+              </th>
+            </tr>
+          </thead>
 
-              e.target.value,
-            )
-          }
-        />
+          <tbody>
+            {items.map((complaint) => (
+              <tr
+                key={complaint._id}
+                className="border-t border-slate-200 hover:bg-slate-50 transition"
+              >
+                <td className="px-6 py-5 text-sm font-medium text-slate-700">
+                  {complaint.complaintNumber}
+                </td>
 
-        <select
-          value={filters.status}
-          onChange={(e) =>
-            handleChange(
-              "status",
+                <td className="px-6 py-5">
+                  <div>
+                    <h3 className="font-semibold text-slate-900">
+                      {complaint.title}
+                    </h3>
+                    <p className="mt-1 text-xs text-slate-500">
+                      {complaint.category}
+                    </p>
+                  </div>
+                </td>
 
-              e.target.value,
-            )
-          }
-          className="rounded-xl border border-slate-300 px-4 py-3"
-        >
-          <option value="">All Status</option>
+                <td className="px-6 py-5">
+                  <div>
+                    <p className="font-medium">{complaint.citizen?.name}</p>
+                    <p className="text-xs text-slate-500">
+                      {complaint.citizen?.phone}
+                    </p>
+                  </div>
+                </td>
 
-          <option value="PENDING">Pending</option>
+                <td className="px-6 py-5">
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs font-semibold`}
+                  >
+                    {complaint.priority}
+                  </span>
+                </td>
 
-          <option value="ASSIGNED">Assigned</option>
+                <td className="px-6 py-5">
+                  <Badge>{complaint.status}</Badge>
+                </td>
 
-          <option value="IN_PROGRESS">In Progress</option>
+                <td className="px-6 py-5">
+                  {complaint.assignedEmployee ? (
+                    complaint.assignedEmployee.name
+                  ) : (
+                    <span className="text-slate-400">Unassigned</span>
+                  )}
+                </td>
 
-          <option value="RESOLVED">Resolved</option>
+                <td className="px-6 py-5 text-sm text-slate-600">
+                  {complaint.createdAt
+                    ? new Date(complaint.createdAt).toLocaleDateString()
+                    : "-"}
+                </td>
 
-          <option value="REJECTED">Rejected</option>
-
-          <option value="CLOSED">Closed</option>
-        </select>
-
-        <select
-          value={filters.priority}
-          onChange={(e) =>
-            handleChange(
-              "priority",
-
-              e.target.value,
-            )
-          }
-          className="rounded-xl border border-slate-300 px-4 py-3"
-        >
-          <option value="">All Priority</option>
-
-          <option value="LOW">LOW</option>
-
-          <option value="MEDIUM">MEDIUM</option>
-
-          <option value="HIGH">HIGH</option>
-
-          <option value="CRITICAL">CRITICAL</option>
-        </select>
-
-        <Button onClick={handleReset}>Reset Filters</Button>
+                <td className="px-6 py-5 text-center">
+                  <Link to={`/department-head/complaints/${complaint._id}`}>
+                    <Button size="sm">View</Button>
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
 }
 
-export default ComplaintFilters;
+export default ComplaintTable;

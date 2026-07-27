@@ -37,7 +37,7 @@ function Login() {
           break;
 
         case "DEPARTMENT_HEAD":
-          navigate("/employee/dashboard");
+          navigate("/department-head/dashboard");
           break;
 
         case "ADMIN":

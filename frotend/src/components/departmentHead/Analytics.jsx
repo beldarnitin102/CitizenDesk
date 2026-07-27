@@ -1,74 +1,66 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
-import DashboardLayout from "../DashboardLayout";
+import DashboardLayout from "../dashboard/DashboardLayout";
 
-import { useAuth } from "../../../context/AuthContext";
+import Loader from "../../components/ui/Loader";
 
-import AnalyticsCards from "../../../components/departmentHead/analytics/AnalyticsCards";
-import ComplaintTrendChart from "../../../components/departmentHead/analytics/ComplaintTrendChart";
-import PriorityChart from "../../../components/departmentHead/analytics/PriorityChart";
+import { useAuth } from "../../context/AuthContext";
 
-import {
-  getAnalytics,
-} from "../../../services/operations/departmentHeadAPI";
+import { getAnalytics } from "../../services/operations/departmentHeadAPI";
+
+import AnalyticsCards from "../departmentHead/components/AnalyticsCards";
+import PriorityChart from "../departmentHead/components/PriorityChart";
+import StatusChart from "../departmentHead/components/StatusChart";
+import EmployeePerformanceTable from "../departmentHead/components/EmployeePerformanceTable";
+import MonthlyTrendChart from "../departmentHead/components/MonthlyTrendChart";
 
 function Analytics() {
-
   const { token } = useAuth();
+
+  const [loading, setLoading] = useState(true);
 
   const [analytics, setAnalytics] = useState(null);
 
   useEffect(() => {
-
-    async function load() {
-
-      try {
-
-        const data = await getAnalytics(token);
-
-        setAnalytics(data);
-
-      } catch (error) {
-        console.log(error);
-      }
-
-    }
-
-    load();
-
+    loadAnalytics();
   }, []);
 
-  if (!analytics) {
+  async function loadAnalytics() {
+    try {
+      const data = await getAnalytics(token);
+
+      setAnalytics(data);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Unable to load analytics");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (loading) {
     return (
       <DashboardLayout>
-        Loading...
+        <Loader />
       </DashboardLayout>
     );
   }
 
   return (
     <DashboardLayout>
-
       <div className="space-y-8">
+        <AnalyticsCards analytics={analytics} />
 
-        <h1 className="text-3xl font-bold">
-          Analytics
-        </h1>
+        <div className="grid lg:grid-cols-2 gap-6">
+          <PriorityChart data={analytics.priorityStats} />
 
-        <AnalyticsCards
-          analytics={analytics}
-        />
+          <StatusChart data={analytics.statusStats} />
+        </div>
 
-        <ComplaintTrendChart
-          analytics={analytics}
-        />
+        <MonthlyTrendChart data={analytics.monthlyStats} />
 
-        <PriorityChart
-          analytics={analytics}
-        />
-
+        <EmployeePerformanceTable employees={analytics.employeePerformance} />
       </div>
-
     </DashboardLayout>
   );
 }

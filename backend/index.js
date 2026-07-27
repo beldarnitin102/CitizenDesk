@@ -37,7 +37,8 @@ app.use("/api/v1/complaints", complaintRoutes);
 app.use("/api/v1/chatbot", chatbotRoutes);
 app.use("/api/v1/employee", employeeRoutes);
 app.use("/api/v1/admin", adminRoutes);
-app.use("/api/v1/deparment-head", departmenthead);
+// Correct route mount for department head module (fixed spelling)
+app.use("/api/v1/department-head", departmenthead);
 
 // ── Global Error Handler (MUST be AFTER routes) ──
 app.use(errorHandler);

@@ -22,7 +22,8 @@ export const COMPLAINT_ENDPOINTS = {
 export const UPDATE_COMPLAINT = (id) => `${BASE_URL}/complaints/${id}`;
 
 export const PROFILE_ENDPOINTS = {
-  GET_PROFILE: `${BASE_URL}/profile/me`,
+  // Backend exposes profile under /auth/me
+  GET_PROFILE: `${BASE_URL}/auth/me`,
 };
 
 export const CHATBOT_ENDPOINTS = {

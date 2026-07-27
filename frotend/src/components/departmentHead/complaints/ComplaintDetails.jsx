@@ -12,7 +12,6 @@ import ComplaintActions from "./ComplaintActions";
 import { getDepartmentComplaintDetails } from "../../../services/operations/departmentHeadAPI";
 
 function ComplaintDetails() {
-
   const { id } = useParams();
 
   const { token } = useAuth();
@@ -24,109 +23,48 @@ function ComplaintDetails() {
   const [timeline, setTimeline] = useState([]);
 
   const fetchComplaint = async () => {
-
     setLoading(true);
 
     try {
-
-      const data =
-        await getDepartmentComplaintDetails(
-          id,
-          token
-        );
+      const data = await getDepartmentComplaintDetails(id, token);
 
       setComplaint(data.complaint);
 
       setTimeline(data.timeline);
-
     } catch (error) {
-
-      toast.error(
-
-        error.response?.data?.message ||
-
-        "Unable to load complaint"
-
-      );
-
+      toast.error(error.response?.data?.message || "Unable to load complaint");
     } finally {
-
       setLoading(false);
-
     }
-
   };
 
   useEffect(() => {
-
     fetchComplaint();
-
   }, [id]);
 
   if (loading) {
-
     return (
-
-      <div className="rounded-3xl bg-white p-10">
-
-        Loading complaint...
-
-      </div>
-
+      <div className="rounded-3xl bg-white p-10">Loading complaint...</div>
     );
-
   }
 
   if (!complaint) {
-
     return (
-
-      <div className="rounded-3xl bg-white p-10">
-
-        Complaint not found.
-
-      </div>
-
+      <div className="rounded-3xl bg-white p-10">Complaint not found.</div>
     );
-
   }
 
   return (
-
     <div className="space-y-8">
+      <ComplaintInfoCard complaint={complaint} />
 
-      <ComplaintInfoCard
+      <CitizenCard citizen={complaint.citizen} location={complaint.location} />
 
-        complaint={complaint}
+      <ComplaintTimeline timeline={timeline} />
 
-      />
-
-      <CitizenCard
-
-        citizen={complaint.citizen}
-
-        location={complaint.location}
-
-      />
-
-      <ComplaintTimeline
-
-        timeline={timeline}
-
-      />
-
-      <ComplaintActions
-
-        complaint={complaint}
-
-        onRefresh={fetchComplaint}
-
-      />
-
+      <ComplaintActions complaint={complaint} onRefresh={fetchComplaint} />
     </div>
-
   );
-
 }
 
 export default ComplaintDetails;

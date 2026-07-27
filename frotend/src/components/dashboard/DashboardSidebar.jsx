@@ -20,6 +20,22 @@ const employeeLinks = [
   { title: "Profile", path: "/dashboard/profile", icon: "👤" },
 ];
 
+const departmentHeadLinks = [
+  { title: "Department Dashboard", path: "/department-head/dashboard", icon: "🏢" },
+  { title: "Employees", path: "/department-head/employees", icon: "👥" },
+  { title: "Complaints", path: "/department-head/complaints", icon: "📋" },
+  { title: "Assign", path: "/department-head/assign", icon: "🔧" },
+  { title: "Analytics", path: "/department-head/analytics", icon: "📊" },
+  { title: "Profile", path: "/dashboard/profile", icon: "👤" },
+];
+
+const adminLinks = [
+  { title: "Admin Dashboard", path: "/admin/dashboard", icon: "🛠️" },
+  { title: "Employees", path: "/admin/employees", icon: "👥" },
+  { title: "Departments", path: "/admin/departments", icon: "🏛️" },
+  { title: "Profile", path: "/dashboard/profile", icon: "👤" },
+];
+
 function DashboardSidebar({
   mobile = false,
   closeSidebar,
@@ -29,10 +45,23 @@ function DashboardSidebar({
   const { logout, user } = useAuth();
 
   // Choose links based on user role
-  const sidebarLinks =
-    user && (user.role === "EMPLOYEE" || user.role === "DEPARTMENT_HEAD" || user.role === "ADMIN")
-      ? employeeLinks
-      : citizenLinks;
+  let sidebarLinks = citizenLinks;
+
+  if (user) {
+    switch (user.role) {
+      case "EMPLOYEE":
+        sidebarLinks = employeeLinks;
+        break;
+      case "DEPARTMENT_HEAD":
+        sidebarLinks = departmentHeadLinks;
+        break;
+      case "ADMIN":
+        sidebarLinks = adminLinks;
+        break;
+      default:
+        sidebarLinks = citizenLinks;
+    }
+  }
 
   const handleLogout = () => {
     logout();

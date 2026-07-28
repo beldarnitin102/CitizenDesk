@@ -9,6 +9,7 @@ const employeeRoutes = require("./routes/employee.routes");
 const adminRoutes = require("./routes/admin.routes");
 const chatbotRoutes = require("./routes/chatbot.routes");
 const departmenthead = require("./routes/deparmenthead.routes");
+const heroRoutes = require("./routes/hero.routes");
 const errorHandler = require("./middlewares/error.middleware");
 const connectDB = require("./config/database");
 
@@ -37,10 +38,9 @@ app.use("/api/v1/complaints", complaintRoutes);
 app.use("/api/v1/chatbot", chatbotRoutes);
 app.use("/api/v1/employee", employeeRoutes);
 app.use("/api/v1/admin", adminRoutes);
-// Correct route mount for department head module (fixed spelling)
 app.use("/api/v1/department-head", departmenthead);
+app.use("/api/v1/hero", heroRoutes);
 
-// ── Global Error Handler (MUST be AFTER routes) ──
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;

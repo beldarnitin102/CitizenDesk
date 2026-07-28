@@ -91,9 +91,6 @@ function RegisterForm({
     return Object.keys(newErrors).length === 0;
   };
 
-  // ===========================
-  // Register
-  // ===========================
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -102,10 +99,6 @@ function RegisterForm({
 
     onSubmit(formData);
   };
-
-  // ===========================
-  // Send OTP
-  // ===========================
 
   const handleSendOTP = () => {
     if (!formData.email.trim()) {
@@ -139,7 +132,8 @@ function RegisterForm({
               Join Jalgaon Citizen Network
             </h1>
             <p className="mt-4 max-w-md text-base leading-relaxed text-slate-300">
-              Register now to submit complaints, get AI-based help, and monitor approval progress.
+              Register now to submit complaints, get AI-based help, and monitor
+              approval progress.
             </p>
           </div>
 

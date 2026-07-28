@@ -98,3 +98,9 @@ export const ADMIN_ENDPOINTS = {
 
   UPDATE_DEPARTMENT: (id) => `/admin/departments/${id}`,
 };
+
+export const HERO_ENDPOINTS = {
+  GET_STATISTICS: `${BASE_URL}/hero/statistics`,
+
+  GET_DEPARTMENTS: `${BASE_URL}/hero/departments`,
+};

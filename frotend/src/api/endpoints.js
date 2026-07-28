@@ -78,19 +78,23 @@ export const DEPARTMENT_HEAD_ENDPOINTS = {
 // ==============================
 
 export const ADMIN_ENDPOINTS = {
-  DASHBOARD: `${BASE_URL}/admin/dashboard`,
+  DASHBOARD: "/admin/dashboard",
 
-  GET_ALL_COMPLAINTS: `${BASE_URL}/admin/complaints`,
+  GET_COMPLAINTS: "/admin/complaints",
 
-  GET_ALL_EMPLOYEES: `${BASE_URL}/admin/employees`,
+  GET_EMPLOYEES: "/admin/employees",
 
-  CREATE_EMPLOYEE: `${BASE_URL}/admin/employees`,
+  GET_DEPARTMENTS: "/admin/departments",
 
-  UPDATE_EMPLOYEE: (id) => `${BASE_URL}/admin/employees/${id}`,
+  CREATE_EMPLOYEE: "/admin/employees",
 
-  DELETE_EMPLOYEE: (id) => `${BASE_URL}/admin/employees/${id}`,
+  CREATE_DEPARTMENT: "/admin/departments",
 
-  CREATE_DEPARTMENT: `${BASE_URL}/admin/departments`,
+  CREATE_DEPARTMENT_HEAD: "/admin/department-heads",
 
-  UPDATE_DEPARTMENT: (id) => `${BASE_URL}/admin/departments/${id}`,
+  UPDATE_EMPLOYEE: (id) => `/admin/employees/${id}`,
+
+  DELETE_EMPLOYEE: (id) => `/admin/employees/${id}`,
+
+  UPDATE_DEPARTMENT: (id) => `/admin/departments/${id}`,
 };

@@ -108,20 +108,16 @@ exports.createDepartment = asyncHandler(async (req, res) => {
     .json(new ApiResponse(201, department, "Department created successfully"));
 });
 
-
 // ================= GET ALL DEPARTMENTS =================
 
 exports.getAllDepartments = asyncHandler(async (req, res) => {
-  const departments = await Department.find()
-    .sort({ name: 1 });
+  const departments = await Department.find().sort({ name: 1 });
 
-  return res.status(200).json(
-    new ApiResponse(
-      200,
-      departments,
-      "Departments fetched successfully"
-    )
-  );
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, departments, "Departments fetched successfully"),
+    );
 });
 
 // ================= CREATE EMPLOYEE =================
@@ -158,31 +154,18 @@ exports.createEmployee = asyncHandler(async (req, res) => {
     );
 });
 
-
 exports.createDepartmentHead = asyncHandler(async (req, res) => {
-  const {
-    name,
-    email,
-    password,
-    phone,
-    department,
-  } = req.body;
+  const { name, email, password, phone, department } = req.body;
 
   const existingUser = await User.findOne({
     email,
   });
 
   if (existingUser) {
-    throw new ApiError(
-      400,
-      "User already exists"
-    );
+    throw new ApiError(400, "User already exists");
   }
 
-  const hashedPassword = await bcrypt.hash(
-    password,
-    10
-  );
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   const departmentHead = await User.create({
     name,
@@ -194,18 +177,19 @@ exports.createDepartmentHead = asyncHandler(async (req, res) => {
     isVerified: true,
   });
 
-  const createdDepartmentHead =
-    await User.findById(departmentHead._id)
-      .populate("department")
-      .select("-password");
+  const createdDepartmentHead = await User.findById(departmentHead._id)
+    .populate("department")
+    .select("-password");
 
-  return res.status(201).json(
-    new ApiResponse(
-      201,
-      createdDepartmentHead,
-      "Department Head created successfully"
-    )
-  );
+  return res
+    .status(201)
+    .json(
+      new ApiResponse(
+        201,
+        createdDepartmentHead,
+        "Department Head created successfully",
+      ),
+    );
 });
 // ================= UPDATE EMPLOYEE =================
 

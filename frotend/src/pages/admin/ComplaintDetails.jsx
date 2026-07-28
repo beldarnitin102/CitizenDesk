@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import DashboardLayout from "../DashboardLayout";
+import DashboardLayout from "../../components/dashboard/DashboardLayout";
 
-import { useAuth } from "../../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
-import ComplaintOverviewCard from "../../../components/admin/complaints/ComplaintOverviewCard";
-import ComplaintCitizenCard from "../../../components/admin/complaints/ComplaintCitizenCard";
-import ComplaintDepartmentCard from "../../../components/admin/complaints/ComplaintDepartmentCard";
-import ComplaintHistoryCard from "../../../components/admin/complaints/ComplaintHistoryCard";
+import ComplaintOverviewCard from "../../components/admin/complaints/ComplaintOverviewCard";
+import ComplaintCitizenCard from "../../components/admin/complaints/ComplaintCitizenCard";
+import ComplaintDepartmentCard from "../../components/admin/complaints/ComplaintDepartmentCard";
+import ComplaintHistoryCard from "../../components/admin/complaints/ComplaintHistoryCard";
 
-import { getComplaintDetails } from "../../../services/operations/adminAPI";
+import { getComplaintDetails } from "../../services/operations/adminAPI";
 
 function ComplaintDetails() {
   const { id } = useParams();

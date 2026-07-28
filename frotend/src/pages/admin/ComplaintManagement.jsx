@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 
-import DashboardLayout from "../DashboardLayout";
+import DashboardLayout from "../../components/dashboard/DashboardLayout";
 
-import { useAuth } from "../../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
-import ComplaintFilters from "../../../components/admin/complaints/ComplaintFilters";
-import ComplaintStats from "../../../components/admin/complaints/ComplaintStats";
-import ComplaintTable from "../../../components/admin/complaints/ComplaintTable";
+import ComplaintFilters from "../../components/admin/complaints/ComplaintFilters";
+import ComplaintStats from "../../components/admin/complaints/ComplaintStats";
+import ComplaintTable from "../../components/admin/complaints/ComplaintTable";
 
-import { getAllComplaints } from "../../../services/operations/adminAPI";
+import { getAllComplaints } from "../../services/operations/adminAPI";
 
 function ComplaintManagement() {
   const { token } = useAuth();

@@ -1,49 +1,61 @@
 import { Routes, Route } from "react-router-dom";
 
-// Layouts & Protected Checks
+// Layouts
 import PublicLayout from "../layouts/PublicLayout";
 import ProtectedRoute from "./ProtectedRoute";
 
-// Public Pages
-import Home from "../pages/public/Home";
+// ================= PUBLIC =================
 
-// Auth Pages
+import Home from "../pages/public/Home";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 
-// Citizen Dashboard Pages
+import HowItWorksSection from "../components/home/HowItWorksSection";
+import AIFeaturesSection from "../components/home/AIFeaturesSection";
+import DepartmentsSection from "../components/home/DepartmentsSection";
+import Contact from "../components/home/Contact";
+
+// ================= CITIZEN =================
+
 import CitizenDashboard from "../pages/citizen/CitizenDashboard";
 import CreateComplaint from "../pages/citizen/CreateComplaint";
 import MyComplaints from "../pages/citizen/MyComplaints";
-import ComplaintDetails from "../pages/citizen/ComplaintDetails";
-import EditComplaint from "../pages/citizen/EditComplaint"; // Imported correctly
-
-import AIFeaturesSection from "../components/home/AIFeaturesSection";
+import CitizenComplaintDetails from "../pages/citizen/ComplaintDetails";
+import EditComplaint from "../pages/citizen/EditComplaint";
 import CitizenProfile from "../pages/citizen/CitizenProfile";
 import AIAssistant from "../pages/citizen/AIAssistant";
-import HowItWorksSection from "../components/home/HowItWorksSection";
-import DepartmentsSection from "../components/home/DepartmentsSection";
-import Contact from "../components/home/Contact";
+
+// ================= EMPLOYEE =================
+
+import EmployeeDashboard from "../pages/employee/EmployeeDashboard";
 import DepartmentComplaints from "../pages/employee/DepartmentComplaints";
 import EmployeeComplaintDetails from "../pages/employee/EmployeeComplaintDetails";
-import EmployeeDashboard from "../pages/employee/EmployeeDashboard";
 
-// Department Head Pages
+// ================= DEPARTMENT HEAD =================
+
 import DepartmentDashboard from "../pages/departmentHead/DepartmentDashboard";
-
-import EmployeeDetails from "../components/departmentHead/employees/EmployeeDetails";
-import DepartmentEmployees from "../components/departmentHead/DepartmentEmployees";
 import EmployeeList from "../pages/departmentHead/EmployeeList";
+
 import Analytics from "../components/departmentHead/Analytics";
 import AssignComplaint from "../components/departmentHead/AssignComplaint";
-import ComplaintManagement from "../components/departmentHead/ComplaintManagement";
+import DepartmentHeadComplaintManagement from "../components/departmentHead/ComplaintManagement";
+import EmployeeDetails from "../components/departmentHead/employees/EmployeeDetails";
+
+// ================= ADMIN =================
+
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import AdminComplaintManagement from "../pages/admin/ComplaintManagement";
+import AdminComplaintDetails from "../pages/admin/ComplaintDetails";
+import EmployeeManagement from "../pages/admin/EmployeeManagement";
+import DepartmentManagement from "../pages/admin/DepartmentManagement";
 
 function AppRoutes() {
   return (
     <Routes>
-      {/* =========================================================
-          1. PUBLIC ROUTES (Wrapped in PublicLayout if needed)
-         ========================================================= */}
+      {/* ======================================================
+                          PUBLIC ROUTES
+      ======================================================= */}
+
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -54,9 +66,10 @@ function AppRoutes() {
         <Route path="/contact" element={<Contact />} />
       </Route>
 
-      {/* =========================================================
-          2. PROTECTED CITIZEN ROUTES
-         ========================================================= */}
+      {/* ======================================================
+                        CITIZEN ROUTES
+      ======================================================= */}
+
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<CitizenDashboard />} />
 
@@ -69,18 +82,22 @@ function AppRoutes() {
 
         <Route
           path="/dashboard/complaints/:id"
-          element={<ComplaintDetails />}
+          element={<CitizenComplaintDetails />}
         />
 
-        {/* FIXED: Added explicit matching absolute path layout syntax wrapper */}
         <Route
           path="/dashboard/edit-complaint/:id"
           element={<EditComplaint />}
         />
 
         <Route path="/dashboard/profile" element={<CitizenProfile />} />
+
         <Route path="/dashboard/ai-assistant" element={<AIAssistant />} />
       </Route>
+
+      {/* ======================================================
+                        EMPLOYEE ROUTES
+      ======================================================= */}
 
       <Route
         path="/employee/dashboard"
@@ -115,86 +132,130 @@ function AppRoutes() {
         }
       />
 
-      {/* ==========================================
-      DEPARTMENT HEAD MODULE
-========================================== */}
+      {/* ======================================================
+                    DEPARTMENT HEAD ROUTES
+      ======================================================= */}
 
-    <Route
-  path="/department-head/dashboard"
-  element={
-    <ProtectedRoute
-      allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}
-    >
-      <DepartmentDashboard />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/department-head/dashboard"
+        element={
+          <ProtectedRoute allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}>
+            <DepartmentDashboard />
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/department-head/employees"
-  element={
-    <ProtectedRoute
-      allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}
-    >
-      <DepartmentEmployees />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/department-head/employees"
+        element={
+          <ProtectedRoute allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}>
+            <EmployeeList />
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/department-head/employees/:id"
-  element={
-    <ProtectedRoute
-      allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}
-    >
-      <EmployeeDetails />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/department-head/employees/:id"
+        element={
+          <ProtectedRoute allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}>
+            <EmployeeDetails />
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/department-head/complaints"
-  element={
-    <ProtectedRoute
-      allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}
-    >
-      <ComplaintManagement />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/department-head/complaints"
+        element={
+          <ProtectedRoute allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}>
+            <DepartmentHeadComplaintManagement />
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/department-head/complaints/:id"
-  element={
-    <ProtectedRoute
-      allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}
-    >
-      <ComplaintDetails />
-    </ProtectedRoute>
-  }
-/>
+      {/* <Route
+        path="/department-head/complaints/:id"
+        element={
+          <ProtectedRoute allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}>
+            <DepartmentHeadComplaintDetails />
+          </ProtectedRoute>
+        }
+      /> */}
 
-<Route
-  path="/department-head/assign"
-  element={
-    <ProtectedRoute
-      allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}
-    >
-      <AssignComplaint />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/department-head/assign"
+        element={
+          <ProtectedRoute allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}>
+            <AssignComplaint />
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/department-head/analytics"
-  element={
-    <ProtectedRoute
-      allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}
-    >
-      <Analytics />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/department-head/analytics"
+        element={
+          <ProtectedRoute allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}>
+            <Analytics />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* ======================================================
+                          ADMIN ROUTES
+      ======================================================= */}
+
+      <Route
+        path="/admin/dashboard"
+        element={
+          <ProtectedRoute allowedRoles={["ADMIN"]}>
+            <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/complaints"
+        element={
+          <ProtectedRoute allowedRoles={["ADMIN"]}>
+            <AdminComplaintManagement />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/complaints/:id"
+        element={
+          <ProtectedRoute allowedRoles={["ADMIN"]}>
+            <AdminComplaintDetails />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/employees"
+        element={
+          <ProtectedRoute allowedRoles={["ADMIN"]}>
+            <EmployeeManagement />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/departments"
+        element={
+          <ProtectedRoute allowedRoles={["ADMIN"]}>
+            <DepartmentManagement />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* <Route
+        path="/admin/analytics"
+        element={
+          <ProtectedRoute allowedRoles={["ADMIN"]}>
+            <AnalyticsDashboard />
+          </ProtectedRoute>
+        }
+      /> */}
     </Routes>
   );
 }

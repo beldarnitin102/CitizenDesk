@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Card from "../ui/Card";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
+import heroImage from "../../assets/images/hero-image.png";
 
 function LoginForm({ onSubmit, loading = false }) {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -33,37 +34,38 @@ function LoginForm({ onSubmit, loading = false }) {
   };
 
   return (
-    /* Changed to calculate exact available viewport height remaining below the navbar */
-    <div className="flex h-[calc(100vh-72px)] w-full overflow-hidden bg-slate-50">
-      
-      {/* 🏙️ LEFT SIDE: Online Temporary Image */}
-      <div className="relative hidden w-1/2 bg-slate-950 lg:flex">
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcu4oimv6jULyBPSN0gpGDQixLPxu64m2lV8cTdTbSGA&s=10"
-          alt="District Administration Portal"
-          /* Changed opacity to 100% and added dynamic brightness styling filters */
-          className="absolute inset-0 h-full w-full object-cover brightness-[0.7] contrast-[1.05]"
-        />
-        {/* Dark overlay to balance gradient flow */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
-        
-        {/* Typography positioning container */}
-        <div className="absolute bottom-12 left-12 right-12 z-10 text-white">
-          <h1 className="text-4xl font-extrabold tracking-tight">Jalgaon Citizen Network</h1>
-          <p className="mt-3 max-w-md text-base leading-relaxed text-slate-300">
-            Connecting our community through advanced digital infrastructure, AI processing tools, and instant grievance tracking setups.
-          </p>
+    <div className="flex min-h-[calc(100vh-72px)] w-full overflow-hidden bg-slate-50">
+      <div className="relative hidden w-1/2 items-center justify-center overflow-hidden bg-slate-950 p-8 lg:flex">
+        <div className="relative h-[560px] w-full max-w-lg overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950 shadow-[0_40px_120px_-40px_rgba(15,23,42,0.65)] ring-1 ring-white/10 lg:-translate-x-8">
+          <img
+            src={heroImage}
+            alt="District administration portal"
+            className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-out hover:scale-[1.08]"
+          />
+
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-slate-950/30" />
+
+          <div className="absolute inset-x-0 bottom-0 px-8 pb-8 text-white">
+            <div className="mb-4 inline-flex rounded-full bg-slate-800/70 px-4 py-2 text-sm font-semibold tracking-tight text-slate-100 ring-1 ring-white/10">
+              Smart Citizen Hub
+            </div>
+            <h1 className="text-4xl font-extrabold tracking-tight">Jalgaon Citizen Network</h1>
+            <p className="mt-4 max-w-md text-base leading-relaxed text-slate-300">
+              Connecting our community through digital infrastructure, AI tools, and instant grievance tracking.
+            </p>
+          </div>
+
+          <div className="pointer-events-none absolute left-6 top-6 h-36 w-36 rounded-full bg-cyan-400/20 blur-3xl" />
+          <div className="pointer-events-none absolute -right-8 bottom-14 h-52 w-52 rounded-full bg-white/10 blur-3xl" />
         </div>
       </div>
 
-      {/* 📝 RIGHT SIDE: Login Form Panel */}
-  
       <div className="flex w-full items-center justify-center p-4 md:p-8 lg:w-1/2 overflow-y-auto">
-        <Card className="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-8 shadow-2xl my-auto">
-          <div className="mb-6">
+        <Card className="w-full max-w-xl min-h-[640px] rounded-[2rem] border border-slate-200/90 bg-white p-10 shadow-[0_32px_90px_-30px_rgba(15,23,42,0.18)] my-auto">
+          <div className="mb-8">
             <span className="rounded-full bg-blue-100 px-4 py-1 text-sm font-semibold text-[#0F4C81]">Welcome Back</span>
-            <h2 className="mt-4 text-2xl font-bold text-slate-900">Login to Your Account</h2>
-            <p className="mt-1 text-sm text-slate-500">Access your complaints, AI assistant, and district dashboard.</p>
+            <h2 className="mt-5 text-3xl font-bold text-slate-900">Login to Your Account</h2>
+            <p className="mt-3 text-sm text-slate-500">Access your complaints, AI assistant, and district dashboard.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">

@@ -1,35 +1,34 @@
-import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 import Button from "../ui/Button";
 
 function HeroContent() {
+  const navigate = useNavigate();
+
   return (
-    <div className="animate-fade-up flex flex-col">
-      {/* Badge */}
+    <div className="animate-fade-up flex flex-col gap-8 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-[0_44px_120px_-50px_rgba(15,23,42,0.25)] sm:p-10">
+      <div className="max-w-2xl">
+        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#0F4C81]">
+          Smart civic governance
+        </p>
 
-    
+        <h1 className="mt-6 text-5xl font-extrabold leading-tight tracking-tight text-slate-950 sm:text-6xl lg:text-7xl">
+          Your Voice.
+          <span className="block text-[#0F4C81]">Our Intelligence.</span>
+          <span className="block">Better Governance.</span>
+        </h1>
 
-      {/* Heading */}
+        <p className="mt-6 text-lg leading-8 text-slate-600">
+          Report civic issues in Marathi, Hindi, English, or your regional
+          language. Our AI understands your complaint and routes it accurately.
+        </p>
+      </div>
 
-      <h1 className="max-w-xl text-4xl font-extrabold leading-tight text-slate-900 lg:text-5xl">
-       Your Voice.
-
-        <span className="block text-[#0F4C81]">Our Intelligence.</span>
-        <span className="block">Better Governance.</span>
-      </h1>
-
-      {/* Description */}
-
-      <p className="mt-8 max-w-xl text-lg leading-8 text-slate-600">
-        Report civic issues in Marathi, Hindi, English, or your regional
-        language. Our AI automatically understands the complaint.
-      </p>
-
-      {/* Buttons */}
-
-      <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <Button
           size="lg"
-          className="shadow-xl hover:-translate-y-1 transition-all duration-300"
+          className="w-full bg-[#0F4C81] text-white shadow-xl hover:bg-[#0c3a65] sm:w-auto"
+          onClick={() => navigate("/register")}
         >
           Register Complaint
           <ArrowRight size={18} className="ml-2" />
@@ -38,50 +37,38 @@ function HeroContent() {
         <Button
           variant="outline"
           size="lg"
-          className="hover:-translate-y-1 transition-all duration-300"
+          className="w-full border-slate-300 bg-white text-slate-950 hover:bg-slate-100 sm:w-auto"
+          onClick={() => navigate("/login")}
         >
           Track Complaint
         </Button>
       </div>
 
-      {/* Features */}
-
-      <div className="mt-10 flex flex-wrap gap-6">
-        <div className="flex items-center gap-2">
-          <ShieldCheck size={18} className="text-green-600" />
-
-          <span className="text-sm font-medium text-slate-700">
-            Secure Complaint Tracking
-          </span>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="flex items-center gap-3 rounded-3xl bg-slate-50 p-4">
+          <ShieldCheck size={18} className="text-[#0F4C81]" />
+          <p className="text-sm font-medium text-slate-700">Secure Complaint Tracking</p>
         </div>
 
-        <div className="flex items-center gap-2">
-          <ShieldCheck size={18} className="text-green-600" />
-
-          <span className="text-sm font-medium text-slate-700">
-            AI Powered Classification
-          </span>
+        <div className="flex items-center gap-3 rounded-3xl bg-slate-50 p-4">
+          <ShieldCheck size={18} className="text-[#0F4C81]" />
+          <p className="text-sm font-medium text-slate-700">AI Powered Classification</p>
         </div>
       </div>
 
-      {/* Statistics */}
-
-      <div className="mt-16 grid grid-cols-3 gap-6 md:gap-10 border-t border-slate-200 pt-8">
+      <div className="grid gap-4 border-t border-slate-200 pt-8 sm:grid-cols-3">
         <div>
-          <h3 className="text-3xl font-bold text-[#0F4C81]">24×7</h3>
-
+          <h3 className="text-3xl font-bold text-slate-950">24×7</h3>
           <p className="mt-2 text-sm text-slate-600">AI Assistance</p>
         </div>
 
         <div>
-          <h3 className="text-3xl font-bold text-[#0F4C81]">100%</h3>
-
+          <h3 className="text-3xl font-bold text-slate-950">100%</h3>
           <p className="mt-2 text-sm text-slate-600">Multilingual Support</p>
         </div>
 
         <div>
-          <h3 className="text-3xl font-bold text-[#0F4C81]">Fast</h3>
-
+          <h3 className="text-3xl font-bold text-slate-950">Fast</h3>
           <p className="mt-2 text-sm text-slate-600">Department Routing</p>
         </div>
       </div>

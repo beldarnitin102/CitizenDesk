@@ -30,6 +30,8 @@ function Analytics() {
     try {
       const data = await getAnalytics(token);
 
+      console.log(data);
+
       setAnalytics(data);
     } catch (error) {
       toast.error(error.response?.data?.message || "Unable to load analytics");
@@ -52,14 +54,16 @@ function Analytics() {
         <AnalyticsCards analytics={analytics} />
 
         <div className="grid lg:grid-cols-2 gap-6">
-          <PriorityChart data={analytics.priorityStats} />
+          <PriorityChart data={analytics?.byPriority || []} />
 
-          <StatusChart data={analytics.statusStats} />
+          <StatusChart data={analytics?.byStatus || []} />
         </div>
 
-        <MonthlyTrendChart data={analytics.monthlyStats} />
+        <MonthlyTrendChart data={analytics?.monthly || []} />
 
-        <EmployeePerformanceTable employees={analytics.employeePerformance} />
+        <EmployeePerformanceTable
+          employees={analytics?.employeePerformance || []}
+        />
       </div>
     </DashboardLayout>
   );

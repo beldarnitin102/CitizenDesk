@@ -1,5 +1,5 @@
 const Complaint = require("../models/Complaint");
-const ComplaintStatusLog = require("../models/ComplaintStatusLog");
+const ComplaintStatusLog = require("../models/complaintStatusLog");
 
 const ApiError = require("../utils/ApiError");
 const ApiResponse = require("../utils/ApiResponse");

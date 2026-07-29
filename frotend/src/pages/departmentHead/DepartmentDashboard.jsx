@@ -70,16 +70,32 @@ function DepartmentDashboard() {
 
   // Ensure downstream components receive defined values
   const safeData = {
+    totalComplaints: dashboardData.totalComplaints ?? 0,
+
+    pendingComplaints: dashboardData.pendingComplaints ?? 0,
+
+    assignedComplaints: dashboardData.assignedComplaints ?? 0,
+
+    inProgressComplaints: dashboardData.inProgressComplaints ?? 0,
+
+    resolvedComplaints: dashboardData.resolvedComplaints ?? 0,
+
+    closedComplaints: dashboardData.closedComplaints ?? 0,
+
+    totalEmployees: dashboardData.totalEmployees ?? 0,
+
     resolutionRate: dashboardData.resolutionRate ?? 0,
+
     complaintsByPriority: dashboardData.complaintsByPriority ?? [],
+
     employeePerformance: dashboardData.employeePerformance ?? [],
+
     recentComplaints: dashboardData.recentComplaints ?? [],
   };
 
   return (
     <DashboardLayout>
       <div className="space-y-8">
-
         <DashboardStats data={safeData} />
 
         <DepartmentPerformance
@@ -87,14 +103,9 @@ function DepartmentDashboard() {
           complaintsByPriority={safeData.complaintsByPriority}
         />
 
-        <EmployeePerformanceTable
-          employees={safeData.employeePerformance}
-        />
+        <EmployeePerformanceTable employees={safeData.employeePerformance} />
 
-        <RecentComplaints
-          complaints={safeData.recentComplaints}
-        />
-
+        <RecentComplaints complaints={safeData.recentComplaints} />
       </div>
     </DashboardLayout>
   );

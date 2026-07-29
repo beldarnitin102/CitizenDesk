@@ -39,6 +39,7 @@ import EmployeeList from "../pages/departmentHead/EmployeeList";
 import Analytics from "../components/departmentHead/Analytics";
 import AssignComplaint from "../components/departmentHead/AssignComplaint";
 import DepartmentHeadComplaintManagement from "../components/departmentHead/ComplaintManagement";
+import DepartmentHeadComplaintDetails from "../components/departmentHead/complaints/ComplaintDetails";
 import EmployeeDetails from "../components/departmentHead/employees/EmployeeDetails";
 
 // ================= ADMIN =================
@@ -172,14 +173,14 @@ function AppRoutes() {
         }
       />
 
-      {/* <Route
+      <Route
         path="/department-head/complaints/:id"
         element={
           <ProtectedRoute allowedRoles={["DEPARTMENT_HEAD", "ADMIN"]}>
             <DepartmentHeadComplaintDetails />
           </ProtectedRoute>
         }
-      /> */}
+      />
 
       <Route
         path="/department-head/assign"

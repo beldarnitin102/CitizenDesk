@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext"; // 1. IMPORTED useAuth context hook
 import DashboardLayout from "../../components/dashboard/DashboardLayout";
 
@@ -10,7 +10,8 @@ import Badge from "../../components/ui/Badge";
 import { getCitizenDashboard } from "../../services/operations/complaintAPI";
 
 function CitizenDashboard() {
-  const { token } = useAuth(); // 2. EXTRACTED the auth token
+  const { token } = useAuth();
+  const navigate = useNavigate();
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -192,7 +193,9 @@ function CitizenDashboard() {
                 through the complaint process.
               </p>
             </div>
-            <Button>Open AI Chat</Button>
+            <Button onClick={() => navigate("/dashboard/ai-assistant")}>
+              Open AI Chat
+            </Button>
           </div>
         </Card>
       </div>

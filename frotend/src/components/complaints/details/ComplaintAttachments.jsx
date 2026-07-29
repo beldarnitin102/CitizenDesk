@@ -2,6 +2,8 @@ import Card from "../../ui/Card";
 
 function ComplaintAttachments({ complaint }) {
   const attachments = complaint.attachments || [];
+  console.log("Complaint ID:", complaint._id);
+console.log("Attachments:", complaint.attachments);
 
   return (
     <Card className="rounded-3xl p-8">

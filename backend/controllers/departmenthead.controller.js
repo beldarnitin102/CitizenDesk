@@ -1,4 +1,5 @@
 const Complaint = require("../models/Complaint");
+const ComplaintStatusLog = require("../models/complaintStatusLog");
 const User = require("../models/User");
 
 const ApiError = require("../utils/ApiError");
@@ -659,22 +660,88 @@ exports.updateComplaint = asyncHandler(async (req, res) => {
 exports.getAnalytics = asyncHandler(async (req, res) => {
   const departmentId = req.user.department._id;
 
+  // ===========================
+  // Total Complaints
+  // ===========================
+
+  const totalComplaints = await Complaint.countDocuments({
+    department: departmentId,
+  });
+
+  // ===========================
+  // Active Employees
+  // ===========================
+
+  const activeEmployees = await User.countDocuments({
+    department: departmentId,
+    role: "EMPLOYEE",
+    isActive: true,
+  });
+
+  // ===========================
+  // Resolved Complaints
+  // ===========================
+
+  const resolvedComplaints = await Complaint.countDocuments({
+    department: departmentId,
+    status: "RESOLVED",
+  });
+
+  // ===========================
+  // Resolution Rate
+  // ===========================
+
+  const resolutionRate =
+    totalComplaints === 0
+      ? 0
+      : Number(((resolvedComplaints / totalComplaints) * 100).toFixed(1));
+
+  // ===========================
+  // Average Resolution Days
+  // ===========================
+
+  const resolvedList = await Complaint.find({
+    department: departmentId,
+    status: "RESOLVED",
+    updatedAt: { $exists: true },
+  });
+
+  let averageResolutionDays = 0;
+
+  if (resolvedList.length > 0) {
+    const totalDays = resolvedList.reduce((sum, complaint) => {
+      const diff =
+        (complaint.updatedAt - complaint.createdAt) / (1000 * 60 * 60 * 24);
+
+      return sum + diff;
+    }, 0);
+
+    averageResolutionDays = Number(
+      (totalDays / resolvedList.length).toFixed(1),
+    );
+  }
+
+  // ===========================
+  // Status Distribution
+  // ===========================
+
   const byStatus = await Complaint.aggregate([
     {
       $match: {
         department: departmentId,
       },
     },
-
     {
       $group: {
         _id: "$status",
-        count: {
-          $sum: 1,
-        },
+        count: { $sum: 1 },
       },
     },
   ]);
+
+  // ===========================
+  // Priority Distribution
+  // ===========================
 
   const byPriority = await Complaint.aggregate([
     {
@@ -682,16 +749,17 @@ exports.getAnalytics = asyncHandler(async (req, res) => {
         department: departmentId,
       },
     },
-
     {
       $group: {
         _id: "$priority",
-        count: {
-          $sum: 1,
-        },
+        count: { $sum: 1 },
       },
     },
   ]);
+
+  // ===========================
+  // Monthly Trend
+  // ===========================
 
   const monthly = await Complaint.aggregate([
     {
@@ -699,7 +767,6 @@ exports.getAnalytics = asyncHandler(async (req, res) => {
         department: departmentId,
       },
     },
-
     {
       $group: {
         _id: {
@@ -707,13 +774,11 @@ exports.getAnalytics = asyncHandler(async (req, res) => {
             $month: "$createdAt",
           },
         },
-
         count: {
           $sum: 1,
         },
       },
     },
-
     {
       $sort: {
         "_id.month": 1,
@@ -721,19 +786,81 @@ exports.getAnalytics = asyncHandler(async (req, res) => {
     },
   ]);
 
+  // ===========================
+  // Employee Performance
+  // ===========================
+
+  const employeePerformance = await User.aggregate([
+    {
+      $match: {
+        department: departmentId,
+        role: "EMPLOYEE",
+      },
+    },
+    {
+      $lookup: {
+        from: "complaints",
+        localField: "_id",
+        foreignField: "assignedEmployee",
+        as: "complaints",
+      },
+    },
+    {
+      $project: {
+        name: 1,
+
+        totalAssigned: {
+          $size: "$complaints",
+        },
+
+        resolved: {
+          $size: {
+            $filter: {
+              input: "$complaints",
+              as: "complaint",
+              cond: {
+                $eq: ["$$complaint.status", "RESOLVED"],
+              },
+            },
+          },
+        },
+
+        pending: {
+          $size: {
+            $filter: {
+              input: "$complaints",
+              as: "complaint",
+              cond: {
+                $ne: ["$$complaint.status", "RESOLVED"],
+              },
+            },
+          },
+        },
+      },
+    },
+    {
+      $sort: {
+        resolved: -1,
+      },
+    },
+  ]);
+
   return res.status(200).json(
     new ApiResponse(
       200,
-
       {
+        totalComplaints,
+        resolutionRate,
+        averageResolutionDays,
+        activeEmployees,
+
         byStatus,
-
         byPriority,
-
         monthly,
-      },
 
-      "Analytics fetched",
+        employeePerformance,
+      },
+      "Analytics fetched successfully",
     ),
   );
 });

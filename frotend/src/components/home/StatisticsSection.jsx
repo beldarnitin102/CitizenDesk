@@ -7,15 +7,12 @@ import SectionTitle from "../ui/SectionTitle";
 import { getHeroStatistics } from "../../services/operations/heroAPI";
 
 function StatisticsSection() {
-
   const [statistics, setStatistics] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
   const loadStatistics = async () => {
-
     try {
-
       const data = await getHeroStatistics();
 
       setStatistics([
@@ -60,42 +57,28 @@ function StatisticsSection() {
           color: "cyan",
         },
       ]);
-
     } catch (error) {
-
       console.log(error);
-
     } finally {
-
       setLoading(false);
-
     }
-
   };
 
   useEffect(() => {
-
     loadStatistics();
-
   }, []);
 
   return (
     <Section className="-mt-20 relative z-20 pb-8">
-
       <SectionTitle badge="Statistics" />
 
       {loading ? (
-
         <div className="py-16 text-center text-slate-500">
           Loading Statistics...
         </div>
-
       ) : (
-
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-5">
-
           {statistics.map((item) => (
-
             <StatCard
               key={item.id}
               title={item.title}
@@ -104,16 +87,11 @@ function StatisticsSection() {
               icon={item.icon}
               color={item.color}
             />
-
           ))}
-
         </div>
-
       )}
-
     </Section>
   );
-
 }
 
 export default StatisticsSection;

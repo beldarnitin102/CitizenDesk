@@ -1,8 +1,8 @@
-const { CohereClient } = require("cohere-ai");
+const { CohereClientV2 } = require("cohere-ai"); 
 const Groq = require("groq-sdk");
 
-// Initialize APIs
-const cohere = new CohereClient({
+// Initialize APIs with latest SDK structures
+const cohere = new CohereClientV2({
   token: process.env.COHERE_API_KEY,
 });
 
@@ -15,7 +15,7 @@ const groq = new Groq({
  */
 function extractJSON(text) {
   let cleaned = text.trim();
-
+  
   // Remove markdown code fences
   cleaned = cleaned
     .replace(/```json\s*/gi, "")
@@ -32,7 +32,7 @@ function extractJSON(text) {
   if (match) {
     return JSON.parse(match[0]);
   }
-
+  
   throw new Error(
     "No valid JSON found in AI response: " + cleaned.substring(0, 200),
   );
@@ -40,7 +40,7 @@ function extractJSON(text) {
 
 /**
  * Analyzes a complaint description using Groq for vision (if image provided)
- * and Cohere (v8 chat API) for text processing.
+ * and Cohere (V2 Chat API) for text processing.
  */
 exports.analyzeComplaint = async (
   text,
@@ -50,7 +50,6 @@ exports.analyzeComplaint = async (
 ) => {
   let visualContext = "";
 
-  // 1. If an image is provided, get visual context from Groq Vision
   if (imageBase64 && mimeType) {
     try {
       const dataUrl = `data:${mimeType};base64,${imageBase64}`;
@@ -74,24 +73,18 @@ exports.analyzeComplaint = async (
       visualContext = groqResponse.choices[0]?.message?.content || "";
       console.log("✅ Groq Vision:", visualContext);
     } catch (visionError) {
-      // Non-fatal: continue without image context
       console.error(
-        "⚠️  Groq Vision Error (continuing without image context):",
+        "⚠️ Groq Vision Error (continuing without image context):",
         visionError.message,
       );
     }
   }
 
   const departmentList = departments.map((dept) => `- ${dept.name}`).join("\n");
-
-  // 2. Pass everything to Cohere chat (v8 API) to get structured JSON
+  const systemInstructions = `You are an AI assistant for a District Complaint Management System in India. A citizen has submitted a complaint. Your job is to extract values into structural JSON formats exactly as specified.`;
+  
   const userMessage = `
-You are an AI assistant for a District Complaint Management System in India.
-A citizen has submitted a complaint.
-
-Citizen's Text Description:
-"${text}"
-
+Citizen's Text Description: "${text}"
 ${visualContext ? `Visual Context (from AI analyzing an uploaded photo):\n"${visualContext}"` : ""}
 
 Analyze the above and respond with ONLY a raw JSON object (no markdown, no explanation, just the JSON):
@@ -99,10 +92,9 @@ Analyze the above and respond with ONLY a raw JSON object (no markdown, no expla
   "title": "A short, concise title in English (max 5-6 words)",
   "description": "A clear, standard English summary of the complaint",
   "category": "The general category (e.g., Road Issue, Water Leakage, Sanitation, Electricity, Public Property)",
-  "department" :Available Government Departments ${departmentList}
-
+  "department" :Available Government Departments
+${departmentList}
 Rules for selecting department:
-
 1. Choose ONLY ONE department from the above list.
 2. Return the department name EXACTLY as written.
 3. Never create new department names.
@@ -114,26 +106,31 @@ Rules for selecting department:
 `.trim();
 
   try {
+    // FIXED: Changed cohere.messages.create to cohere.chat
     const response = await cohere.chat({
-      message: userMessage,
       model: "command-r-plus-08-2024",
+      messages: [
+        { role: "system", content: systemInstructions },
+        { role: "user", content: userMessage }
+      ],
       temperature: 0.1,
     });
 
-    console.log("✅ Cohere Raw Response:", response.text);
-    const result = extractJSON(response.text);
-    return result;
+    // FIXED: Correct optional chaining parsing layout
+    const responseText = response.message?.content?.[0]?.text || "";
+    console.log("✅ Cohere Raw Response:", responseText);
+    
+    return extractJSON(responseText);
   } catch (error) {
     console.error("❌ Cohere Analysis Error:", error.message || error);
     throw new Error(
-      "Failed to analyze complaint: " +
-        (error.message || "Unknown Cohere error"),
+      "Failed to analyze complaint: " + (error.message || "Unknown Cohere error"),
     );
   }
 };
 
 /**
- * Detects if a new complaint is a duplicate using Cohere (v8 chat API).
+ * Detects if a new complaint is a duplicate using Cohere (V2 Chat API).
  */
 exports.detectDuplicate = async (newComplaintText, existingComplaints) => {
   if (!existingComplaints || existingComplaints.length === 0) return null;
@@ -145,9 +142,9 @@ exports.detectDuplicate = async (newComplaintText, existingComplaints) => {
       category: c.category,
     }));
 
-    const userMessage = `
-You are a duplicate detection system for a government complaint portal.
+    const systemInstructions = `You are a duplicate detection system for a government complaint portal. Match newly incoming records against localized historical issues.`;
 
+    const userMessage = `
 New complaint: "${newComplaintText}"
 
 Existing recent complaints in the same area:
@@ -162,25 +159,32 @@ Respond ONLY with a raw JSON object (no markdown):
 }
 `.trim();
 
+    // FIXED: Changed cohere.messages.create to cohere.chat
     const response = await cohere.chat({
-      message: userMessage,
       model: "command-r-plus-08-2024",
+      messages: [
+        { role: "system", content: systemInstructions },
+        { role: "user", content: userMessage }
+      ],
       temperature: 0.1,
     });
 
-    const result = extractJSON(response.text);
+    // FIXED: Correct content block resolution
+    const responseText = response.message?.content?.[0]?.text || "";
+    const result = extractJSON(responseText);
+
     if (result.isDuplicate && result.duplicateOfId) {
       return result.duplicateOfId;
     }
     return null;
   } catch (error) {
-    console.error("⚠️  Duplicate Detection Error (non-fatal):", error.message);
-    return null; // Non-fatal - complaint is still created
+    console.error("⚠️ Duplicate Detection Error (non-fatal):", error.message);
+    return null;
   }
 };
 
 /**
- * AI Chatbot using Cohere's Chat API (v8).
+ * AI Chatbot using Cohere's Chat API (V2).
  */
 exports.chatWithBot = async (userMessage, userComplaints) => {
   try {
@@ -192,8 +196,9 @@ exports.chatWithBot = async (userMessage, userComplaints) => {
       submittedOn: c.createdAt,
     }));
 
-    const preamble = `You are a helpful, friendly customer support AI for a District Complaint Management System in India.
-A citizen is asking a question about their complaints. Here is their recent complaint history:
+    const systemInstructions = `You are a helpful, friendly customer support AI for a District Complaint Management System in India. A citizen is asking a question about their complaints.
+
+Here is their recent complaint history:
 ${JSON.stringify(complaintsContext, null, 2)}
 
 Instructions:
@@ -202,14 +207,18 @@ Instructions:
 3. If no complaints match, suggest they submit a new complaint through the app.
 4. CRITICAL: Always reply in the SAME LANGUAGE the user wrote their message in.`;
 
+    // FIXED: Changed cohere.messages.create to cohere.chat
     const response = await cohere.chat({
-      message: userMessage,
       model: "command-r-plus-08-2024",
-      preamble: preamble,
+      messages: [
+        { role: "system", content: systemInstructions },
+        { role: "user", content: userMessage }
+      ],
       temperature: 0.3,
     });
 
-    return response.text;
+    // FIXED: Correct content block resolution
+    return response.message?.content?.[0]?.text || "";
   } catch (error) {
     console.error("❌ Chatbot Error:", error.message || error);
     throw new Error("Failed to generate chatbot response.");

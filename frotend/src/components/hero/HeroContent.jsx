@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight, ShieldCheck, Globe2 } from "lucide-react";
 import Button from "../ui/Button";
 
 function HeroContent() {
@@ -7,6 +7,8 @@ function HeroContent() {
 
   return (
     <div className="animate-fade-up flex flex-col gap-8 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-[0_44px_120px_-50px_rgba(15,23,42,0.25)] sm:p-10">
+      
+      {/* Heading */}
       <div className="max-w-2xl">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#0F4C81]">
           Smart civic governance
@@ -14,8 +16,12 @@ function HeroContent() {
 
         <h1 className="mt-6 text-5xl font-extrabold leading-tight tracking-tight text-slate-950 sm:text-6xl lg:text-7xl">
           Your Voice.
-          <span className="block text-[#0F4C81]">Our Intelligence.</span>
-          <span className="block">Better Governance.</span>
+          <span className="block text-[#0F4C81]">
+            Our Intelligence.
+          </span>
+          <span className="block">
+            Better Governance.
+          </span>
         </h1>
 
         <p className="mt-6 text-lg leading-8 text-slate-600">
@@ -24,11 +30,12 @@ function HeroContent() {
         </p>
       </div>
 
+      {/* Main Actions */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <Button
           size="lg"
           className="w-full bg-[#0F4C81] text-white shadow-xl hover:bg-[#0c3a65] sm:w-auto"
-          onClick={() => navigate("/register")}
+          onClick={() => navigate("/signup")}
         >
           Register Complaint
           <ArrowRight size={18} className="ml-2" />
@@ -44,33 +51,56 @@ function HeroContent() {
         </Button>
       </div>
 
+      {/* Trust Features */}
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex items-center gap-3 rounded-3xl bg-slate-50 p-4">
           <ShieldCheck size={18} className="text-[#0F4C81]" />
-          <p className="text-sm font-medium text-slate-700">Secure Complaint Tracking</p>
+
+          <p className="text-sm font-medium text-slate-700">
+            Secure Complaint Tracking
+          </p>
         </div>
 
         <div className="flex items-center gap-3 rounded-3xl bg-slate-50 p-4">
           <ShieldCheck size={18} className="text-[#0F4C81]" />
-          <p className="text-sm font-medium text-slate-700">AI Powered Classification</p>
+
+          <p className="text-sm font-medium text-slate-700">
+            AI Powered Classification
+          </p>
         </div>
       </div>
 
-      <div className="grid gap-4 border-t border-slate-200 pt-8 sm:grid-cols-3">
-        <div>
-          <h3 className="text-3xl font-bold text-slate-950">24×7</h3>
-          <p className="mt-2 text-sm text-slate-600">AI Assistance</p>
-        </div>
+      {/* Public Civic Challenges */}
+      <div className="border-t border-slate-200 pt-6">
+        <button
+          type="button"
+          onClick={() => navigate("/challenges")}
+          className="group flex w-full items-center justify-between rounded-3xl border border-slate-200 bg-slate-50 p-5 text-left transition-all duration-300 hover:border-[#0F4C81]/30 hover:bg-[#0F4C81]/5 hover:shadow-md"
+        >
+          <div className="flex items-center gap-4">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-sm">
+              <Globe2
+                size={21}
+                className="text-[#0F4C81]"
+              />
+            </div>
 
-        <div>
-          <h3 className="text-3xl font-bold text-slate-950">100%</h3>
-          <p className="mt-2 text-sm text-slate-600">Multilingual Support</p>
-        </div>
+            <div>
+              <p className="font-semibold text-slate-950">
+                Explore Civic Challenges
+              </p>
 
-        <div>
-          <h3 className="text-3xl font-bold text-slate-950">Fast</h3>
-          <p className="mt-2 text-sm text-slate-600">Department Routing</p>
-        </div>
+              <p className="mt-1 text-sm text-slate-600">
+                Discover real civic problems reported across the district.
+              </p>
+            </div>
+          </div>
+
+          <ArrowRight
+            size={20}
+            className="shrink-0 text-slate-400 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-[#0F4C81]"
+          />
+        </button>
       </div>
     </div>
   );

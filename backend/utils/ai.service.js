@@ -1,4 +1,4 @@
-const { CohereClientV2 } = require("cohere-ai"); 
+const { CohereClientV2 } = require("cohere-ai");
 const Groq = require("groq-sdk");
 
 // Initialize APIs with latest SDK structures
@@ -15,7 +15,7 @@ const groq = new Groq({
  */
 function extractJSON(text) {
   let cleaned = text.trim();
-  
+
   // Remove markdown code fences
   cleaned = cleaned
     .replace(/```json\s*/gi, "")
@@ -32,7 +32,7 @@ function extractJSON(text) {
   if (match) {
     return JSON.parse(match[0]);
   }
-  
+
   throw new Error(
     "No valid JSON found in AI response: " + cleaned.substring(0, 200),
   );
@@ -82,7 +82,7 @@ exports.analyzeComplaint = async (
 
   const departmentList = departments.map((dept) => `- ${dept.name}`).join("\n");
   const systemInstructions = `You are an AI assistant for a District Complaint Management System in India. A citizen has submitted a complaint. Your job is to extract values into structural JSON formats exactly as specified.`;
-  
+
   const userMessage = `
 Citizen's Text Description: "${text}"
 ${visualContext ? `Visual Context (from AI analyzing an uploaded photo):\n"${visualContext}"` : ""}
@@ -111,7 +111,7 @@ Rules for selecting department:
       model: "command-r-plus-08-2024",
       messages: [
         { role: "system", content: systemInstructions },
-        { role: "user", content: userMessage }
+        { role: "user", content: userMessage },
       ],
       temperature: 0.1,
     });
@@ -119,12 +119,13 @@ Rules for selecting department:
     // FIXED: Correct optional chaining parsing layout
     const responseText = response.message?.content?.[0]?.text || "";
     console.log("✅ Cohere Raw Response:", responseText);
-    
+
     return extractJSON(responseText);
   } catch (error) {
     console.error("❌ Cohere Analysis Error:", error.message || error);
     throw new Error(
-      "Failed to analyze complaint: " + (error.message || "Unknown Cohere error"),
+      "Failed to analyze complaint: " +
+        (error.message || "Unknown Cohere error"),
     );
   }
 };
@@ -164,7 +165,7 @@ Respond ONLY with a raw JSON object (no markdown):
       model: "command-r-plus-08-2024",
       messages: [
         { role: "system", content: systemInstructions },
-        { role: "user", content: userMessage }
+        { role: "user", content: userMessage },
       ],
       temperature: 0.1,
     });
@@ -212,7 +213,7 @@ Instructions:
       model: "command-r-plus-08-2024",
       messages: [
         { role: "system", content: systemInstructions },
-        { role: "user", content: userMessage }
+        { role: "user", content: userMessage },
       ],
       temperature: 0.3,
     });

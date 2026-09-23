@@ -149,6 +149,29 @@ exports.getMyComplaints = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, complaints, "Complaints fetched successfully"));
 });
 
+// ================= GET PUBLIC CIVIC CHALLENGES =================
+
+exports.getPublicComplaints = asyncHandler(async (req, res) => {
+  const complaints = await Complaint.find({
+    status: { $ne: "REJECTED" },
+  })
+    .select(
+      "complaintNumber title description category priority status location attachments createdAt duplicateOf",
+    )
+    .sort({ createdAt: -1 })
+    .limit(100);
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        complaints,
+        "Public civic challenges fetched successfully",
+      ),
+    );
+});
+
 // ================= GET COMPLAINT BY ID =================
 
 exports.getComplaintById = asyncHandler(async (req, res) => {

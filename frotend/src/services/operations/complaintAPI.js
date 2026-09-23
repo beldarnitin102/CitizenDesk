@@ -4,6 +4,7 @@ import { COMPLAINT_ENDPOINTS } from "../../api/endpoints";
 const {
   CREATE_COMPLAINT,
   GET_MY_COMPLAINTS,
+  GET_PUBLIC_COMPLAINTS,
   GET_COMPLAINT_DETAILS,
   UPDATE_COMPLAINT,
   DELETE_COMPLAINT,
@@ -22,7 +23,7 @@ export const getCitizenDashboard = async (token) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    
+
     return response.data;
   } catch (error) {
     throw error;
@@ -100,11 +101,7 @@ export const getComplaintDetails = async (id, token) => {
 // ====================================
 export async function updateComplaint(id, data) {
   try {
-    const response = await apiConnector(
-      "PATCH",
-      UPDATE_COMPLAINT(id),
-      data
-    );
+    const response = await apiConnector("PATCH", UPDATE_COMPLAINT(id), data);
 
     return response.data;
   } catch (error) {
@@ -124,6 +121,22 @@ export const deleteComplaint = async (id, token) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ====================================
+// GET PUBLIC CIVIC CHALLENGES
+// ====================================
+export const getPublicComplaints = async () => {
+  try {
+    const response = await apiConnector({
+      method: "GET",
+      url: GET_PUBLIC_COMPLAINTS,
+    });
+
     return response.data;
   } catch (error) {
     throw error;

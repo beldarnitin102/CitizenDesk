@@ -3,6 +3,7 @@ const express = require("express");
 const {
   createComplaint,
   getMyComplaints,
+  getPublicComplaints,
   getComplaintById,
   updateComplaint,
   deleteComplaint,
@@ -16,7 +17,7 @@ const {getDashboard} = require("../controllers/citizen.controller")
 const router = express.Router();
 
 router.post("/", auth, upload.array("attachments", 5), createComplaint);
-
+router.get("/public", getPublicComplaints);
 router.get("/my", auth, getMyComplaints);
 
 router.get("/dashboard", auth, getDashboard);

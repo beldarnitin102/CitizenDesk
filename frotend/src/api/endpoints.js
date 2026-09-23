@@ -13,6 +13,7 @@ export const LOGIN = `${BASE_URL}/auth/login`;
 export const COMPLAINT_ENDPOINTS = {
   CREATE_COMPLAINT: `${BASE_URL}/complaints`,
   GET_MY_COMPLAINTS: `${BASE_URL}/complaints/my`,
+  GET_PUBLIC_COMPLAINTS: `${BASE_URL}/complaints/public`,
   GET_COMPLAINT_DETAILS: (id) => `${BASE_URL}/complaints/${id}`,
   UPDATE_COMPLAINT: (id) => `${BASE_URL}/complaints/${id}`,
   DELETE_COMPLAINT: (id) => `${BASE_URL}/complaints/${id}`,

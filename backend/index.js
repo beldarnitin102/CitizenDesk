@@ -18,13 +18,14 @@ const app = express();
 // ── Body parsing & CORS ──
 const allowedOrigins = [
   "http://localhost:5173",
+  "https://citizen-desk-seven.vercel.app",
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
 app.use(
   cors({
     origin: allowedOrigins,
-    methods: ["GET", "POST", "PATCH", "DELETE"],
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
   }),
 );

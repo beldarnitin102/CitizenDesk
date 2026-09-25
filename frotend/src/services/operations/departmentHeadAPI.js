@@ -251,3 +251,18 @@ export const getAnalytics = async (token) => {
     throw error;
   }
 };
+
+export const getPublicDepartmentComplaints = async (departmentId) => {
+  try {
+    const response = await apiConnector({
+      method: "GET",
+      url: DEPARTMENT_HEAD_ENDPOINTS.GET_PUBLIC_DEPARTMENT_COMPLAINTS(
+        departmentId,
+      ),
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

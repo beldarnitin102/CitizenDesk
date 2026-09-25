@@ -50,6 +50,7 @@ import AdminComplaintDetails from "../pages/admin/ComplaintDetails";
 import EmployeeManagement from "../pages/admin/EmployeeManagement";
 import DepartmentManagement from "../pages/admin/DepartmentManagement";
 import PublicChallenges from "../pages/PublicChallenges/PublicChallenges";
+import PublicDepartment from "../pages/PublicDepartment/PublicDepartment";
 
 function AppRoutes() {
   return (
@@ -67,6 +68,7 @@ function AppRoutes() {
         <Route path="/departments" element={<DepartmentsSection />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/challenges" element={<PublicChallenges />} />
+        <Route path="/departments/:id" element={<PublicDepartment />} />
       </Route>
 
       {/* ======================================================

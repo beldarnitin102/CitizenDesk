@@ -7,7 +7,6 @@ function HeroContent() {
 
   return (
     <div className="animate-fade-up flex flex-col gap-8 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-[0_44px_120px_-50px_rgba(15,23,42,0.25)] sm:p-10">
-      
       {/* Heading */}
       <div className="max-w-2xl">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#0F4C81]">
@@ -16,12 +15,8 @@ function HeroContent() {
 
         <h1 className="mt-6 text-5xl font-extrabold leading-tight tracking-tight text-slate-950 sm:text-6xl lg:text-7xl">
           Your Voice.
-          <span className="block text-[#0F4C81]">
-            Our Intelligence.
-          </span>
-          <span className="block">
-            Better Governance.
-          </span>
+          <span className="block text-[#0F4C81]">Our Intelligence.</span>
+          <span className="block">Better Governance.</span>
         </h1>
 
         <p className="mt-6 text-lg leading-8 text-slate-600">
@@ -31,7 +26,7 @@ function HeroContent() {
       </div>
 
       {/* Main Actions */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+      <div className="flex flex-col gap-10 sm:flex-row sm:items-center">
         <Button
           size="lg"
           className="w-full bg-[#0F4C81] text-white shadow-xl hover:bg-[#0c3a65] sm:w-auto"
@@ -51,25 +46,6 @@ function HeroContent() {
         </Button>
       </div>
 
-      {/* Trust Features */}
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="flex items-center gap-3 rounded-3xl bg-slate-50 p-4">
-          <ShieldCheck size={18} className="text-[#0F4C81]" />
-
-          <p className="text-sm font-medium text-slate-700">
-            Secure Complaint Tracking
-          </p>
-        </div>
-
-        <div className="flex items-center gap-3 rounded-3xl bg-slate-50 p-4">
-          <ShieldCheck size={18} className="text-[#0F4C81]" />
-
-          <p className="text-sm font-medium text-slate-700">
-            AI Powered Classification
-          </p>
-        </div>
-      </div>
-
       {/* Public Civic Challenges */}
       <div className="border-t border-slate-200 pt-6">
         <button
@@ -79,10 +55,7 @@ function HeroContent() {
         >
           <div className="flex items-center gap-4">
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-sm">
-              <Globe2
-                size={21}
-                className="text-[#0F4C81]"
-              />
+              <Globe2 size={21} className="text-[#0F4C81]" />
             </div>
 
             <div>

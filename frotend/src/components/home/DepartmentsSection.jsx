@@ -74,6 +74,7 @@ function DepartmentsSection() {
             {departments.map((department) => (
               <DepartmentCard
                 key={department._id}
+                id={department._id}
                 title={department.title}
                 description={department.description}
                 complaints={department.complaints}

@@ -24,7 +24,12 @@ const {
   updateComplaint,
 
   getAnalytics,
+
+  getPublicDepartmentComplaints
 } = require("../controllers/departmenthead.controller");
+
+router.get("/public/:id/complaints", getPublicDepartmentComplaints);
+
 
 router.use(auth, authorizeRoles("DEPARTMENT_HEAD", "ADMIN"));
 

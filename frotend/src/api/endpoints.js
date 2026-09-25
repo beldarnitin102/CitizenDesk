@@ -72,6 +72,9 @@ export const DEPARTMENT_HEAD_ENDPOINTS = {
   UPDATE_COMPLAINT: (id) => `/department-head/complaints/${id}`,
 
   ANALYTICS: "/department-head/analytics",
+
+  GET_PUBLIC_DEPARTMENT_COMPLAINTS: (id) =>
+  `${BASE_URL}/department-head/public/${id}/complaints`,
 };
 
 // ==============================

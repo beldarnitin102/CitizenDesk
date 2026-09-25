@@ -1,6 +1,7 @@
 const Complaint = require("../models/Complaint");
 const ComplaintStatusLog = require("../models/complaintStatusLog");
 const User = require("../models/User");
+const Department = require("../models/Department");
 
 const ApiError = require("../utils/ApiError");
 const ApiResponse = require("../utils/ApiResponse");
@@ -861,6 +862,40 @@ exports.getAnalytics = asyncHandler(async (req, res) => {
         employeePerformance,
       },
       "Analytics fetched successfully",
+    ),
+  );
+});
+
+// ======================================
+// GET PUBLIC DEPARTMENT COMPLAINTS
+// ======================================
+
+exports.getPublicDepartmentComplaints = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const department = await Department.findById(id).select("name description");
+
+  if (!department) {
+    throw new ApiError(404, "Department not found");
+  }
+
+  const complaints = await Complaint.find({
+    department: id,
+    status: { $ne: "REJECTED" },
+  })
+    .select(
+      "complaintNumber title description category priority status location attachments createdAt duplicateOf",
+    )
+    .sort({ createdAt: -1 });
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        department,
+        complaints,
+      },
+      "Public department complaints fetched successfully",
     ),
   );
 });

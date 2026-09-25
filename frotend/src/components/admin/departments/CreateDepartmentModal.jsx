@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 
 import Button from "../../ui/Button";
 import Input from "../../ui/Input";
-import TextArea from "../../ui/TextArea";
+import Textarea from "../../ui/Textarea";
 
 import { useAuth } from "../../../context/AuthContext";
 
@@ -80,7 +80,7 @@ function CreateDepartmentModal({ open, onClose, refresh }) {
             required
           />
 
-          <TextArea
+          <Textarea
             rows={4}
             label="Description"
             name="description"

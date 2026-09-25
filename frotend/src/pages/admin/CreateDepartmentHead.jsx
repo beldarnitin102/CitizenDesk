@@ -1,6 +1,6 @@
 import DashboardLayout from "../../components/dashboard/DashboardLayout";
 
-import DepartmentHeadForm from "../../../components/admin/employees/DepartmentHeadForm";
+import DepartmentHeadForm from "../../components/admin/employees/DepartmentHeadForm";
 
 function CreateDepartmentHead() {
   return (

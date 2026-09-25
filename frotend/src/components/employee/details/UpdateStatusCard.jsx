@@ -4,7 +4,7 @@ import { useAuth } from "../../../context/AuthContext";
 
 import Button from "../../ui/Button";
 import Card from "../../ui/Card";
-import TextArea from "../../ui/TextArea";
+import Textarea from "../../ui/Textarea";
 
 import { updateComplaintStatus } from "../../../services/operations/employeeAPI";
 
@@ -66,7 +66,7 @@ function UpdateStatusCard({ complaint, onRefresh }) {
           <option value="CLOSED">CLOSED</option>
         </select>
 
-        <TextArea
+        <Textarea
           rows={4}
           placeholder="Remarks..."
           value={remarks}

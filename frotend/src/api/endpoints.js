@@ -1,5 +1,5 @@
 // Development
-export const BASE_URL = "https://citizendesk-pdkz.onrender.com";
+export const BASE_URL = "https://citizendesk-pdkz.onrender.com/api/v1";
 
 // CHANGED: Export them as individual constants instead of one object
 export const SEND_OTP = `${BASE_URL}/auth/send-otp`;

@@ -1,4 +1,3 @@
-const mailSender = require("../utils/mailSender");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const otpGenerator = require("otp-generator");

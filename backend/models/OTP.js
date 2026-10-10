@@ -23,9 +23,16 @@ const otpSchema = new mongoose.Schema(
 
 async function sendVerificationEmail(email, otp) {
   try {
-    const mailResponse = await mailSender(
+    const emailBody = `
+      <p>Your verification code is:</p>
+      <h2>${otp}</h2>
+      <p>This code expires in 5 minutes.</p>
+    `;
+
+    await mailSender(
       email,
       "Verify Your Email",
+      emailBody,
     );
 
     console.log("Mail sent successfully");

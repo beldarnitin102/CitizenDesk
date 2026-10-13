@@ -28,7 +28,7 @@ Traditional grievance redressal systems often rely on manual complaint categoriz
 
 * **Frontend:** JavaScript, HTML/CSS (`frotend/`)
 * **Backend:** Node.js / Express (`backend/`)
-* **AI / ML Integration:** Natural Language Processing (NLP), Computer Vision, and Speech Recognition
+* **AI / ML Integration:** Natural Language Processing (NLP), Computer Vision, and Speech Recognition Specially grok and cohere model is used
 
 ---
 
